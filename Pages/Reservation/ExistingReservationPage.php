@@ -19,7 +19,7 @@
  */
 
 require_once(ROOT_DIR . 'Pages/Reservation/ReservationPage.php');
-
+require_once('/mod/functions.php');
 interface IExistingReservationPage extends IReservationPage
 {
 	function GetReferenceNumber();
@@ -33,7 +33,6 @@ interface IExistingReservationPage extends IReservationPage
 	 * @param $title string
 	 */
 	function SetTitle($title);
-
 	/**
 	 * @param $description string
 	 */
@@ -148,7 +147,6 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 {
 	protected $IsEditable = false;
 	protected $IsApprovable = false;
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -259,6 +257,9 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 	public function SetSeriesId($seriesId)
 	{
 		$this->Set('SeriesId', $seriesId);
+        $this->Set('TargetId', getTargetId($seriesId));
+        $this->Set('ArrangementName', getArrangementName(getTargetId($seriesId)));
+        $this->Set('ArrangementDescription', getArrangementDescription(getTargetId($seriesId)));
 	}
 
 	public function SetIsRecurring($isRecurring)
@@ -325,7 +326,6 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 	{
 		$this->Set('ParticipatingGuests', $participatingGuests);
 	}
-
 	/**
 	 * @param string[] $invitedGuests
 	 */

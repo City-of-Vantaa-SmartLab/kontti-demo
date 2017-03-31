@@ -72,6 +72,10 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 				$this->Set('Resources', $reservation->AllResources());
 				$this->Set('Instances', $reservation->Instances());
 				$this->Set('Timezone', ServiceLocator::GetServer()->GetUserSession()->Timezone);
+				if(isset($_POST['roomconf'])){
+					//päivitetään tietokantaan roomconf
+					setArrangementWResIID($_POST['roomconf'],regexnums($_POST['resourceId']),regexnums($_POST['reservationId'])); //viimeisenä, jos muut jumittuvat
+				}
 				$this->Display('Ajax/reservation/update_successful.tpl');
 			}
 			else

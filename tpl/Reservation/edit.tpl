@@ -66,7 +66,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			</li>
 		</ul>
 	</div>
-
+	
 	{if $CheckInRequired}
 		<button type="button" class="btn btn-warning btnCheckin"><i class="fa fa-sign-in"></i> {translate key=CheckIn}<span class="autoReleaseButtonMessage" data-autorelease-minutes="{$AutoReleaseMinutes}"> - {translate key=ReleasedIn} <span class="autoReleaseMinutes"></span> {translate key=minutes}</span></button>
 	{/if}

@@ -18,6 +18,7 @@
  * along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once(ROOT_DIR . 'Pages/Reservation/mod/functions.php');
 require_once(ROOT_DIR . 'Pages/SecurePage.php');
 require_once(ROOT_DIR . 'Pages/Ajax/IReservationSaveResultsView.php');
 require_once(ROOT_DIR . 'Presenters/Reservation/ReservationPresenterFactory.php');
@@ -178,11 +179,16 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 			$reservation = $this->_presenter->BuildReservation();
 			$this->_presenter->HandleReservation($reservation);
 
-			if ($this->_reservationSavedSuccessfully)
+			if ($this->_reservationSavedSuccessfully)		//pelkästään uutta luodessa?
 			{
+				print_r($_POST);
 				$this->Set('Resources', $reservation->AllResources());
 				$this->Set('Instances', $reservation->Instances());
 				$this->Set('Timezone', ServiceLocator::GetServer()->GetUserSession()->Timezone);
+				if(isset($_POST['roomconf'])){
+					//päivitetään tietokantaan roomconf
+					setArrangement($_POST['roomconf'],regexnums($_POST['resourceId']),regexDateIsReal($_POST['beginDate'])." ".timeForDatabase($_POST['beginPeriod'])); //viimeisenä, jos muut jumittuvat
+				}
 				$this->Display('Ajax/reservation/save_successful.tpl');
 			}
 			else

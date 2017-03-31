@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
+{debug}
 {block name="header"}{include file='globalheader.tpl' Qtip=true printCssFiles='css/reservation.print.css'}
 {/block}
 
@@ -28,7 +29,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										   data-autorelease="{$resource->GetAutoReleaseMinutes()}"></i>{/if}
 	</div>
 {/function}
-
 <div id="page-reservation">
 	<div id="reservation-box">
 		<form id="form-reservation" method="post" enctype="multipart/form-data" role="form">
@@ -156,7 +156,25 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							</div>
 						</div>
 					</div>
-
+					<div>
+						<div class="col-md-6 no-padding-left">
+							<p>Valittu huonekonfiguraatio: <br>{$ArrangementName}<br>{$ArrangementDescription}</p>
+							<img src='../uploads/arrangements/{$TargetId}.png' alt='Huonekonfiguraatio {$TargetId}'><br>
+							<a href='#arrangements' role='button' data-toggle='collapse'>Vaihda huonekonfiguraatiota</a>
+							<div id='arrangements' class='collapse'>
+								{foreach from=$Arrangements item=temp}
+								{$Arrangementsplit = ":"|explode:$temp}
+									{$Arrangementsplit[1]}
+									<label>
+										<div>
+											<input type="radio" name="roomconf" value="{$Arrangementsplit[0]}" />
+										</div>
+										<img src='../uploads/arrangements/{$Arrangementsplit[0]}.png' alt='{$Arrangementsplit[1]}'><br>
+									</label>
+								{/foreach}
+							</div>
+						</div>
+					</div>
 					<div class="col-xs-12 reservationDates">
 						<div class="col-md-6 no-padding-left">
 							<div class="form-group no-margin-bottom">
@@ -529,7 +547,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		{foreach from=$Accessories item=accessory}
 		reservation.addAccessory({$accessory->AccessoryId}, {$accessory->QuantityReserved}, "{$accessory->Name|escape:'javascript'}");
 		{/foreach}
-
 		reservation.addResourceGroups({$ResourceGroupsAsJson});
 
 		var recurOpts = {

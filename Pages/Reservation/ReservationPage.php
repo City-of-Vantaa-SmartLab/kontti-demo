@@ -20,6 +20,7 @@
 
 require_once(ROOT_DIR . 'Pages/SecurePage.php');
 require_once(ROOT_DIR . 'Presenters/Reservation/ReservationPresenter.php');
+require_once('/mod/functions.php');
 
 interface IReservationPage extends IPage
 {
@@ -263,6 +264,7 @@ abstract class ReservationPage extends Page implements IReservationPage
 	{
 		$this->Set('ResourceName', $resource->GetName());
 		$this->Set('ResourceId', $resource->GetId());
+        $this->Set('Arrangements', getArrangements($resource->GetId()));
 		$this->Set('Resource', $resource);
 	}
 
@@ -306,6 +308,7 @@ abstract class ReservationPage extends Page implements IReservationPage
 		$this->Set('CanChangeUser', $canChangeUser);
 	}
 
+	
 	public function ShowUserDetails($canShowUserDetails)
 	{
 		$this->Set('ShowUserDetails', $canShowUserDetails);
