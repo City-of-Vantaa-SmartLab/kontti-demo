@@ -90,20 +90,32 @@ function setArrangementWResIID($roomconf_id,$resource_id,$reservation_instance_i
 	}
 	return $value;
 }
+function createRoomConf($name,$description,$resource_id){
+	global $dbh;
+	$resource_id=regexnums($resource_id);
+	$list=$dbh->prepare("INSERT INTO resource_conf(name,description) VALUES ('".$name."','".$description."')");
+	$list->execute();
+	createRoomConfResourceLink($resource_id);
+	
+}
+function createRoomConfResourceLink($resource_id){
+		global $dbh;
+		$list=$dbh->prepare("INSERT INTO resource_conf_target(resource_id,conf_id) VALUES (".$resource_id.",".$dbh->lastInsertId().")");
+		$list->execute();
+}
 
 function updateTargetId($roomconf_id,$series_id){
 	global $dbh;
-	$list2=$dbh->prepare("UPDATE `reservation_series` SET `target_id` = ".regexnums($roomconf_id)." WHERE series_id = ".regexnums($series_id)." ");
-	$list2->execute();
+	$list=$dbh->prepare("UPDATE `reservation_series` SET `target_id` = ".regexnums($roomconf_id)." WHERE series_id = ".regexnums($series_id)." ");
+	$list->execute();
 }
 function getSeriesIdWResIID($reservation_instance_id){
 	global $dbh;
-	$list=$dbh->prepare("SELECT series_id FROM `reservation_instances` WHERE reservation_instance_id = ".$reservation_instance_id." LIMIT 1");
+	$list=$dbh->prepare("SELECT series_id FROM `reservation_instances` WHERE reservation_instance_id = ".regexnums($reservation_instance_id)." LIMIT 1");
 	$list->execute();
 	$row=$list->fetch(PDO::FETCH_ASSOC);
 	return $row['series_id'];
 }
-//echo "Result: ".matchDateAndResource(1,"2017-05-26 14:30:00");
 function matchDateAndResource($resource_id,$StartDate){
 	global $dbh;
 	//selvitetään series_id (eli varaustapahtuman id) etsimällä $StartDate:n perusteella 
@@ -117,11 +129,6 @@ function matchDateAndResource($resource_id,$StartDate){
 function regexnums($value){ // Poistaa kaiken muun paitsi numerot
 	return preg_replace("/[^0-9]/","",$value);
 }
-//require_once($_SERVER['DOCUMENT_ROOT'].'/booked/lib/Common/date.php');
-//require_once($_SERVER['DOCUMENT_ROOT'].'/booked/lib/Common/time.php');
-//$test = new Date();
-//$test->ToDatabase();
-//echo $test->GetTime();
 function timeForDatabase($time){
 	$time=regexLengthIsTwo($time);
 	$time=regexTimeIsReal($time);
