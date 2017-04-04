@@ -30,20 +30,17 @@ function getArrangementName($conf_id){		//hakee ja palauttaa conf_id:n perusteel
 		$row=$list->fetch(PDO::FETCH_ASSOC);
 	return $row['name'];
 }
-function getArrangements($resource_id){		//hakee ja palauttaa resource_id:seen kuuluvat huonekonfiguraatiot
-		global $dbh;
-		$list=$dbh->prepare("SELECT conf_id FROM `resource_conf_target` WHERE resource_id=".regexnums($resource_id)."");
-		$list->execute();
-		$contents = array();
-		while($row=$list->fetch(PDO::FETCH_ASSOC)){ //käydään läpi kaikki resource_conf_targetit joissa resource_id=$resource_id
-			$list2=$dbh->prepare("SELECT * FROM `resource_conf` WHERE conf_id=".regexnums($row['conf_id'])." Limit 1"); //Palauttaa name ja description
-			$list2->execute();
-			$row2=$list2->fetch(PDO::FETCH_ASSOC);
-			$contents[]=$row2['conf_id'].":".$row2['name'];
-		}
+
+function getArrangements($resource_id){	//Retrieves and returns all of $resource_id's roomconfigurations.
+	global $dbh;		
+	$resource_id=regexnums($resource_id);
+	$list=$dbh->prepare("SELECT * FROM `resource_conf` WHERE conf_id IN(SELECT conf_id FROM `resource_conf_target` WHERE resource_id='".$resource_id."')");
+	$list->execute();
+	while($row=$list->fetch(PDO::FETCH_ASSOC)){
+		$contents[]=$row['conf_id'].":".$row['name'];
+	}
 	return $contents;
 }
-
 //$StartDate ja $resource_id vaihettava id:seen vaikka mahdoton olla samoja...?
 //Päivittää huoneeseen valitun target_id:n $roomconf_id:llä.
 function setArrangement($roomconf_id,$resource_id,$StartDate){ 
@@ -120,7 +117,12 @@ function matchDateAndResource($resource_id,$StartDate){
 function regexnums($value){ // Poistaa kaiken muun paitsi numerot
 	return preg_replace("/[^0-9]/","",$value);
 }
-function timeForDatabase($time){	//muutetaan aika tietokantaan sopivaksi
+//require_once($_SERVER['DOCUMENT_ROOT'].'/booked/lib/Common/date.php');
+//require_once($_SERVER['DOCUMENT_ROOT'].'/booked/lib/Common/time.php');
+//$test = new Date();
+//$test->ToDatabase();
+//echo $test->GetTime();
+function timeForDatabase($time){
 	$time=regexLengthIsTwo($time);
 	$time=regexTimeIsReal($time);
 	$time=convertTimeTo($time);
