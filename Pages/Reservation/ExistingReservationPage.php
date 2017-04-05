@@ -19,7 +19,6 @@
  */
 
 require_once(ROOT_DIR . 'Pages/Reservation/ReservationPage.php');
-require_once(ROOT_DIR . 'Pages/mod/functions.php');
 interface IExistingReservationPage extends IReservationPage
 {
 	function GetReferenceNumber();

@@ -20,7 +20,7 @@
 
 require_once(ROOT_DIR . 'Pages/SecurePage.php');
 require_once(ROOT_DIR . 'Presenters/Reservation/ReservationPresenter.php');
-require_once(ROOT_DIR . 'Pages/mod/functions.php');
+require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 
 interface IReservationPage extends IPage
 {
