@@ -7,13 +7,22 @@
 function regexnums($value){ // Poistaa kaiken muun paitsi numerot
 	return preg_replace("/[^0-9]/","",$value);
 }
-function timeForDatabase($time){
+function timeForDatabase($date,$time){
 	$time=regexLengthIsTwo($time);
 	$time=regexTimeIsReal($time);
-	$time=convertTimeTo($time);
+	$time=convertTimeTo($date,$time);
 	return $time;
 }
-function convertTimeTo($time){
+function convertTimeTo($date,$time){	//converts the time to database time using booked's Date class
+	require_once(ROOT_DIR.'lib/Common/date.php');
+	require_once(ROOT_DIR.'lib/Common/time.php');
+	
+	$databasetime = new Date();
+	$databasetime->__construct($date." ".$time, 'Europe/Helsinki');
+	return $databasetime->ToDatabase();
+	/**
+	// Bad way of doing this
+	
 	$time=explode(":", $time);
 	$time[0]=$time[0]-3;
 	if($time[0]<0){
@@ -23,6 +32,7 @@ function convertTimeTo($time){
 		$time[0]="0".$time[0];
 	}
 	return implode(":", $time);
+	*/
 }
 function DateIsReal($date){
 	$date=regexDateIsReal($date);

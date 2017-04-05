@@ -185,8 +185,8 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 				$this->Set('Instances', $reservation->Instances());
 				$this->Set('Timezone', ServiceLocator::GetServer()->GetUserSession()->Timezone);
 				if(isset($_POST['roomconf'])){
-					//päivitetään tietokantaan roomconf
-					setArrangement($_POST['roomconf'],regexnums($_POST['resourceId']),regexDateIsReal($_POST['beginDate'])." ".timeForDatabase($_POST['beginPeriod'])); //viimeisenä, jos muut jumittuvat
+					//update roomconfiguration in database
+					setArrangement($_POST['roomconf'],regexnums($_POST['resourceId']),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 				}
 				$this->Display('Ajax/reservation/save_successful.tpl');
 			}
