@@ -16,8 +16,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-
-<p>You have created a new Booked account with the following information:<br/>
+<p>Olet luonut uuden käyttäjän seuraavilla tiedoilla:<br/>
 Email: {$EmailAddress}<br/>
-
-<a href="{$ScriptUrl}">Log in to view your reservations and manage your account</a>
+Nimi: {$FullName}<br/>
+Puhelin: {$Phone}<br/>
+Organisaatio: {$Organization}<br/>
+Rooli: {$Position}
+<a href="{$ScriptUrl}">Kirjaudu sisään nähdäksesi varauksesi ja muuttaaksesi tietoja</a>
