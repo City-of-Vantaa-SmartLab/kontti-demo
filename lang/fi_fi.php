@@ -177,20 +177,20 @@ class fi_fi extends en_us
 		$strings['ResourceMinNoticeNone'] = 'Varauksia voidaan tehdä tähän aikaan asti';
 		$strings['ResourceMaxNotice'] = 'Varaukset eivät voi loppua %s enempää tästä hetkestä katsoen';
 		$strings['ResourceMaxNoticeNone'] = 'Varaukset voivat loppua milloin vain tulevaisuudessa';
+		$strings['ResourceBufferTime'] = 'Varausten välillä pitää olla %s';
+		$strings['ResourceBufferTimeNone'] = 'Varausten välillä ei ole väliaikaa';
 		$strings['ResourceAllowMultiDay'] = 'Varauksia voi tehdä useiksi päiviksi';
 		$strings['ResourceNotAllowMultiDay'] = 'Varauksia ei voi tehdä yön ajaksi';
 		$strings['ResourceCapacity'] = 'Tällä resurssilla on kapasiteetti %s henkilölle';
 		$strings['ResourceCapacityNone'] = 'Tällä resurssilla on rajoittamaton kapasiteetti';
 		$strings['AddNewResource'] = 'Lisää uusi tila';
 		$strings['AddNewUser'] = 'Lisää uusi käyttäjä';
-		$strings['AddUser'] = 'Lisää käyttäjä';
-		$strings['Schedule'] = 'Aikataulu';
 		$strings['AddResource'] = 'Lisää tila';
 		$strings['Capacity'] = 'Kapasiteetti';
 		$strings['Access'] = 'Pääsy';
 		$strings['Duration'] = 'Kesto';
 		$strings['Active'] = 'Aktiivinen';
-		$strings['Inactive'] = 'Ei-aktiivinen';
+		$strings['Inactive'] = 'Epäaktiivinen';
 		$strings['ResetPassword'] = 'Resetoi salasana';
 		$strings['LastLogin'] = 'Viimeinen kirjautuminen';
 		$strings['Search'] = 'Etsi';
@@ -203,12 +203,14 @@ class fi_fi extends en_us
 		$strings['AllSchedules'] = 'Kaikki aikataulut';
 		$strings['UsernameOrEmail'] = 'Käyttäjänimi tai sähköpostiosoite';
 		$strings['Members'] = 'Jäsenet';
-		$strings['QuickSlotCreation'] = 'Luo kohta jokaiselle %s minuutille välillä %s - %s'; // TODO
+		$strings['QuickSlotCreation'] = 'Luo kohta jokaiselle %s minuutille välillä %s - %s';
 		$strings['ApplyUpdatesTo'] = 'Lisää päivitykset';
 		$strings['CancelParticipation'] = 'Peruuta osallistuminen';
 		$strings['Attending'] = 'Osallistumassa';
-		$strings['QuotaConfiguration'] = 'Kohteessa %s %s käyttäjälle %s on rajoitettu %s %s per %s'; // TODO
+		$strings['QuotaConfiguration'] = 'Kohteessa %s %s käyttäjälle %s on rajoitettu %s %s per %s';
+		$strings['QuotaEnforcement'] = 'Käytössä %s %s';
 		$strings['reservations'] = 'varaukset';
+		$strings['reservation'] = 'varaus';
 		$strings['ChangeCalendar'] = 'Vaihda kalenteria';
 		$strings['AddQuota'] = 'Lisää kiintiö';
 		$strings['FindUser'] = 'Etsi käyttäjä';
@@ -229,8 +231,6 @@ class fi_fi extends en_us
 		$strings['ReservationDescription'] = 'Varauksen kuvaus';
 		$strings['ResourceList'] = 'Tilat varattaviksi';
 		$strings['Accessories'] = 'Lisävarusteet';
-		$strings['Add'] = 'Lisää';
-		$strings['ParticipantList'] = 'Osallistujat';
 		$strings['InvitationList'] = 'Kutsutut';
 		$strings['AccessoryName'] = 'Tarvike';
 		$strings['QuantityAvailable'] = 'Käytettävissä oleva määrä';
@@ -253,7 +253,7 @@ class fi_fi extends en_us
 		$strings['Reset'] = 'Resetoi';
 		$strings['FindGroup'] = 'Etsi ryhmä';
 		$strings['Manage'] = 'Hallitse';
-		$strings['None'] = 'Ei mitään';
+		$strings['None'] = 'Ei yhtään';
 		$strings['AddToOutlook'] = 'Lisää Outlookiin';
 		$strings['Done'] = 'Valmis';
 		$strings['RememberMe'] = 'Muista minut';
@@ -276,7 +276,7 @@ class fi_fi extends en_us
 		$strings['SecurityCode'] = 'Turvakoodi';
 		$strings['ReservationCreatedPreference'] = 'Kun teen varauksen tai varaus tehdään puolestani';
 		$strings['ReservationUpdatedPreference'] = 'Kun päivitän varauksen tai varaus päivitetään puolestani';
-		$strings['ReservationDeletedPreference'] = 'Kun poistan varauksen tai varaus poistetaan minun puolestani';
+		$strings['ReservationDeletedPreference'] = 'Kun poistan varauksen tai varaus poistetaan puolestani';
 		$strings['ReservationApprovalPreference'] = 'Kun odottava varaukseni on hyväksytty';
 		$strings['PreferenceSendEmail'] = 'Lähetä minulle sähköposti';
 		$strings['PreferenceNoEmail'] = 'En tarvite muistutusta';
@@ -434,7 +434,7 @@ class fi_fi extends en_us
 		$strings['ConfigurationUpdated'] = 'Konfiguraatiotiedosto päivitettiin';
 		$strings['ConfigurationUiNotEnabled'] = 'Tätä sivue ei voi avata koska $conf[\'settings\'][\'pages\'][\'enable.configuration\'] on asetettu epätodeksi (false) tai puuttuu kokonaan.';
 		$strings['ConfigurationFileNotWritable'] = 'Tähän konfiguraatiotiedostoon ei voi kirjoittaa. Ole hyvä ja tarkista oikeudet tiedostossa ja yritä uudelleen.';
-		$strings['ConfigurationUpdateHelp'] = 'Lue konfiguraatio-osio <a target=_blank href=%s>Aputiedostossa</a> näiden asetusten dokumentointiin.';
+		$strings['ConfigurationUpdateHelp'] = 'Katso konfiguraatio-osio <a target=_blank href=%s>aputiedostosta</a> nähdäksesi näiden asetusten dokumentoinnin.';
 		$strings['GeneralConfigSettings'] = 'asetukset';
 		$strings['UseSameLayoutForAllDays'] = 'Käytä samaa asettelua kaikille päiville';
 		$strings['LayoutVariesByDay'] = 'Asettelu vaihtelee päivittäin';
@@ -544,8 +544,8 @@ class fi_fi extends en_us
 		$strings['ResourceColor'] = 'Tilan väri';
 		$strings['DateTime'] = 'Date Time';		//context not known
 		$strings['AutoReleaseNotification'] = 'Automaattisesti vapautettu jos ei sisäänkirjauduttu (check in) %s minuutin sisään';
-		$strings['RequiresCheckInNotification'] = 'Vaatii ilmoittautumisen (check in)/poistumisilmoittautumisen (check out)';
-		$strings['NoCheckInRequiredNotification'] = 'Ei vaadi ilmoittautumista (check in)/poistumisilmoittautumista (check out)';
+		$strings['RequiresCheckInNotification'] = 'Vaatii sisäänkirjautumisen (check in)/uloskirjautumisen (check out)';
+		$strings['NoCheckInRequiredNotification'] = 'Ei vaadi sisäänkirjautumista (check in)/uloskirjautumista (check out)';
 		$strings['RequiresApproval'] = 'Vaatii hyväksynnän';
 		$strings['CheckingIn'] = 'Sisäänkirjaudutaan varaukseen...';
 		$strings['CheckingOut'] = 'Uloskirjaudutaan varauksesta...';
@@ -725,7 +725,7 @@ class fi_fi extends en_us
 		$strings['Profile'] = 'Profiili';
 		$strings['ApplicationManagement'] = 'Ylläpito';
 		$strings['ForgotPassword'] = 'Olen unohtanut salasanani';
-		$strings['NotificationPreferences'] = 'Ilmoitusten asetukset';
+		$strings['NotificationPreferences'] = 'Ilmoitusasetukset';
 		$strings['ManageAnnouncements'] = 'Ilmoitukset';
 		$strings['Responsibilities'] = 'Vastuut';
 		$strings['GroupReservations'] = 'Ryhmävaraukset';
@@ -735,7 +735,7 @@ class fi_fi extends en_us
 		$strings['AccountActivation'] = 'Käyttäjätunnusten aktivointi';
 		$strings['ScheduleReservations'] = 'Aikatauluvaraukset';
 		$strings['Reports'] = 'Raportit';
-		$strings['GenerateReport'] = 'Luo uusi varaus';
+		$strings['GenerateReport'] = 'Luo uusi raportti';
 		$strings['MySavedReports'] = 'Raporttini';
 		$strings['CommonReports'] = 'Yleiset raportit';
 		$strings['ViewDay'] = 'Näytä päivä';
@@ -799,9 +799,6 @@ class fi_fi extends en_us
 		$strings['ParticipantAddedSubjectWithResource'] = '%s lisäsi sinut varaukseen tilassa %s';
 		$strings['ParticipantDeletedSubjectWithResource'] = '%s poisti sinut varauksesta tilassa %s';
 		$strings['InviteeAddedSubjectWithResource'] = '%s kutsui sinut varaukseen tilassa %s';
-		// End Email Subjects
-
-		$strings['ForgotPasswordEmailSent'] = 'Ohjeet salasanan palauttamiseksi lähetettiin antamaasi sähköpostiosoitteeseen';
 		// End Email Subjects
 
 		$this->Strings = $strings;
