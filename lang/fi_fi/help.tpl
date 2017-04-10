@@ -17,13 +17,13 @@ You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 {include file='globalheader.tpl'}
-<h1>Booked Scheduler Help</h1>
+<h1>Muuntamo-ohje</h1>
 
 <div id="help">
 <h2>Rekisteröityminen</h2>
 
 <p>
-	Rekisterlinti on vaadittu sovelluksen käyttöön jos ylläpito on näin asettanut. Käyttäjätilin 
+	Rekisteröinti on vaadittu sovelluksen käyttöön jos ylläpito on näin asettanut. Käyttäjätilin 
 	rekisteröitymisen jälkeen
 	pystyt kirjautumaan ja varaamaan ylläpidon määrittelemiä tiloja.
 </p>

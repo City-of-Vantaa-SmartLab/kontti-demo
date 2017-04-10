@@ -16,5 +16,5 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-Raporttisi Tilat palveluna - Muuntautuvat toimitilat -sovelluksesta on liitteenä.<br/><br/>
+Raporttisi Muuntamosta on liitteenä.<br/><br/>
 <a href="{$ScriptUrl}">Kirjaudu sisään</a>
