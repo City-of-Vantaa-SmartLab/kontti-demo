@@ -17,7 +17,6 @@ You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 
-
 <div class="dashboard upcomingReservationsDashboard" id="upcomingReservationsDashboard">
 	<div class="dashboardHeader">
 		<div class="pull-left">{translate key="UpcomingReservations"} <span class="badge">{$Total}</span></div>
@@ -32,30 +31,18 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		{assign var=colspan value="5"}
 		{if $Total > 0}
 			<div>
-				<div class="timespan">
-					{translate key="Today"} ({$TodaysReservations|count})
-				</div>
 				{foreach from=$TodaysReservations item=reservation}
                     {include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
 				{/foreach}
-
-				<div class="timespan">
-					{translate key="Tomorrow"} ({$TomorrowsReservations|count})
-				</div>
+				
 				{foreach from=$TomorrowsReservations item=reservation}
                     {include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
 				{/foreach}
 
-				<div class="timespan">
-					{translate key="LaterThisWeek"} ({$ThisWeeksReservations|count})
-				</div>
 				{foreach from=$ThisWeeksReservations item=reservation}
                     {include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
 				{/foreach}
 
-				<div class="timespan">
-					{translate key="NextWeek"} ({$NextWeeksReservations|count})
-				</div>
 				{foreach from=$NextWeeksReservations item=reservation}
                     {include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
 				{/foreach}
