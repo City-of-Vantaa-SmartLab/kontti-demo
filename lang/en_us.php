@@ -63,6 +63,7 @@ class en_us extends Language
 	{
 		$strings = array();
 
+		$strings['About'] = 'About';
 		$strings['FirstName'] = 'First Name';
 		$strings['LastName'] = 'Last Name';
 		$strings['Timezone'] = 'Timezone';
