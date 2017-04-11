@@ -17,12 +17,14 @@ You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 {include file='globalheader.tpl'}
+
 <h1>Tietoa palvleusta - Muuntamo</h1>
-Muuntamo on uusi ja mullistava tapa varata tiloja!<br/>
-<a href='http://smartlabvantaa.fi/muuntautuvat-toimitilat/'>Lisätietoja projektista</a>
-<div id="help">
+<div id="Muuntamo">
+	<div id="about">
+	<p>Muuntamo on uusi ja mullistava tapa varata tiloja!<br/>
+	<a href='http://smartlabvantaa.fi/muuntautuvat-toimitilat/'>Lisätietoja projektista</a></p>
 
-
-<p></p>
-
+	<p></p>
+	</div>
+</div>
 {include file='globalfooter.tpl'}
