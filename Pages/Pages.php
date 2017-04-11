@@ -22,6 +22,7 @@ class Pages
 {
 	const DEFAULT_HOMEPAGE_ID = 1;
 
+	const ABOUT = 'about.php';
 	const ACTIVATION = 'activate.php';
 	const CALENDAR = 'calendar.php';
 	const CALENDAR_EXPORT = 'ical.php';

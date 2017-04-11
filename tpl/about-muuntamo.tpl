@@ -1,5 +1,5 @@
 {*
-Copyright 2011-2016 Nick Korbel
+Copyright 2012-2016 Nick Korbel
 
 This file is part of Booked Scheduler.
 
@@ -16,9 +16,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-{$FirstName},<br/>
-{$ResourceName} on tällä hetkellä vapaana välillä {formatdate date=$StartDate key=res_popup} ja {formatdate date=$EndDate key=res_popup}
-<br/>
-<br/>
-<a href="{$ScriptUrl}/{$ReservationUrl}">Varaa nyt</a> |
-<a href="{$ScriptUrl}">Kirjaudu sisään</a>
+{include file='globalheader.tpl'}
+<h1>Tietoa palvleusta - Muuntamo</h1>
+Muuntamo on uusi ja mullistava tapa varata tiloja!<br/>
+<a href='http://smartlabvantaa.fi/muuntautuvat-toimitilat/'>Lisätietoja projektista</a>
+<div id="help">
+
+
+<p></p>
+
+{include file='globalfooter.tpl'}

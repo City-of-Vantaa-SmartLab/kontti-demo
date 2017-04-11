@@ -1,4 +1,5 @@
-{*
+<?php
+/**
 Copyright 2011-2016 Nick Korbel
 
 This file is part of Booked Scheduler.
@@ -15,10 +16,25 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
-*}
-{$FirstName},<br/>
-{$ResourceName} on tällä hetkellä vapaana välillä {formatdate date=$StartDate key=res_popup} ja {formatdate date=$EndDate key=res_popup}
-<br/>
-<br/>
-<a href="{$ScriptUrl}/{$ReservationUrl}">Varaa nyt</a> |
-<a href="{$ScriptUrl}">Kirjaudu sisään</a>
+*/
+
+require_once(ROOT_DIR . 'Pages/Page.php');
+
+class AboutPage extends Page
+{
+	public function __construct()
+	{
+		parent::__construct('About');
+	}
+
+	public function PageLoad()
+	{
+		$this->Set('RemindersPath', realpath(ROOT_DIR . 'Jobs/sendreminders.php'));
+		$this->Set('AutoReleasePath', realpath(ROOT_DIR . 'Jobs/autorelease.php'));
+		$this->Set('WaitListPath', realpath(ROOT_DIR . 'Jobs/sendwaitlist.php'));
+		$this->Set('ServerTimezone', date_default_timezone_get());
+
+		$helpType = $this->GetQuerystring('ht');
+		$this->DisplayLocalized('about-muuntamo.tpl');
+	}
+}

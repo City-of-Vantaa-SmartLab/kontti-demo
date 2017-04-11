@@ -290,7 +290,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						</li>
 					{/if}
 				{/if}
-
+				<li><a href="{$Path}{Pages::ABOUT}">{translate key="About"}</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				{if $ShowScheduleLink}

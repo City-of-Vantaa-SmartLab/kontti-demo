@@ -143,7 +143,7 @@ class fi_fi extends en_us
 		$strings['Print'] = 'Tulosta';
 		$strings['ShowHideNavigation'] = 'Näytä/piilota navigointi';
 		$strings['ReferenceNumber'] = 'Varausnumero';
-		$strings['Tomorrow'] = 'Huomenna';
+		$strings['Tomorrow'] = 'Huomena';
 		$strings['LaterThisWeek'] = 'Myöhemmin tällä viikolla';
 		$strings['NextWeek'] = 'Seuraava viikko';
 		$strings['SignOut'] = 'Kirjaudu ulos';
@@ -486,7 +486,7 @@ class fi_fi extends en_us
 		$strings['AddResourceType'] = 'Lisää tilatyyppi';
 		$strings['NoResourceTypeLabel'] = '(tilatyyppiä ei säädetty)';
 		$strings['ClearFilter'] = 'Tyhjennä suodattimet';
-		$strings['MinimumCapacity'] = 'Minimi kapasiteetti';
+		$strings['MinimumCapacity'] = 'Minimikapasiteetti';
 		$strings['Color'] = 'Väri';
 		$strings['Available'] = 'Saatavissa';
 		$strings['Unavailable'] = 'Ei saatavissa';
@@ -726,7 +726,7 @@ class fi_fi extends en_us
 		$strings['Profile'] = 'Profiili';
 		$strings['ApplicationManagement'] = 'Ylläpito';
 		$strings['ForgotPassword'] = 'Olen unohtanut salasanani';
-		$strings['NotificationPreferences'] = 'Ilmoitusten asetukset';
+		$strings['NotificationPreferences'] = 'Ilmoitusasetukset';
 		$strings['ManageAnnouncements'] = 'Ilmoitukset';
 		$strings['Responsibilities'] = 'Vastuut';
 		$strings['GroupReservations'] = 'Ryhmävaraukset';
