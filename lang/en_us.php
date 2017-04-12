@@ -63,7 +63,6 @@ class en_us extends Language
 	{
 		$strings = array();
 
-		$strings['About'] = 'About';
 		$strings['FirstName'] = 'First Name';
 		$strings['LastName'] = 'Last Name';
 		$strings['Timezone'] = 'Timezone';
@@ -518,6 +517,7 @@ class en_us extends Language
 		$strings['ResourceAvailability'] = 'Resource Availability';
 		$strings['UnavailableAllDay'] = 'Unavailable All Day';
 		$strings['AvailableUntil'] = 'Available Until';
+		$strings['AvailableUntilAfterData'] = '';
 		$strings['AvailableBeginningAt'] = 'Available Beginning At';
 		$strings['AllResourceTypes'] = 'All Resource Types';
 		$strings['AllResourceStatuses'] = 'All Resource Statuses';

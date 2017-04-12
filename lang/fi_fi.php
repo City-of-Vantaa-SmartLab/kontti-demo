@@ -136,7 +136,7 @@ class fi_fi extends en_us
 		$strings['EditReservationHeading'] = 'Muokkaa varausta %s';
 		$strings['ViewReservationHeading'] = 'Katso varausta %s';
 		$strings['ReservationErrors'] = 'Vaihda varausta';
-		$strings['Create'] = 'Luo';
+		$strings['Create'] = 'Varaa';
 		$strings['ThisInstance'] = 'Vain tämä kerta';
 		$strings['AllInstances'] = 'Joka kerta';
 		$strings['FutureInstances'] = 'Tulossa olevat kerrat';
@@ -488,8 +488,8 @@ class fi_fi extends en_us
 		$strings['ClearFilter'] = 'Tyhjennä suodattimet';
 		$strings['MinimumCapacity'] = 'Minimikapasiteetti';
 		$strings['Color'] = 'Väri';
-		$strings['Available'] = 'Saatavissa';
-		$strings['Unavailable'] = 'Ei saatavissa';
+		$strings['Available'] = 'Vapaana olevat tilat';
+		$strings['Unavailable'] = 'Varatut tilat';
 		$strings['Hidden'] = 'Piilotettu';
 		$strings['ResourceStatus'] = 'Tilan tila';
 		$strings['CurrentStatus'] = 'Nykyinen tila';
@@ -517,7 +517,8 @@ class fi_fi extends en_us
 		$strings['More'] = 'Lisää';
 		$strings['ResourceAvailability'] = 'Varaa tila';	//Original translation: Tilojen saatavuus
 		$strings['UnavailableAllDay'] = 'Varattu koko päivänä';
-		$strings['AvailableUntil'] = 'Vapaa'; //... $s asti
+		$strings['AvailableUntil'] = 'Vapaa'; //Part 1 of 2 - Vapaa... - Passing the argument would require changing every translated language
+		$strings['AvailableUntilAfterData'] = 'asti'; //Part 1 of 2 - ...$s asti
 		$strings['AvailableBeginningAt'] = 'Vapaa alkaen';
 		$strings['AllResourceTypes'] = 'Kaikki tilatyppit';
 		$strings['AllResourceStatuses'] = 'Kaikki tilojen tilat';
@@ -532,7 +533,7 @@ class fi_fi extends en_us
 		$strings['RowsImported'] = 'Rivejä tuotu';
 		$strings['RowsSkipped'] = 'Rivejä ohitettu';
 		$strings['Columns'] = 'Sarakkeet';
-		$strings['Reserve'] = 'Varaa';
+		$strings['Reserve'] = 'Varaa tila';
 		$strings['AllDay'] = 'Koko päivän';
 		$strings['Everyday'] = 'Joka päivä';
 		$strings['IncludingCompletedReservations'] = 'Sisältäen menneet varaukset';
@@ -736,7 +737,7 @@ class fi_fi extends en_us
 		$strings['AccountActivation'] = 'Käyttäjätunnusten aktivointi';
 		$strings['ScheduleReservations'] = 'Aikatauluvaraukset';
 		$strings['Reports'] = 'Raportit';
-		$strings['GenerateReport'] = 'Luo uusi varaus';
+		$strings['GenerateReport'] = 'Luo uusi raportti';
 		$strings['MySavedReports'] = 'Raporttini';
 		$strings['CommonReports'] = 'Yleiset raportit';
 		$strings['ViewDay'] = 'Näytä päivä';
