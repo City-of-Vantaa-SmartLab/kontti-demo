@@ -18,6 +18,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 {include file='globalheader.tpl'}
 
-<div style="text-align:center;margin-top:100px;font-size:30pt;">Currently performing maintenance. We'll be back soon.</div>
+<div style="text-align:center;margin-top:100px;font-size:30pt;">Huoltotyöt menossa, palaamme pian!</div>
 
 {include file='globalfooter.tpl'}
