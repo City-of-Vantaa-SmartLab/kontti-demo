@@ -171,7 +171,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="{$HomeUrl}">{html_image src="$LogoUrl?2.6" alt="Scheduler Logo - Home Link"}</a>
+			<a class="navbar-brand" href="{$HomeUrl}">{html_image src="$LogoUrl?2.6" alt="{translate key="LogoAltText"}"}</a>
 		</div>
 		<div class="collapse navbar-collapse" id="booked-navigation">
 			<ul class="nav navbar-nav">
@@ -290,6 +290,9 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						</li>
 					{/if}
 				{/if}
+				{if $LoggedIn}{else}
+					<li><a href="{$Path}{Pages::INDEX}">{translate key="Dashboard"}</a></li>
+				{/if}
 				<li><a href="{$Path}{Pages::ABOUT}">{translate key="About"}</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
@@ -315,7 +318,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				{if $LoggedIn}
 					<li><a href="{$Path}logout.php">{translate key="SignOut"}</a></li>
 				{else}
-					<li><a href="{$Path}index.php">{translate key="LogIn"}</a></li>
+					<li><a href="{$Path}{Pages::LOGIN}">{translate key="LogIn"}</a></li>
+					<li><a href="{$Path}register.php">{translate key="Register"}</a></li>
 				{/if}
 			</ul>
 		</div>

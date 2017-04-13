@@ -24,7 +24,7 @@ class AboutPage extends Page
 {
 	public function __construct()
 	{
-		parent::__construct('About');
+		parent::__construct('Index');
 	}
 
 	public function PageLoad()
@@ -35,6 +35,6 @@ class AboutPage extends Page
 		$this->Set('ServerTimezone', date_default_timezone_get());
 
 		$helpType = $this->GetQuerystring('ht');
-		$this->DisplayLocalized('about.tpl');
+		$this->DisplayLocalized('index.tpl');
 	}
 }

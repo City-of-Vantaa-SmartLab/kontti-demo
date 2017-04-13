@@ -63,7 +63,10 @@ class fi_fi extends en_us
 	{
 		$strings = parent::_LoadStrings();
 
+		$strings['AboutFrontTitle'] = 'Muuntamo';
+		$strings['AboutFrontText'] = 'Palvelun ideana on tarjota Vantaan kaupungin työntekijöille mahdollisuus varata käyttöönsä toimitila, jonka kalustuksen voi räätälöidä vastaamaan omia tarpeita. Lisäksi Muuntamon käyttäjät voivat tilata lisäpalveluita ulkopuolisilta palveluiden tarjoajilta. Muuntamo tarjoaa oivalliset puitteet Vantaan kaupungin työntekijöiden, kuntapalveluiden ja yksityisen sektorin palveluiden tuottajien sekä tietenkin kuntalaisten kohtaamiselle.';
 		$strings['About'] = 'Lisätietoa palvelusta';
+		$strings['LogoAltText'] = 'Muuntamo logo - Etusivu';
 		$strings['FirstName'] = 'Etunimi';
 		$strings['LastName'] = 'Sukunimi';
 		$strings['Timezone'] = 'Aikavyöhyke';
@@ -426,7 +429,7 @@ class fi_fi extends en_us
 		$strings['Choose'] = 'Valitse';
 		$strings['All'] = 'Kaikki';
 		$strings['ViewAsChart'] = 'Tarkastele diagrammina';
-		$strings['ReservedResources'] = 'Varatut tilat';
+		$strings['ReservedResources'] = 'Varattuna olevat tilat';
 		$strings['ReservedAccessories'] = 'Varatut lisätarvikkeet';
 		$strings['ResourceUsageTimeBooked'] = 'Tilan käyttö - Aika varattuna';
 		$strings['ResourceUsageReservationCount'] = 'Tilan käyttö - Varausten määrä';

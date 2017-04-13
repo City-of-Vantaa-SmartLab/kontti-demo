@@ -63,6 +63,10 @@ class en_us extends Language
 	{
 		$strings = array();
 
+		$strings['AboutFrontTitle'] = 'Muuntamo';
+		$strings['AboutFrontText'] = 'The idea of the service is to provide Vantaan kaupunki workers a chance to book an office space to their use and customise the furniture to suit their needs. In addition, the users of Muuntamo can order extra services from outside service providers. Muuntamo offers a spectacular framework for 	confluence of the city workers, municipal services and private sector service providers and of course for the residents.';
+		$strings['About'] = 'About';
+		$strings['LogoAltText'] = 'Muuntamo Logo - Home Link';
 		$strings['FirstName'] = 'First Name';
 		$strings['LastName'] = 'Last Name';
 		$strings['Timezone'] = 'Timezone';
