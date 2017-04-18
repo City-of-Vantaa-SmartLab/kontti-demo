@@ -208,11 +208,11 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 		return $this->server->GetQuerystring(QueryStringKeys::REFERENCE_NUMBER);
 	}
 
-	public function SetAdditionalResources($additionalResourceIds)
+	public function SetAdditionalResources($additionalResourceIds,$seriesId)
 	{
 		$this->Set('AdditionalResourceIds', $additionalResourceIds);
 	}
-
+	
 	public function SetTitle($title)
 	{
 		$this->Set('ReservationTitle', $title);

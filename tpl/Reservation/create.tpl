@@ -16,12 +16,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
+{debug}
 {block name="header"}{include file='globalheader.tpl' Qtip=true printCssFiles='css/reservation.print.css'}
 {/block}
 
 {function name="displayResource"}
 	<div class="resourceName" style="background-color:{$resource->GetColor()};color:{$resource->GetTextColor()}">
 		<span class="resourceDetails" data-resourceId="{$resource->GetId()}">{$resource->Name}</span>
+		<span><select name="RoomArrangement[]"><option value="1">1. Kokous</option><option value="2">2. Väittelytila</option><option value="3">3. Grillausparty</option></select></span>
 		{if $resource->GetRequiresApproval()}<span class="fa fa-lock" data-tooltip="approval"></span>{/if}
 		{if $resource->IsCheckInEnabled()}<i class="fa fa-sign-in" data-tooltip="checkin"></i>{/if}
 		{if $resource->IsAutoReleased()}<i class="fa fa-clock-o" data-tooltip="autorelease"
@@ -117,7 +119,9 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							<div class="pull-left">
 								<div>
 									<label>{translate key="Resources"}</label>
+										{$resource->Id}
 									{if $ShowAdditionalResources}
+										{$resource->Id}
 										<a id="btnAddResources" href="#"
 										   class="small-action" data-toggle="modal"
 										   data-target="#dialogResourceGroups">{translate key=Change} <span
@@ -126,6 +130,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								</div>
 
 								<div id="primaryResourceContainer" class="inline">
+										{$resource->Id}
 									<input type="hidden" id="scheduleId" {formname key=SCHEDULE_ID}
 										   value="{$ScheduleId}"/>
 									<input class="resourceId" type="hidden"
@@ -554,7 +559,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			repeatMonthlyType: '{$RepeatMonthlyType}',
 			repeatWeekdays: [{foreach from=$RepeatWeekdays item=day}{$day}, {/foreach}]
 		};
-
+		
 		var recurrence = new Recurrence(recurOpts);
 		recurrence.init();
 

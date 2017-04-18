@@ -52,8 +52,8 @@ function regexLengthIsTwo($time){	//poistaa formaatista 00:00:00 ylimääräiset
 	}
 	return implode(":", $time);
 }
-
-function createThumb($address, $conf_id){
+/**
+function createThumb($address, $conf_id){	//thumbnail creator
 		$tempfilename="temp_".$conf_id.".jpg";
 		$copyname=ROOT_DIR."/uploads/arrangmenets/thumbnail/".$tempfilename;
 		copy($address,$copyname);
@@ -78,4 +78,5 @@ function createThumb($address, $conf_id){
 		$thumb->destroy();
 		unlink($copyname);
 }
+*/
 ?>

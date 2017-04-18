@@ -1,12 +1,10 @@
 function Reservation(opts) {
 	var options = opts;
-
 	var elements = {
 		beginDate: $('#formattedBeginDate'),
 		endDate: $('#formattedEndDate'),
 		beginDateTextbox: $('#BeginDate'),
 		endDateTextbox: $('#EndDate'),
-
 		beginTime: $('#BeginPeriod'),
 		endTime: $('#EndPeriod'),
 		durationDays: $('#durationDays'),
@@ -203,6 +201,7 @@ function Reservation(opts) {
 				if (node.type === 'resource')
 				{
 					checkbox.attr('resource-id', node.resource_id);
+					checkbox.attr('resource-arrangement', node.resource_arrangement);
 					checkbox.attr('group-id', node.group_id);
 					checkbox.attr('reservation-color', node.color);
 					checkbox.attr('reservation-text-color', node.textColor);
@@ -348,6 +347,7 @@ function Reservation(opts) {
 			$.each(checkboxes, function (i, checkbox) {
 				displayDiv = elements.additionalResources;
 				var checkedResourceId = $(checkbox).attr('resource-id');
+				var checkedResourceArrangement = $(checkbox).attr('arrangement-id');
 				var checkedResourceName = $(checkbox).parent().text();
 				var color = $(checkbox).attr('reservation-color');
 				var textColor = $(checkbox).attr('reservation-text-color');
@@ -360,7 +360,7 @@ function Reservation(opts) {
 					primaryResourceContainer.find('.resourceName').remove();
 					displayDiv = primaryResourceContainer;
 				}
-				displayDiv.append('<div class="resourceName" style="background-color:' + color + '; color:' + textColor + ';">' + '<span class="resourceDetails">' + checkedResourceName + '</span> ' + '<input class="resourceId" type="hidden" name="additionalResources[]" value="' + checkedResourceId + '"/>' + (requiresApproval ? ' <i class="fa fa-lock" data-tooltip="approval"></i> ' : '') + (requiresCheckin ? ' <i class="fa fa-sign-in" data-tooltip="checkin"></i> ' : '') + (!_.isEmpty(autoReleaseMinutes) ? ' <i class="fa fa-clock-o" data-tooltip="autorelease" data-autorelease="' + autoReleaseMinutes + '"></i> ' : '') + '</div>');
+				displayDiv.append('<div class="resourceName" style="background-color:' + color + '; color:' + textColor + ';">' + '<span class="resourceDetails">' + checkedResourceName + '</span> ' + '<input class="resourceId" type="hidden" name="additionalResources[]" value="' + checkedResourceId + '"/><select name="RoomArrangement[]"><option value="1">1. Kokous</option><option value="2">2. Väittelytila</option><option value="3">3. Grillausparty</option></select><br/><br/>' + (requiresApproval ? ' <i class="fa fa-lock" data-tooltip="approval"></i> ' : '') + (requiresCheckin ? ' <i class="fa fa-sign-in" data-tooltip="checkin"></i> ' : '') + (!_.isEmpty(autoReleaseMinutes) ? ' <i class="fa fa-clock-o" data-tooltip="autorelease" data-autorelease="' + autoReleaseMinutes + '"></i>' : '') + '</div><br/>');
 			});
 		}
 
