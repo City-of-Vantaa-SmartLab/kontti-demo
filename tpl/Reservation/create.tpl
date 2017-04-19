@@ -23,13 +23,22 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 {function name="displayResource"}
 	<div class="resourceName" style="background-color:{$resource->GetColor()};color:{$resource->GetTextColor()}">
 		<span class="resourceDetails" data-resourceId="{$resource->GetId()}">{$resource->Name}</span>
-		<span><select name="RoomArrangement[]"><option value="1">1. Kokous</option><option value="2">2. Väittelytila</option><option value="3">3. Grillausparty</option></select></span>
+		<span>
+			<select name="RoomArrangement[]">
+				{foreach from=$availableResourcesArrangements item=temp}
+								{$Arrangementsplit = ":"|explode:$temp}
+								{$Arrangementsplit[1]}
+								<option value="{$Arrangementsplit[0]}"{if $arrangementIds == $Arrangementsplit[0]} selected="selected"{/if}>{$Arrangementsplit[1]}</option>
+				{/foreach}
+			</select>
+		</span>
 		{if $resource->GetRequiresApproval()}<span class="fa fa-lock" data-tooltip="approval"></span>{/if}
 		{if $resource->IsCheckInEnabled()}<i class="fa fa-sign-in" data-tooltip="checkin"></i>{/if}
 		{if $resource->IsAutoReleased()}<i class="fa fa-clock-o" data-tooltip="autorelease"
 										   data-autorelease="{$resource->GetAutoReleaseMinutes()}"></i>{/if}
 	</div>
 {/function}
+
 <div id="page-reservation">
 	<div id="reservation-box">
 		<form id="form-reservation" method="post" enctype="multipart/form-data" role="form">
@@ -135,15 +144,21 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										   value="{$ScheduleId}"/>
 									<input class="resourceId" type="hidden"
 										   id="primaryResourceId" {formname key=RESOURCE_ID} value="{$ResourceId}"/>
-									{displayResource resource=$Resource}
+									{displayResource resource=$Resource arrangementIds=$arrangementIds availableResourcesArrangements=$AvailableResourcesArrangements[$ResourceId]}
 								</div>
 
 								<div id="additionalResources">
 									{foreach from=$AvailableResources item=resource}
 										{if is_array($AdditionalResourceIds) && in_array($resource->Id, $AdditionalResourceIds)}
-											<input class="resourceId" type="hidden"
-												   name="{FormKeys::ADDITIONAL_RESOURCES}[]" value="{$resource->Id}"/>
-											{displayResource resource=$resource}
+											{for $i=0 to $AdditionalResourceIds|count}
+												{if $resource->Id == $AdditionalResourceIds[$i]}
+													{$arrangementIds = $AdditionalResourceArrangements[$i]}
+													{$i = $AdditionalResourceIds|count}
+												{/if}
+											{/for}
+											<input class="resourceId" type="hidden" name="{FormKeys::ADDITIONAL_RESOURCES}[]" value="{$resource->Id}"/>
+											
+											{displayResource resource=$resource arrangementIds=$arrangementIds availableResourcesArrangements=$AvailableResourcesArrangements[$resource->Id]}
 										{/if}
 									{/foreach}
 								</div>
@@ -157,25 +172,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 												class="fa fa-plus-square"></span></a>
 									<div id="accessories"></div>
 								{/if}
-							</div>
-						</div>
-					</div>
-					<div>
-						<div class="col-md-6 no-padding-left">
-							<p>Valittu huonekonfiguraatio: <br>{$ArrangementName}<br>{$ArrangementDescription}</p>
-							<img src='../uploads/arrangements/{$TargetId}.png' alt='Huonekonfiguraatio {$TargetId}'><br>
-							<a href='#arrangements' role='button' data-toggle='collapse'>Vaihda huonekonfiguraatiota</a>
-							<div id='arrangements' class='collapse'>
-								{foreach from=$Arrangements item=temp}
-								{$Arrangementsplit = ":"|explode:$temp}
-									{$Arrangementsplit[1]}
-									<label>
-										<div>
-											<input type="radio" name="roomconf" value="{$Arrangementsplit[0]}" />
-										</div>
-										<img src='../uploads/arrangements/{$Arrangementsplit[0]}.png' alt='{$Arrangementsplit[1]}'><br>
-									</label>
-								{/foreach}
 							</div>
 						</div>
 					</div>

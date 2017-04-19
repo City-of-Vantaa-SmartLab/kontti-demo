@@ -224,6 +224,11 @@ abstract class ReservationPage extends Page implements IReservationPage
 	public function BindAvailableResources($resources)
 	{
 		$this->Set('AvailableResources', $resources);
+		foreach($resources as $split){
+			$row[$split->GetId()]=defineArrangements($split->GetId());
+		}			
+		$this->Set('AvailableResourcesArrangements', $row);
+
 	}
 
 	public function ShowAdditionalResources($shouldShow)
@@ -264,7 +269,7 @@ abstract class ReservationPage extends Page implements IReservationPage
 	{
 		$this->Set('ResourceName', $resource->GetName());
 		$this->Set('ResourceId', $resource->GetId());
-        $this->Set('Arrangements', getArrangements($resource->GetId()));
+        $this->Set('Arrangements', defineArrangements($resource->GetId()));
 		$this->Set('Resource', $resource);
 	}
 

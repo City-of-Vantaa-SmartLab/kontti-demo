@@ -44,7 +44,7 @@ function getArrangement($resource_id,$series_id){
 	return $row['target_id'];
 }
 
-function getArrangements($resource_id){	//Retrieves and returns all of $resource_id's roomconfigurations.	
+function defineArrangements($resource_id){	//Retrieves and returns all of $resource_id's roomconfigurations.	
 	$resource_id=regexnums($resource_id);
 	$list=pdoExecute("SELECT * FROM `resource_conf` WHERE conf_id IN(SELECT conf_id FROM `resource_conf_target` WHERE resource_id='".$resource_id."')");
 	while($row=$list->fetch(PDO::FETCH_ASSOC)){
