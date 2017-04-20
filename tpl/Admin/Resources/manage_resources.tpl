@@ -48,7 +48,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 					{/if}
 			</ul>
 		</div>
-
+		
 		<h1>{translate key='ManageResources'}</h1>
 	</div>
 
@@ -371,7 +371,27 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								{include file="Admin/Resources/manage_resources_groups.tpl" resource=$resource}
 							</div>
 						</div>
-
+						<div class="col-xs-6">
+							</br>
+							<h5 class="inline">Huonekonfiguraatiot</h5><br>
+							<a class="update changeStatus"
+									   href="#" rel="popover"
+									   data-popover-content="#roomconfDialog">Lisää huonekonfiguraatio</a>
+							<table>
+								{foreach from=defineArrangements($resource->GetId()) item=temp}
+									{$Arrangementsplit = ":"|explode:$temp}
+										<tr>
+											<td>
+												<a href='#{$resource->GetId()}-arrangements-{$Arrangementsplit[0]}' role='button' data-toggle='collapse'>{$Arrangementsplit[1]}</a>
+												<div id='{$resource->GetId()}-arrangements-{$Arrangementsplit[0]}' class='collapse'>
+													<img src='../../uploads/arrangements/{$Arrangementsplit[0]}.png' alt='{$Arrangementsplit[1]}'>
+												</div>
+											</td>
+										</tr>
+								{/foreach}
+							</table>
+								
+						</div>
 						<div class="col-xs-6">
 							{if $CreditsEnabled}
 								<h5 class="inline">{translate key='Credits'}</h5>
@@ -761,7 +781,15 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			</div>
 		</form>
 	</div>
-
+	<div id="roomconfDialog" class="hide">
+		<form id="roomconfForm" role="form" method="POST" ajaxAction="addRoomconf">
+			<div class="control-group form-group">
+				Nimi:<input type='text' name='roomconfName'><br>
+				Kuvaus:<input type='text' name='roomconfDesc'><br>
+				<input type='submit' value='Tallenna'>
+			</div>
+		</form>
+	</div>
 	<div id="statusDialog" class="hide">
 		<form class="statusForm" method="post" ajaxAction="{ManageResourcesActions::ActionChangeStatus}">
 			<div class="control-group form-group">
