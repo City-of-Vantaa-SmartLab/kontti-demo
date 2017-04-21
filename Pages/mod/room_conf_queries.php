@@ -16,12 +16,6 @@ function pdoExecute($query){
 	return $list;
 }
 
-function getTargetId($series_id){		//hakee ja palauttaa series_id:n perusteella target_id:n
-		$list=pdoExecute("SELECT target_id FROM `reservation_series` WHERE series_id=".regexnums($series_id)." Limit 1");
-		$row=$list->fetch(PDO::FETCH_ASSOC);
-	return $row['target_id'];
-}
-
 function getArrangementDescription($conf_id){		//hakee ja palauttaa conf_id:n perusteella huonekonfiguraation kuvauksen
 		$list=pdoExecute("SELECT description FROM `resource_conf` WHERE conf_id=".regexnums($conf_id)." Limit 1");
 		$row=$list->fetch(PDO::FETCH_ASSOC);
