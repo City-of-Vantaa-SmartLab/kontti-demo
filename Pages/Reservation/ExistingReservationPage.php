@@ -19,7 +19,6 @@
  */
 
 require_once(ROOT_DIR . 'Pages/Reservation/ReservationPage.php');
-
 interface IExistingReservationPage extends IReservationPage
 {
 	function GetReferenceNumber();
@@ -27,13 +26,12 @@ interface IExistingReservationPage extends IReservationPage
 	/**
 	 * @param $additionalResourceIds int[]
 	 */
-	function SetAdditionalResources($additionalResourceIds);
+	function SetAdditionalResources($additionalResourceIds,$seriesId);
 
 	/**
 	 * @param $title string
 	 */
 	function SetTitle($title);
-
 	/**
 	 * @param $description string
 	 */
@@ -148,7 +146,6 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 {
 	protected $IsEditable = false;
 	protected $IsApprovable = false;
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -211,11 +208,15 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 		return $this->server->GetQuerystring(QueryStringKeys::REFERENCE_NUMBER);
 	}
 
-	public function SetAdditionalResources($additionalResourceIds)
+	public function SetAdditionalResources($additionalResourceIds,$seriesId)
 	{
 		$this->Set('AdditionalResourceIds', $additionalResourceIds);
+		foreach($additionalResourceIds as $resource){
+			$additionalResourceArrangements[$resource]=getArrangement($resource,$seriesId);
+		}
+		$this->Set('AdditionalResourceArrangements',$additionalResourceArrangements);
 	}
-
+	
 	public function SetTitle($title)
 	{
 		$this->Set('ReservationTitle', $title);
@@ -258,7 +259,7 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 
 	public function SetSeriesId($seriesId)
 	{
-		$this->Set('SeriesId', $seriesId);
+		$this->Set('SeriesId', $seriesId);;
 	}
 
 	public function SetIsRecurring($isRecurring)
@@ -325,7 +326,6 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 	{
 		$this->Set('ParticipatingGuests', $participatingGuests);
 	}
-
 	/**
 	 * @param string[] $invitedGuests
 	 */

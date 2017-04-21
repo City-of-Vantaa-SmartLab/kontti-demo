@@ -72,6 +72,18 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 				$this->Set('Resources', $reservation->AllResources());
 				$this->Set('Instances', $reservation->Instances());
 				$this->Set('Timezone', ServiceLocator::GetServer()->GetUserSession()->Timezone);
+				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined
+					$RoomArrangement=$_POST['RoomArrangement'];
+					$RoomArrangementAR=$_POST['additionalResources'];
+					//if(count($RoomArrangementAR)==count($RoomArrangement)){
+					//for($i=0;count($RoomArrangementAR)>$i;$i=$i+1){	
+					foreach($RoomArrangementAR as $resource){
+						setArrangementWResIID(regexnums($RoomArrangement[$resource]),regexnums($resource),regexnums($_POST['reservationId'])); //viimeisenä, jos muut jumittuvat
+					}
+				}elseif(isset($_POST['roomconf'])){
+					//update roomconfiguration in database
+					setArrangementWResIID($_POST['roomconf'],regexnums($_POST['resourceId']),regexnums($_POST['reservationId'])); //viimeisenä, jos muut jumittuvat
+				}
 				$this->Display('Ajax/reservation/update_successful.tpl');
 			}
 			else

@@ -81,12 +81,17 @@ class NewReservationPage extends ReservationPage implements INewReservationPage
 	{
 		return $this->server->GetQuerystring(QueryStringKeys::RESOURCE_ID);
 	}
-
+	
 	public function GetRequestedScheduleId()
 	{
 		return $this->server->GetQuerystring(QueryStringKeys::SCHEDULE_ID);
 	}
-
+	
+	public function GetRequestedReservationArrangementId()
+	{
+		return $this->server->GetQuerystring(QueryStringKeys::RESERVATION_ARRANGEMENT);
+	}
+	
 	public function GetReservationDate()
 	{
 		$timezone = ServiceLocator::GetServer()->GetUserSession()->Timezone;

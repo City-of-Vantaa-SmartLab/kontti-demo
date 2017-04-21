@@ -232,7 +232,7 @@ class ReservationDetailsBinder implements IReservationComponentBinder
 
 	public function Bind(IReservationComponentInitializer $initializer)
 	{
-		$this->page->SetAdditionalResources($this->reservationView->AdditionalResourceIds);
+		$this->page->SetAdditionalResources($this->reservationView->AdditionalResourceIds,$this->reservationView->SeriesId);
 		$this->page->SetTitle($this->reservationView->Title);
 		$this->page->SetDescription($this->reservationView->Description);
 		$this->page->SetReferenceNumber($this->reservationView->ReferenceNumber);

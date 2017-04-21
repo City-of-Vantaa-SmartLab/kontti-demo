@@ -18,6 +18,7 @@
  * along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once(ROOT_DIR . 'Pages/mod/functions.php');
 require_once(ROOT_DIR . 'Pages/SecurePage.php');
 require_once(ROOT_DIR . 'Pages/Ajax/IReservationSaveResultsView.php');
 require_once(ROOT_DIR . 'Presenters/Reservation/ReservationPresenterFactory.php');
@@ -178,11 +179,23 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 			$reservation = $this->_presenter->BuildReservation();
 			$this->_presenter->HandleReservation($reservation);
 
-			if ($this->_reservationSavedSuccessfully)
+			if ($this->_reservationSavedSuccessfully)		//pelkästään uutta luodessa?
 			{
 				$this->Set('Resources', $reservation->AllResources());
 				$this->Set('Instances', $reservation->Instances());
 				$this->Set('Timezone', ServiceLocator::GetServer()->GetUserSession()->Timezone);
+				
+				
+				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined
+					$RoomArrangement=$_POST['RoomArrangement'];
+					$RoomArrangementAR=$_POST['additionalResources'];
+					foreach($RoomArrangementAR as $resource){
+							setArrangement(regexnums($RoomArrangement[$resource]),regexnums($resource),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+					}
+				}elseif(isset($_POST['roomconf'])){	//unused code?
+					//update roomconfiguration in database
+					setArrangement($_POST['roomconf'],regexnums($_POST['resourceId']),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+				}
 				$this->Display('Ajax/reservation/save_successful.tpl');
 			}
 			else

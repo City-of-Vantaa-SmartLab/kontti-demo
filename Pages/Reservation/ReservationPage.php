@@ -20,6 +20,7 @@
 
 require_once(ROOT_DIR . 'Pages/SecurePage.php');
 require_once(ROOT_DIR . 'Presenters/Reservation/ReservationPresenter.php');
+require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 
 interface IReservationPage extends IPage
 {
@@ -223,6 +224,11 @@ abstract class ReservationPage extends Page implements IReservationPage
 	public function BindAvailableResources($resources)
 	{
 		$this->Set('AvailableResources', $resources);
+		foreach($resources as $split){
+			$row[$split->GetId()]=defineArrangements($split->GetId());
+		}			
+		$this->Set('AvailableResourcesArrangements', $row);
+
 	}
 
 	public function ShowAdditionalResources($shouldShow)
@@ -263,6 +269,7 @@ abstract class ReservationPage extends Page implements IReservationPage
 	{
 		$this->Set('ResourceName', $resource->GetName());
 		$this->Set('ResourceId', $resource->GetId());
+        $this->Set('Arrangements', defineArrangements($resource->GetId()));
 		$this->Set('Resource', $resource);
 	}
 
@@ -306,6 +313,7 @@ abstract class ReservationPage extends Page implements IReservationPage
 		$this->Set('CanChangeUser', $canChangeUser);
 	}
 
+	
 	public function ShowUserDetails($canShowUserDetails)
 	{
 		$this->Set('ShowUserDetails', $canShowUserDetails);
