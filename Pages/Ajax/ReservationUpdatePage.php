@@ -75,12 +75,10 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined
 					$RoomArrangement=$_POST['RoomArrangement'];
 					$RoomArrangementAR=$_POST['additionalResources'];
-					if(count($RoomArrangementAR)==count($RoomArrangement)){
-						for($i=0;count($RoomArrangementAR)>$i;$i=$i+1){					
-							setArrangementWResIID(regexnums($RoomArrangement[$i]),regexnums($RoomArrangementAR[$i]),regexnums($_POST['reservationId'])); //viimeisenä, jos muut jumittuvat
-						}
-					}else{
-						echo "Jotain meni pieleen ja huoneratkaisuja ei voitu tallentaa tietokantaan.";
+					//if(count($RoomArrangementAR)==count($RoomArrangement)){
+					//for($i=0;count($RoomArrangementAR)>$i;$i=$i+1){	
+					foreach($RoomArrangementAR as $resource){
+						setArrangementWResIID(regexnums($RoomArrangement[$resource]),regexnums($resource),regexnums($_POST['reservationId'])); //viimeisenä, jos muut jumittuvat
 					}
 				}elseif(isset($_POST['roomconf'])){
 					//update roomconfiguration in database

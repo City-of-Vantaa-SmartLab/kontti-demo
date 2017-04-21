@@ -211,8 +211,8 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 	public function SetAdditionalResources($additionalResourceIds,$seriesId)
 	{
 		$this->Set('AdditionalResourceIds', $additionalResourceIds);
-		for($i=0;count($additionalResourceIds)>$i;$i=$i+1){
-			$additionalResourceArrangements[]=getArrangement($additionalResourceIds[$i],$seriesId);
+		foreach($additionalResourceIds as $resource){
+			$additionalResourceArrangements[$resource]=getArrangement($resource,$seriesId);
 		}
 		$this->Set('AdditionalResourceArrangements',$additionalResourceArrangements);
 	}
@@ -259,12 +259,7 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 
 	public function SetSeriesId($seriesId)
 	{
-		$this->Set('SeriesId', $seriesId);
-		/*
-        $this->Set('TargetId', getTargetId($seriesId));
-        $this->Set('ArrangementName', getArrangementName(getTargetId($seriesId)));
-        $this->Set('ArrangementDescription', getArrangementDescription(getTargetId($seriesId)));
-		*/
+		$this->Set('SeriesId', $seriesId);;
 	}
 
 	public function SetIsRecurring($isRecurring)

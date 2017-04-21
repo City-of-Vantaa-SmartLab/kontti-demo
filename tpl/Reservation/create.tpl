@@ -16,26 +16,36 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
+
 {block name="header"}{include file='globalheader.tpl' Qtip=true printCssFiles='css/reservation.print.css'}
 {/block}
 
 {function name="displayResource"}
-	<div class="resourceName" style="background-color:{$resource->GetColor()};color:{$resource->GetTextColor()}">
-		<span class="resourceDetails" data-resourceId="{$resource->GetId()}">{$resource->Name}</span>
-		<span>
-			<select name="RoomArrangement[]">
-				{foreach from=$availableResourcesArrangements item=temp}
-								{$Arrangementsplit = ":"|explode:$temp}
-								{$Arrangementsplit[1]}
-								<option value="{$Arrangementsplit[0]}"{if $arrangementIds == $Arrangementsplit[0]} selected="selected"{/if}>{$Arrangementsplit[1]}</option>
-				{/foreach}
-			</select>
-		</span>
-		{if $resource->GetRequiresApproval()}<span class="fa fa-lock" data-tooltip="approval"></span>{/if}
-		{if $resource->IsCheckInEnabled()}<i class="fa fa-sign-in" data-tooltip="checkin"></i>{/if}
-		{if $resource->IsAutoReleased()}<i class="fa fa-clock-o" data-tooltip="autorelease"
-										   data-autorelease="{$resource->GetAutoReleaseMinutes()}"></i>{/if}
-	</div>
+
+	{if $selectedResourceGroup == $resource->GetResourceTypeId()}
+		<div class="resourceName">
+			<span class="resourceDetails">
+				<div class="resourceContainerLeft">
+					<span><input type="checkbox" name="{FormKeys::ADDITIONAL_RESOURCES}[]" value="{$resource->Id}"{if $checked==1} checked{/if}></span>
+					<span data-resourceId="{$resource->GetId()}">{$resource->Name}</span>
+				</div>
+				<div class="resourceContainerRight" style="color:Black}">
+					<span>
+						<select name="RoomArrangement[{$resource->GetId()}]">
+							{foreach from=$availableResourcesArrangements item=temp}
+											{$Arrangementsplit = ":"|explode:$temp}
+											<option value="{$Arrangementsplit[0]}"{if $arrangementIds == $Arrangementsplit[0]} selected="selected"{/if}>{$Arrangementsplit[1]}</option>
+							{/foreach}
+						</select>
+					</span>
+					{if $resource->GetRequiresApproval()}<span class="fa fa-lock" data-tooltip="approval"></span>{/if}
+					{if $resource->IsCheckInEnabled()}<i class="fa fa-sign-in" data-tooltip="checkin"></i>{/if}
+					{if $resource->IsAutoReleased()}<i class="fa fa-clock-o" data-tooltip="autorelease"
+													   data-autorelease="{$resource->GetAutoReleaseMinutes()}"></i>{/if}
+				</div>
+			</span>
+		</div><br/>
+	{/if}
 {/function}
 
 <div id="page-reservation">
@@ -127,15 +137,10 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							<div class="pull-left">
 								<div>
 									<label>{translate key="Resources"}</label>
+										{$SelectedResourceGroup=$Resource->ResourceTypeId}
 										{$resource->Id}
-									{if $ShowAdditionalResources}
-										{$resource->Id}
-										<a id="btnAddResources" href="#"
-										   class="small-action" data-toggle="modal"
-										   data-target="#dialogResourceGroups">{translate key=Change} <span
-													class="fa fa-plus-square"></span></a>
-									{/if}
 								</div>
+								{$Checked=True}
 
 								<div id="primaryResourceContainer" class="inline">
 										{$resource->Id}
@@ -143,21 +148,27 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										   value="{$ScheduleId}"/>
 									<input class="resourceId" type="hidden"
 										   id="primaryResourceId" {formname key=RESOURCE_ID} value="{$ResourceId}"/>
-									{displayResource resource=$Resource arrangementIds=$arrangementIds availableResourcesArrangements=$AvailableResourcesArrangements[$ResourceId]}
+									{displayResource checked=$Checked resource=$Resource arrangementIds={getArrangement($ResourceId,$SeriesId)} availableResourcesArrangements=$AvailableResourcesArrangements[$ResourceId] selectedResourceGroup=$SelectedResourceGroup}
 								</div>
 
 								<div id="additionalResources">
 									{foreach from=$AvailableResources item=resource}
+										{if $resource->Id!=$ResourceId}
 										{if is_array($AdditionalResourceIds) && in_array($resource->Id, $AdditionalResourceIds)}
+											{$Checked=True}
+										{else}
+											{$Checked=False}
+										{/if}
+										{*
 											{for $i=0 to $AdditionalResourceIds|count}
-												{if $resource->Id == $AdditionalResourceIds[$i]}
-													{$arrangementIds = $AdditionalResourceArrangements[$i]}
-													{$i = $AdditionalResourceIds|count}
+												{if $resource->Id == $AdditionalResourceIds[$i]}*}
+													{$arrangementIds = $AdditionalResourceArrangements[$resource->Id]}
+													{*{$i = $AdditionalResourceIds|count}
 												{/if}
-											{/for}
-											<input class="resourceId" type="hidden" name="{FormKeys::ADDITIONAL_RESOURCES}[]" value="{$resource->Id}"/>
+											{/for}*}
+											{*<input class="resourceId" type="hidden" name="{FormKeys::ADDITIONAL_RESOURCES}[]" value="{$resource->Id}"/>*}
 											
-											{displayResource resource=$resource arrangementIds=$arrangementIds availableResourcesArrangements=$AvailableResourcesArrangements[$resource->Id]}
+											{displayResource checked=$Checked resource=$resource arrangementIds=$arrangementIds availableResourcesArrangements=$AvailableResourcesArrangements[$resource->Id] selectedResourceGroup=$SelectedResourceGroup}
 										{/if}
 									{/foreach}
 								</div>

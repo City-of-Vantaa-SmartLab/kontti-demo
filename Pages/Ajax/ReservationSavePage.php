@@ -189,14 +189,10 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined
 					$RoomArrangement=$_POST['RoomArrangement'];
 					$RoomArrangementAR=$_POST['additionalResources'];
-					if(count($RoomArrangementAR)==count($RoomArrangement)){
-						for($i=0;count($RoomArrangementAR)>$i;$i=$i+1){
-							setArrangement(regexnums($RoomArrangement[$i]),regexnums($RoomArrangementAR[$i]),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
-						}
-					}else{
-						echo "Jotain meni pieleen ja huoneratkaisuja ei voitu tallentaa tietokantaan.";
+					foreach($RoomArrangementAR as $resource){
+							setArrangement(regexnums($RoomArrangement[$resource]),regexnums($resource),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 					}
-				}elseif(isset($_POST['roomconf'])){	
+				}elseif(isset($_POST['roomconf'])){	//unused code?
 					//update roomconfiguration in database
 					setArrangement($_POST['roomconf'],regexnums($_POST['resourceId']),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 				}
