@@ -2,6 +2,7 @@
 Copyright 2011-2016 Nick Korbel
 
 This file is part of Booked Scheduler.
+This file has been modified for Muuntamo.
 
 Booked Scheduler is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -137,6 +138,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							<div class="pull-left">
 								<div>
 									<label>{translate key="Resources"}</label>
+									<p>{translate key="ResourcesDescription"}</p>
 										{$SelectedResourceGroup=$Resource->ResourceTypeId}
 										{$resource->Id}
 								</div>
@@ -185,50 +187,57 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-12 reservationDates">
-						<div class="col-md-6 no-padding-left">
-							<div class="form-group no-margin-bottom">
+					<div class="reservationDatesBox">
+						<div class="reservationDatesBox">
+							<div class="reservationDatesBoxLeft">
 								<label for="BeginDate" class="reservationDate">{translate key='BeginDate'}</label>
-								<input type="text" id="BeginDate" class="form-control input-sm inline-block dateinput"
-									   value="{formatdate date=$StartDate}"/>
+							</div>
+							<div class="reservationDatesBoxMid">
+								<input type="text" id="BeginDate" class="dateform-control input-sm dateinput"
+								   value="{formatdate date=$StartDate}"/>
 								<input type="hidden" id="formattedBeginDate" {formname key=BEGIN_DATE}
-									   value="{formatdate date=$StartDate key=system}"/>
-								<select id="BeginPeriod" {formname key=BEGIN_PERIOD}
-										class="form-control input-sm inline-block timeinput" title="Begin time">
-									{foreach from=$StartPeriods item=period}
-										{if $period->IsReservable()}
-											{assign var='selected' value=''}
-											{if $period eq $SelectedStart}
-												{assign var='selected' value=' selected="selected"'}
-											{/if}
-											<option value="{$period->Begin()}"{$selected}>{$period->Label()}</option>
-										{/if}
-									{/foreach}
-								</select>
+									value="{formatdate date=$StartDate key=system}"/>
 							</div>
-						</div>
-						<div class="col-md-6 no-padding-left">
-							<div class="form-group no-margin-bottom">
+							<div class="reservationDatesBoxRight">
+										<select id="BeginPeriod" {formname key=BEGIN_PERIOD}
+												class="form-control input-sm timeinput" title="Begin time">
+											{foreach from=$StartPeriods item=period}
+												{if $period->IsReservable()}
+													{assign var='selected' value=''}
+													{if $period eq $SelectedStart}
+														{assign var='selected' value=' selected="selected"'}
+													{/if}
+													<option value="{$period->Begin()}"{$selected}>{$period->Label()}</option>
+												{/if}
+											{/foreach}
+										</select>
+							</div>
+						</div><br/>
+						<div class="reservationDatesBox">
+							<div class="reservationDatesBoxLeft">
 								<label for="EndDate" class="reservationDate">{translate key='EndDate'}</label>
-								<input type="text" id="EndDate" class="form-control input-sm inline-block dateinput"
-									   value="{formatdate date=$EndDate}"/>
-								<input type="hidden" id="formattedEndDate" {formname key=END_DATE}
-									   value="{formatdate date=$EndDate key=system}"/>
+							</div>
+							<div class="reservationDatesBoxMid">
+									<input type="text" id="EndDate" class="form-control input-sm inline-block dateinput"
+										   value="{formatdate date=$EndDate}"/>
+									<input type="hidden" id="formattedEndDate" {formname key=END_DATE}
+										   value="{formatdate date=$EndDate key=system}"/>
+							</div>
+							<div class="reservationDatesBoxRight">
 								<select id="EndPeriod" {formname key=END_PERIOD}
-										class="form-control  input-sm inline-block timeinput" title="End time">
-									{foreach from=$EndPeriods item=period name=endPeriods}
-										{if $period->IsReservable()}
-											{assign var='selected' value=''}
-											{if $period eq $SelectedEnd}
-												{assign var='selected' value=' selected="selected"'}
-											{/if}
-											<option value="{$period->End()}"{$selected}>{$period->LabelEnd()}</option>
+									class="form-control input-sm inline-block timeinput" title="End time">
+								{foreach from=$EndPeriods item=period name=endPeriods}
+									{if $period->IsReservable()}
+										{assign var='selected' value=''}
+										{if $period eq $SelectedEnd}
+											{assign var='selected' value=' selected="selected"'}
 										{/if}
-									{/foreach}
+										<option value="{$period->End()}"{$selected}>{$period->LabelEnd()}</option>
+									{/if}
+								{/foreach}
 								</select>
 							</div>
 						</div>
-
 					</div>
 
 					<div class="col-xs-12 reservationLength">

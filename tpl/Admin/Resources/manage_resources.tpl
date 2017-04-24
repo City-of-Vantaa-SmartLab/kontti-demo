@@ -2,6 +2,7 @@
 Copyright 2011-2016 Nick Korbel
 
 This file is part of Booked Scheduler.
+This file has been modified for Muuntamo.
 
 Booked Scheduler is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -373,10 +374,19 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						</div>
 						<div class="col-xs-6">
 							</br>
-							<h5 class="inline">Huonekonfiguraatiot</h5><br>
+							<h5 class="inline">{translate key='RoomConfigurations'}</h5><br>
 							<a class="update changeStatus"
-									   href="#" rel="popover"
-									   data-popover-content="#roomconfDialog">Lisää huonekonfiguraatio</a>
+									   href="#{$resource->GetId()}-AddRoomConf" role='button' data-toggle='collapse'><b>{translate key='AddRoomConfiguration'}</b></a>
+							<div id='{$resource->GetId()}-AddRoomConf' class='collapse'>		
+								<form id="roomconfForm" role="form" method="POST" action="add_roomconf.php">
+									<div class="control-group form-group roomConfBoxAdd">
+										<div class='roomConfLeftBoxAdd'>{translate key='Name'}:</div><div class='roomConfRightBoxAdd'><input type='text' name='roomconfName'></div><br>
+										<div class='roomConfLeftBoxAdd'>{translate key='Description'}:</div><div class='roomConfRightBoxAdd'><input type='text' name='roomconfDesc'></div><br>
+										<div class='roomConfLeftBoxAdd'><input type='submit' value='{translate key='Add'}'></div>
+									</div>
+								</form>
+							</div>
+
 							<table>
 								{foreach from=defineArrangements($resource->GetId()) item=temp}
 									{$Arrangementsplit = ":"|explode:$temp}
@@ -778,15 +788,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						{indicator}
 					</div>
 				</div>
-			</div>
-		</form>
-	</div>
-	<div id="roomconfDialog" class="hide">
-		<form id="roomconfForm" role="form" method="POST" ajaxAction="addRoomconf">
-			<div class="control-group form-group">
-				Nimi:<input type='text' name='roomconfName'><br>
-				Kuvaus:<input type='text' name='roomconfDesc'><br>
-				<input type='submit' value='Tallenna'>
 			</div>
 		</form>
 	</div>

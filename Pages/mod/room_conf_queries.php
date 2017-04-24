@@ -109,7 +109,7 @@ function createRoomConf($name,$description,$resource_id){	//Creates a room confi
 	//createRoomConfResourceLink($resource_id,$dbh->lastInsertId()); //temp
 }
 
-function createRoomConfResourceLink($resource_id,$conf_id){
+function createRoomConfResourceLink($resource_id,$conf_id){	//Creates a link between room configuration and a resource
 		$list=pdoExecute("INSERT INTO resource_conf_target(resource_id,conf_id) VALUES (".$resource_id.",".$conf_id.")");
 }
 
