@@ -16,9 +16,9 @@ You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-define('ROOT_DIR', '../../');
+define('ROOT_DIR', '../../../');
 
-require_once(ROOT_DIR . 'Pages/mod/addRoomConf.php');
+require_once(ROOT_DIR . 'Pages/mod/resourceConf/addResourceConf.php');
 
-$page = new AdminPageDecorator(new AddRoomConfPage());
+$page = new AdminPageDecorator(new AddResourceConfPage());
 $page->PageLoad();

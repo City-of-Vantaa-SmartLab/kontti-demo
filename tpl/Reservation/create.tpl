@@ -32,7 +32,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				</div>
 				<div class="resourceContainerRight" style="color:Black}">
 					<span>
-						<select name="RoomArrangement[{$resource->GetId()}]">
+						<select name="ResourceArrangement[{$resource->GetId()}]">
 							{foreach from=$availableResourcesArrangements item=temp}
 											{$Arrangementsplit = ":"|explode:$temp}
 											<option value="{$Arrangementsplit[0]}"{if $arrangementIds == $Arrangementsplit[0]} selected="selected"{/if}>{$Arrangementsplit[1]}</option>
