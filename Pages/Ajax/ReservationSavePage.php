@@ -3,6 +3,7 @@
  * Copyright 2011-2016 Nick Korbel
  *
  * This file is part of Booked Scheduler.
+ * This file has been modified for Muuntamo.
  *
  * Booked Scheduler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +19,7 @@
  * along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once(ROOT_DIR . 'Pages/mod/functions.php');
+require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 require_once(ROOT_DIR . 'Pages/SecurePage.php');
 require_once(ROOT_DIR . 'Pages/Ajax/IReservationSaveResultsView.php');
 require_once(ROOT_DIR . 'Presenters/Reservation/ReservationPresenterFactory.php');
@@ -187,14 +188,14 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 				
 				
 				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined
-					$RoomArrangement=$_POST['RoomArrangement'];
-					$RoomArrangementAR=$_POST['additionalResources'];
-					foreach($RoomArrangementAR as $resource){
-							setArrangement(regexnums($RoomArrangement[$resource]),regexnums($resource),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+					$ResourceArrangement=$_POST['ResourceArrangement'];
+					$ResourceArrangementAR=$_POST['additionalResources'];
+					foreach($ResourceArrangementAR as $resource){
+							setArrangement(regexnums($ResourceArrangement[$resource]),regexnums($resource),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 					}
-				}elseif(isset($_POST['roomconf'])){	//unused code?
-					//update roomconfiguration in database
-					setArrangement($_POST['roomconf'],regexnums($_POST['resourceId']),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+				}elseif(isset($_POST['resourceconf'])){	//unused code?
+					//update resourceconfiguration in database
+					setArrangement($_POST['resourceconf'],regexnums($_POST['resourceId']),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 				}
 				$this->Display('Ajax/reservation/save_successful.tpl');
 			}
