@@ -79,10 +79,10 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 					//if(count($ResourceArrangementAR)==count($ResourceArrangement)){
 					//for($i=0;count($ResourceArrangementAR)>$i;$i=$i+1){	
 					foreach($ResourceArrangementAR as $resource){
-						if($ResourceArrangement[$resource])!=NULL && $resource!=NULL && $_POST['reservationId']!=NULL){
-							setArrangementWResIID(regexnums($ResourceArrangement[$resource]),regexnums($resource),regexnums($_POST['reservationId'])); //viimeisenä, jos muut jumittuvat
-						}else{
+						if(is_null($ResourceArrangement[$resource]) || is_null($resource) || is_null($_POST['reservationId'])){
 							echo "Missing variables, Resource Configuration could not be saved";
+						}else{
+							setArrangementWResIID(regexnums($ResourceArrangement[$resource]),regexnums($resource),regexnums($_POST['reservationId'])); //viimeisenä, jos muut jumittuvat
 						}
 						
 					}

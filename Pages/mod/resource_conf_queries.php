@@ -140,5 +140,4 @@ function getAllResourceArrangements(){
 	}
 	return $result;
 }
-
 ?>
