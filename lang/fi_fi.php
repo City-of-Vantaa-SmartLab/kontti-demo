@@ -3,6 +3,7 @@
 Copyright 2011-2016 Nick Korbel
 
 This file is part of Booked Scheduler.
+This file has been modified for Muuntamo.
 
 Booked Scheduler is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -62,8 +63,15 @@ class fi_fi extends en_us
 	protected function _LoadStrings()
 	{
 		$strings = parent::_LoadStrings();
-
+		$strings['SelectTime'] = 'Valitse aika';
+		$strings['ResourceConfInResources'] = 'Tilaratkaisu käytössä tiloissa';
+		$strings['ManageResourceConfsTitle'] = 'Muokkaa tilaratkaisuja';
+		$strings['ResourceConfiguration'] = 'Tilaratkaisu';
+		$strings['ResourceConfigurations'] = 'Tilaratkaisut';
+		$strings['AddResourceConfiguration'] = 'Lisää tilaratkaisu';
 		$strings['AboutFrontTitle'] = 'Muuntamo';
+		$strings['ResourcesDescription'] = 'Valitse varattavat tilat ja tilaratkaisut:';
+		$strings['Index'] = 'Etusivu';
 		$strings['AboutFrontText'] = 'Palvelun ideana on tarjota Vantaan kaupungin työntekijöille mahdollisuus varata käyttöönsä toimitila, jonka kalustuksen voi räätälöidä vastaamaan omia tarpeita. Lisäksi Muuntamon käyttäjät voivat tilata lisäpalveluita ulkopuolisilta palveluiden tarjoajilta. Muuntamo tarjoaa oivalliset puitteet Vantaan kaupungin työntekijöiden, kuntapalveluiden ja yksityisen sektorin palveluiden tuottajien sekä tietenkin kuntalaisten kohtaamiselle.';
 		$strings['About'] = 'Lisätietoa palvelusta';
 		$strings['LogoAltText'] = 'Muuntamo logo - Etusivu';
@@ -135,7 +143,7 @@ class fi_fi extends en_us
 		$strings['RepeatUntilPrompt'] = 'Asti';
 		$strings['RepeatEveryPrompt'] = 'Joka';
 		$strings['RepeatDaysPrompt'] = '';
-		$strings['CreateReservationHeading'] = 'Tee uusi varaus';
+		$strings['CreateReservationHeading'] = 'Varaa tila';
 		$strings['EditReservationHeading'] = 'Muokkaa varausta %s';
 		$strings['ViewReservationHeading'] = 'Katso varausta %s';
 		$strings['ReservationErrors'] = 'Vaihda varausta';
@@ -151,7 +159,7 @@ class fi_fi extends en_us
 		$strings['NextWeek'] = 'Seuraava viikko';
 		$strings['SignOut'] = 'Kirjaudu ulos';
 		$strings['LayoutDescription'] = 'Alkaa %s, näyttäen %s päivää kerralla';
-		$strings['AllResources'] = 'Kaikki tilat';
+		$strings['AllResources'] = 'Kaikki tilattilat';
 		$strings['TakeOffline'] = 'Sulje';
 		$strings['BringOnline'] = 'Aloita';
 		$strings['AddImage'] = 'Lisää kuva';
@@ -178,7 +186,9 @@ class fi_fi extends en_us
 		$strings['ResourcePermissionAutoGranted'] = 'Oikeudet hyväksytään automaattisesti';
 		$strings['ResourcePermissionNotAutoGranted'] = 'Oikeudet myönnetään automaattisesti';
 		$strings['ResourceMinNotice'] = 'Varaukset täytyy tehdä ennen %s aloitusaikaa';
+		$strings['ResourceBufferTime'] = 'Varausten välillä tulee olla %s';
 		$strings['ResourceMinNoticeNone'] = 'Varauksia voidaan tehdä tähän aikaan asti';
+		$strings['ResourceBufferTimeNone'] = 'Varausten välillä ei ole vaadittua väliaikaa';
 		$strings['ResourceMaxNotice'] = 'Varaukset eivät voi loppua %s enempää tästä hetkestä katsoen';
 		$strings['ResourceMaxNoticeNone'] = 'Varaukset voivat loppua milloin vain tulevaisuudessa';
 		$strings['ResourceAllowMultiDay'] = 'Varauksia voi tehdä useiksi päiviksi';
@@ -229,8 +239,8 @@ class fi_fi extends en_us
 		$strings['PasswordChangedSuccessfully'] = 'Salasanan vaihto onnistui';
 		$strings['SignedInAs'] = 'Kirjautunut käyttäjänä: ';
 		$strings['NotSignedIn'] = 'Et ole kirjautunut sisään';
-		$strings['ReservationTitle'] = 'Varauksen otsikko';
-		$strings['ReservationDescription'] = 'Varauksen kuvaus';
+		$strings['ReservationTitle'] = 'Varauksen nimi';
+		$strings['ReservationDescription'] = 'Mitä tilassa aiotaan tehdä?';
 		$strings['ResourceList'] = 'Tilat varattaviksi';
 		$strings['Accessories'] = 'Lisävarusteet';
 		$strings['Add'] = 'Lisää';
@@ -829,7 +839,7 @@ class fi_fi extends en_us
 		// The full day name
 		$days['full'] = array('Sunnuntai', 'Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai');
 		// The three letter abbreviation
-		$days['abbr'] = array('Sun', 'Maa', 'Tii', 'Kes', 'Tor', 'Per', 'Lau');
+		$days['abbr'] = array('Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La');
 		// The two letter abbreviation
 		$days['two'] = array('Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La');
 		// The one letter abbreviation
