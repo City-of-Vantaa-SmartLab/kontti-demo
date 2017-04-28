@@ -4,7 +4,7 @@
 	
 
 */
-require_once('connectors/mysql_connect.php');
+require_once(ROOT_DIR . '/Pages/mod/connectors/mysql_connect.php');
 $instance = new databaseConnect();
 $instance->connect();
 		global $dbh;
@@ -51,7 +51,7 @@ function defineArrangements($resource_id){	//Retrieves and returns all of $resou
 //P‰ivitt‰‰ huoneeseen valitun target_id:n $resourceconf_id:ll‰.
 function setArrangement($resourceconf_id,$resource_id,$StartDate){ 
 	$value=0;	//
-	if($resource_id==NULL||$StartDate==NULL){	//pakko olla molemmat, muuten ei voida olla varma oikeasta varauksesta
+	if(is_null($resource_id)||is_null($StartDate==NULL)){	//pakko olla molemmat, muuten ei voida olla varma oikeasta varauksesta
 		echo "Muuttuja puuttuu! \$resource_id:".$resource_id.", \$StartDate:".$StartDate."<br>";
 	}else{
 		//tarkista onko kyseinen conf_id ($resourceconf_id) ja resource_id ($resource_id) pareina
@@ -73,7 +73,7 @@ function setArrangement($resourceconf_id,$resource_id,$StartDate){
 
 function setArrangementWResIID($resourceconf_id,$resource_id,$reservation_instance_id){ 
 	$value=0;	//
-	if($resource_id==NULL||$reservation_instance_id==NULL){
+	if($resourceconf_id&&$resource_id==NULL||$reservation_instance_id==NULL){
 		echo "Muuttuja puuttuu! \$resource_id:".$resource_id.", \$reservation_instance_id:".$reservation_instance_id."<br>";
 	}else{
 		//tarkista onko kyseinen conf_id ($resourceconf_id) ja resource_id ($resource_id) pareina
@@ -110,7 +110,15 @@ function createResourceConf($name,$description,$resource_id){	//Creates a resour
 }
 
 function createResourceConfResourceLink($resource_id,$conf_id){	//Creates a link between resource configuration and a resource
-		$list=pdoExecute("INSERT INTO resource_conf_target(resource_id,conf_id) VALUES (".$resource_id.",".$conf_id.")");
+		$test=pdoExecute("SELECT * FROM `resource_conf_target` WHERE `resource_id`=".regexnums($resource_id)." AND `conf_id`=".regexnums($conf_id)." LIMIT 1");
+		$row=$test->fetch(PDO::FETCH_ASSOC);
+		if(isset($row['target_id'])){
+			echo "A link exists between this resource and this resource configuration.";
+		}else{
+			$list=pdoExecute("INSERT INTO resource_conf_target(resource_id,conf_id) VALUES (".regexnums($resource_id).",".regexnums($conf_id).")");
+		}
+}
+function checkForLink(){
 }
 
 function updateTargetId($resourceconf_id,$series_id,$resource_id){
@@ -131,8 +139,17 @@ function matchDateAndResource($resource_id,$StartDate){
 	return $row['series_id'];
 }
 
+function getAllConfResources(){
+	//Retrieves all resources for a resource configuration
+	//Returns them in an array
+	$list=pdoExecute("SELECT * FROM `resource_conf_target`");
+	while($row=$list->fetch(PDO::FETCH_ASSOC)){
+		$result[]=$row;
+	}
+	return $result;
+}
 function getAllResourceArrangements(){
-	//Retrieves all resource arrangements
+	//Retrieves all resource configurations
 	//Returns them in an array
 	$list=pdoExecute("SELECT * FROM `resource_conf`");
 	while($row=$list->fetch(PDO::FETCH_ASSOC)){
@@ -140,4 +157,15 @@ function getAllResourceArrangements(){
 	}
 	return $result;
 }
+
+
+function updateResourceArrangement($conf_id,$name,$description){
+	//Updates a resource configuration
+	$conf_id = regexnums($conf_id);
+	$name = $name;
+	$description = $description;
+	$list=pdoExecute("UPDATE `resource_conf` SET `name`='".$name."', `description`='".$description."' WHERE `conf_id`=".$conf_id."");
+	$row=$list->fetch(PDO::FETCH_ASSOC);
+}
+
 ?>

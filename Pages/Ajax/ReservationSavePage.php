@@ -180,23 +180,26 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 			$reservation = $this->_presenter->BuildReservation();
 			$this->_presenter->HandleReservation($reservation);
 
-			if ($this->_reservationSavedSuccessfully)		//pelkästään uutta luodessa?
+			if ($this->_reservationSavedSuccessfully)		//Only when creating a new Reservation
 			{
 				$this->Set('Resources', $reservation->AllResources());
 				$this->Set('Instances', $reservation->Instances());
 				$this->Set('Timezone', ServiceLocator::GetServer()->GetUserSession()->Timezone);
 				
-				
-				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined
-					$ResourceArrangement=$_POST['ResourceArrangement'];
-					$ResourceArrangementAR=$_POST['additionalResources'];
-					foreach($ResourceArrangementAR as $resource){
-							setArrangement(regexnums($ResourceArrangement[$resource]),regexnums($resource),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+				// MODIFIED CODE STARTS HERE
+				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined'
+					if(isset($_POST['ResourceArrangement'])&&isset($_POST['additionalResources'])&&isset($_POST['beginDate'])&&isset($_POST['beginPeriod'])){
+						$ResourceArrangement=$_POST['ResourceArrangement'];
+						$ResourceArrangementAR=$_POST['additionalResources'];
+						foreach($ResourceArrangementAR as $resource){
+								setArrangement($ResourceArrangement[$resource],$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+						}
+					}else{
+						echo "Tilaratkaisuja ei tallennettu! Virhe: Puuttuva muuttuja.";
 					}
-				}elseif(isset($_POST['resourceconf'])){	//unused code?
-					//update resourceconfiguration in database
-					setArrangement($_POST['resourceconf'],regexnums($_POST['resourceId']),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 				}
+				// MODIFIED CODE STOPS HERE
+				
 				$this->Display('Ajax/reservation/save_successful.tpl');
 			}
 			else
