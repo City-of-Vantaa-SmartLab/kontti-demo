@@ -22,7 +22,7 @@ require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 require_once(ROOT_DIR . 'lib/Database/namespace.php');
 require_once(ROOT_DIR . 'lib/Database/Commands/namespace.php');
 
-class UpdateResourceConfPage extends ActionPage
+class RemoveResourceConfLinkPage extends ActionPage
 {
 	/**
 	 * @var ManageAccessoriesPresenter
@@ -32,23 +32,22 @@ class UpdateResourceConfPage extends ActionPage
 	public function ProcessAction(){}
 	public function __construct()
 	{
-		parent::__construct('UpdateResourceConf');
+		parent::__construct('RemoveResourceConfLink');
 	}
 
 	public function ProcessPageLoad()
 	{
 		if (ServiceLocator::GetServer()->GetUserSession()->IsAdmin){
-			if(isset($_POST['conf_id'])&&isset($_POST['name'])&&isset($_POST['description'])){
-				$conf_id=$_POST['conf_id'];
-				$name=$_POST['name'];
-				$description=$_POST['description'];
-				updateResourceArrangement($conf_id,$name,$description);
-			}else{
-				
-			}
+		if(isset($_POST['resource_id'])&&isset($_POST['resourceconfId'])){
+			$conf_id=$_POST['resourceconfId'];
+			$resource_id=$_POST['resource_id'];
+			removeResourceConfResourceLink($resource_id,$conf_id);
 		}else{
-			//log this?
+			
 		}
-		header( "Location: ".ROOT_DIR."Web/admin/manage_resource_confs.php" ) ;
+	}else{
+		//log this?
+	}
+		header( "Location: ../manage_resources.php" ) ; //make this dynamic based on previous page
 	}
 }

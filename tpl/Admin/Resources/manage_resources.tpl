@@ -373,51 +373,52 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							</div>
 						</div>
 						<div class="col-xs-6">
-							<br/>
-							<h5 class="inline">{translate key='ResourceConfigurations'}</h5><br>
-							<a class="update changeStatus"
-									   href="#{$resource->GetId()}-AddResourceConf" role='button' data-toggle='collapse'><b>{translate key='AddResourceConfiguration'}</b></a>
-							<div id='{$resource->GetId()}-AddResourceConf' class='collapse'>		
-								<form id="resourceconfForm" role="form" method="POST" action="resourceConf/add_resourceconf.php">
-									<div class="control-group form-group resourceConfBoxAdd">
-										<div class='resourceConfLeftBoxAdd'>{translate key='Name'}:</div><div class='resourceConfRightBoxAdd'><input type='text' name='resourceConfName'></div><br/>
-										<div class='resourceConfLeftBoxAdd'>{translate key='Description'}:</div><div class='resourceConfRightBoxAdd'><input type='text' name='resourceConfDesc'></div><br/>
-										<div class='resourceConfBoxAddSend'><input type='submit' value='{translate key='Add'}'></div>
-									</div>
-								</form><br/>
-								<form id="resourceconfFormLink" role="form" method="POST" action="resourceConf/add_resourceconflink.php">
-									<div class="control-group form-group resourceConfBoxAdd">
-										<input type='hidden' method='POST' value='{$resource->GetId()}' name='resource_id'>
-										<div class='resourceConfLeftBoxAdd'>
-											{translate key='ResourceConfiguration'}:
+							<div class="resourceConfLinkList">
+								<br/>
+								<h5 class="inline">{translate key='ResourceConfigurations'}</h5><br>
+								<a class="update changeStatus"
+										   href="#{$resource->GetId()}-AddResourceConf" role='button' data-toggle='collapse'><b>{translate key='AddResourceConfiguration'}</b></a>
+								<div id='{$resource->GetId()}-AddResourceConf' class='collapse'>	
+									<form id="resourceconfFormLink" role="form" method="POST" action="resourceConf/add_resourceconflink.php">
+										<div class="control-group form-group resourceConfBoxAdd">
+											<input type='hidden' value='{$resource->GetId()}' name='resource_id'>
+											<div class='resourceConfLeftBoxAdd'>
+												{translate key='ResourceConfiguration'}:
+											</div>
+											<div class='resourceConfRightBoxAdd'>
+												<select name='resourceconfId'>
+													{foreach from=getAllResourceArrangements() item=temp}
+														<option value='{$temp['conf_id']}'>{$temp['conf_id']}.{$temp['name']}</option>
+													{/foreach}
+												</select>
+											</div><br/>
+											<div class='resourceConfBoxAddSend'>
+												<input type='submit' value='{translate key='Add'}'>
+											</div>
 										</div>
-										<div class='resourceConfRightBoxAdd'>
-											<select name='resourceconfId'>
-												{foreach from=getAllResourceArrangements() item=temp}
-													<option value='{$temp['conf_id']}'>{$temp['conf_id']}.{$temp['name']}</option>
-												{/foreach}
-											</select>
-										</div><br/>
-										<div class='resourceConfBoxAddSend'>
-											<input type='submit' value='{translate key='Add'}'>
-										</div>
-									</div>
-								</form>
+									</form>
+								</div>
 							</div>
-
-							<table>
+							<div class="resourceConfLinkList">
 								{foreach from=defineArrangements($resource->GetId()) item=temp}
 									{$Arrangementsplit = ":"|explode:$temp}
-										<tr>
-											<td>
+										<div class="resourceConfLinkListConf">
+											<span class="resourceConfLinkListConf">
 												<a href='#{$resource->GetId()}-arrangements-{$Arrangementsplit[0]}' role='button' data-toggle='collapse'>{$Arrangementsplit[1]}</a>
-												<div id='{$resource->GetId()}-arrangements-{$Arrangementsplit[0]}' class='collapse'>
-													<img src='../../uploads/arrangements/{$Arrangementsplit[0]}.png' alt='{$Arrangementsplit[1]}'>
-												</div>
-											</td>
-										</tr>
+												<form action="resourceConf/remove_resourceconflink.php" method="POST">
+													<input type='hidden' value='{$resource->GetId()}' name='resource_id'>
+													<input type='hidden' value='{$Arrangementsplit[0]}' name='resourceconfId'>
+													<button type="submit" class="close resourceConfLinkListConf" aria-label="Close"> 
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</form>
+											</span>
+											<div id='{$resource->GetId()}-arrangements-{$Arrangementsplit[0]}' class='collapse'>
+												<img src='../../uploads/arrangements/{$Arrangementsplit[0]}.png' alt='{$Arrangementsplit[1]}'>
+											</div>
+										</div>
 								{/foreach}
-							</table>
+							</div>
 								
 						</div>
 						<div class="col-xs-6">

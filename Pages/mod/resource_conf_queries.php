@@ -98,9 +98,11 @@ function removeResourceConf($conf_id){	//removes a resource configuration from t
 	$list=pdoExecute("DELETE FROM resource_conf WHERE `conf_id` = ".$conf_id." LIMIT 1");
 }
 
-function removeResourceConfResourceLink($target_id){	//removes a link between a resource and a resource configuration
+function removeResourceConfResourceLinkWTarget($target_id){	//removes a link between a resource and a resource configuration
 	$target_id=regexnums($target_id);
-	$list=pdoExecute("DELETE FROM resource_conf_target WHERE `target_id` = ".$target_id." LIMIT 1");
+	if(isset($target_id)){
+		$list=pdoExecute("DELETE FROM resource_conf_target WHERE `target_id` = ".$target_id." LIMIT 1");
+	}
 }
 
 function createResourceConf($name,$description,$resource_id){	//Creates a resource configuration
@@ -109,16 +111,51 @@ function createResourceConf($name,$description,$resource_id){	//Creates a resour
 	//createResourceConfResourceLink($resource_id,$dbh->lastInsertId()); //temp
 }
 
-function createResourceConfResourceLink($resource_id,$conf_id){	//Creates a link between resource configuration and a resource
-		$test=pdoExecute("SELECT * FROM `resource_conf_target` WHERE `resource_id`=".regexnums($resource_id)." AND `conf_id`=".regexnums($conf_id)." LIMIT 1");
-		$row=$test->fetch(PDO::FETCH_ASSOC);
-		if(isset($row['target_id'])){
+function createResourceConfResourceLink($resource_id,$conf_id){	
+	//Creates a link between resource configuration and a resource
+	$resource_id=regexnums($resource_id);
+	$conf_id=regexnums($conf_id);
+	if(isset($resource_id)&&isset($conf_id)){
+		$link = checkForLink($resource_id,$conf_id);
+		if(isset($link)){
 			echo "A link exists between this resource and this resource configuration.";
 		}else{
-			$list=pdoExecute("INSERT INTO resource_conf_target(resource_id,conf_id) VALUES (".regexnums($resource_id).",".regexnums($conf_id).")");
+			$list=pdoExecute("INSERT INTO resource_conf_target(resource_id,conf_id) VALUES (".$resource_id.",".$conf_id.")");
 		}
+	}else{
+		echo "Missing variables.";
+	}
 }
-function checkForLink(){
+
+function removeResourceConfResourceLink($resource_id,$conf_id){	
+	//Removes a link between resource configuration and a resource based on $resource_id,$conf_id variables 
+	//and their database counterparts in the linking table (bookedDB.resource_conf_target)
+	$resource_id=regexnums($resource_id);
+	$conf_id=regexnums($conf_id);
+	if(isset($resource_id)&&isset($conf_id)){
+		$link = checkForLink($resource_id,$conf_id);
+		if(isset($link)){			
+			$link=regexnums($link);
+			removeResourceConfResourceLinkWTarget($link);
+		}else{
+			echo "A link does not exists between this resource and this resource configuration.";
+		}
+	}else{
+		echo "Missing variables.";
+	}
+}
+
+function checkForLink($resource_id,$conf_id){
+	//Checks if a link exists between the $resource_id and $conf_id, returns target_id from the linking table (bookedDB.resource_conf_target)
+	$resource_id=regexnums($resource_id);
+	$conf_id=regexnums($conf_id);
+	if(isset($resource_id)&&isset($conf_id)){
+		$link=pdoExecute("SELECT target_id FROM `resource_conf_target` WHERE `resource_id`=".$resource_id." AND `conf_id`=".$conf_id." LIMIT 1");
+		$row=$link->fetch(PDO::FETCH_ASSOC);
+	}else{
+		echo "Missing variables.";
+	}
+	return $row['target_id'];
 }
 
 function updateTargetId($resourceconf_id,$series_id,$resource_id){
