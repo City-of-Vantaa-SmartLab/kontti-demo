@@ -1,5 +1,5 @@
 {*
-Copyright 2011-2016 Nick Korbel
+Copyright 2016 Nick Korbel
 
 This file is part of Booked Scheduler.
 
@@ -16,14 +16,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-
-
-Tässä on väliaikainen Booked Scheduler-salasanasi: {$TemporaryPassword}
-
-<br/>
-
-Vanha salasanasi ei enää toimi.
-
-<a href="{$ScriptUrl}">Kirjaudu sovellukseen Muuntamo</a> ja vaihda salasanasi mahdollisimman pian.
-
-
+{$AnnouncementText|nl2br}

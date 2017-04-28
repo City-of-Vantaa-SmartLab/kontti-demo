@@ -1,5 +1,5 @@
 {*
-Copyright 2011-2016 Nick Korbel
+Copyright 2013-2016 Nick Korbel
 
 This file is part of Booked Scheduler.
 
@@ -16,14 +16,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-
-
-Tässä on väliaikainen Booked Scheduler-salasanasi: {$TemporaryPassword}
-
+Varauksesi loppu lähestyy.<br/>
+Varauksen tiedot:
+	<br/>
+	<br/>
+	Alkaa: {formatdate date=$StartDate key=reservation_email}<br/>
+	Loppuu: {formatdate date=$EndDate key=reservation_email}<br/>
+	Tila: {$ResourceName}<br/>
+	Otsikko: {$Title}<br/>
+	Kuvaus: {$Description|nl2br}
 <br/>
-
-Vanha salasanasi ei enää toimi.
-
-<a href="{$ScriptUrl}">Kirjaudu sovellukseen Muuntamo</a> ja vaihda salasanasi mahdollisimman pian.
-
-
+<br/>
+<a href="{$ScriptUrl}/{$ReservationUrl}">Näyätä varaus</a> |
+<a href="{$ScriptUrl}/{$ICalUrl}">Lisää kalenteriin</a> |
+<a href="{$ScriptUrl}">Kirjaudu sisään</a>

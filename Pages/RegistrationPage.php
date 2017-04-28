@@ -22,7 +22,6 @@ require_once(ROOT_DIR . 'Pages/ActionPage.php');
 require_once(ROOT_DIR . 'Presenters/RegistrationPresenter.php');
 require_once(ROOT_DIR . 'config/timezones.php');
 require_once(ROOT_DIR . 'lib/Application/Authentication/namespace.php');
-
 interface IRegistrationPage extends IPage, IActionPage
 {
 	public function RegisterClicked();

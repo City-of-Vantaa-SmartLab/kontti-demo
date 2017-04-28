@@ -43,6 +43,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		{formatdate date=$date}<br/>
 	{/foreach}
 
-	<a href="{$ScriptUrl}">Kirjaudu sovellukseen Booked Scheduler</a>
+	<a href="{$ScriptUrl}">Kirjaudu sovellukseen Muuntamo</a>
 
 

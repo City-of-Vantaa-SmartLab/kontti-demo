@@ -1,6 +1,5 @@
-<?php
-/**
-Copyright 2011-2016 Nick Korbel
+{*
+Copyright 2011-2016 Nick Korbel, Paul Menchini
 
 This file is part of Booked Scheduler.
 
@@ -16,12 +15,14 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-define('ROOT_DIR', '../');
-require_once(ROOT_DIR . 'Pages/Index.php');
-
-$page = new IndexPage();
-$page->PageLoad();
-
-
+*}
+<p>{$To},</p>
+<p>Uusi käyttäjä on rekisteröitynyt seuraavilla tiedoilla:<br/>
+Email: {$EmailAddress}<br/>
+Nimi: {$FullName}<br/>
+Puhelin: {$Phone}<br/>
+Organisaatio: {$Organization}<br/>
+Rooli: {$Position}</p>
+{if !empty($CreatedBy)}
+	Luonut: {$CreatedBy}
+{/if}

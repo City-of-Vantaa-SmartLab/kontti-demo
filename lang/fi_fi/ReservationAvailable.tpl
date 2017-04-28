@@ -16,14 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-
-
-Tässä on väliaikainen Booked Scheduler-salasanasi: {$TemporaryPassword}
-
+{$FirstName},<br/>
+{$ResourceName} on tällä hetkellä vapaana välillä {formatdate date=$StartDate key=res_popup} ja {formatdate date=$EndDate key=res_popup}
 <br/>
-
-Vanha salasanasi ei enää toimi.
-
-<a href="{$ScriptUrl}">Kirjaudu sovellukseen Muuntamo</a> ja vaihda salasanasi mahdollisimman pian.
-
-
+<br/>
+<a href="{$ScriptUrl}/{$ReservationUrl}">Varaa nyt</a> |
+<a href="{$ScriptUrl}">Kirjaudu sisään</a>

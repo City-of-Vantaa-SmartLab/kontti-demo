@@ -98,5 +98,5 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 
 <p>Booked Scheduler free and open source, licenced under the GNU GENERAL PUBLIC LICENSE. Please see the included
 	License file for more details.</p>
-
+</div>
 {include file='globalfooter.tpl'}

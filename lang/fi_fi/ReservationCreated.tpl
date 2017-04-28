@@ -51,6 +51,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	<br/>
 	<a href="{$ScriptUrl}/{$ReservationUrl}">Näytä varaus</a> |
 	<a href="{$ScriptUrl}/{$ICalUrl}">Lisää Outlookiin</a> |
-	<a href="{$ScriptUrl}">Kirjaudu sovellukseen Booked Scheduler</a>
+	<a href="{$ScriptUrl}">Kirjaudu sovellukseen Muuntamo</a>
 
 
