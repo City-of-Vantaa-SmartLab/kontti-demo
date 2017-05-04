@@ -403,9 +403,9 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								{foreach from=defineArrangements($resource->GetId()) item=temp}
 									{$Arrangementsplit = ":"|explode:$temp}
 										<div class="resourceConfLinkListConf">
-											<span class="resourceConfLinkListConf">
+											<span class="resourceConfLinkListConf text-right">
 												<a href='#{$resource->GetId()}-arrangements-{$Arrangementsplit[0]}' role='button' data-toggle='collapse'>{$Arrangementsplit[1]}</a>
-												<form action="resourceConf/remove_resourceconflink.php" method="POST">
+												<form action="resourceConf/remove_resourceconflink.php" method="POST" width=20px>
 													<input type='hidden' value='{$resource->GetId()}' name='resource_id'>
 													<input type='hidden' value='{$Arrangementsplit[0]}' name='resourceconfId'>
 													<button type="submit" class="close resourceConfLinkListConf" aria-label="Close"> 

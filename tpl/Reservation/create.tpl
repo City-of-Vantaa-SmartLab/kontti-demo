@@ -17,22 +17,20 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-
 {block name="header"}{include file='globalheader.tpl' Qtip=true printCssFiles='css/reservation.print.css'}
 {/block}
 
 {function name="displayResource"}
-
 	{if $selectedResourceGroup == $resource->GetResourceTypeId()}
-		<div class="resourceName">
+		<div class="resourceName reservationResourceBox container">
 			<span class="resourceDetails">
 				<div class="resourceContainerLeft">
-					<span><input type="checkbox" name="{FormKeys::ADDITIONAL_RESOURCES}[]" value="{$resource->Id}"{if $checked==1} checked{/if}></span>
+					<span><input id="CheckRes" type="hidden" name="{FormKeys::ADDITIONAL_RESOURCES}[]" value="{$resource->Id}"{if $checked==1} checked{/if}></span>
 					<span data-resourceId="{$resource->GetId()}">{$resource->Name}</span>
 				</div>
 				<div class="resourceContainerRight" style="color:Black}">
 					<span>
-						<select name="ResourceArrangement[{$resource->GetId()}]">
+						<select name="ResourceArrangement[{$resource->GetId()}]" class="resourceContainerRight">
 							{foreach from=$availableResourcesArrangements item=temp}
 											{$Arrangementsplit = ":"|explode:$temp}
 											<option value="{$Arrangementsplit[0]}"{if $arrangementIds == $Arrangementsplit[0]} selected="selected"{/if}>{$Arrangementsplit[1]}</option>
@@ -46,18 +44,18 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				</div>
 			</span>
 		</div><br/>
+		<div class="ResourceConfSelection">
+		</div>
 	{/if}
 {/function}
 
 <div id="page-reservation">
 	<div id="reservation-box">
 		<form id="form-reservation" method="post" enctype="multipart/form-data" role="form">
-
 			<div class="row">
 				<div class="col-md-6 col-xs-12 col-top reservationHeader">
 					<h3>{block name=reservationHeader}{translate key="CreateReservationHeading"}{/block}</h3>
 				</div>
-
 				<div class="col-md-6 col-xs-12 col-top">
 					<div class="pull-right">
 						<button type="button" class="btn btn-default" onclick="window.location='{$ReturnUrl}'">
@@ -137,7 +135,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<div class="form-group">
 							<div class="pull-left">
 								<div>
-									<label>{translate key="Resources"}</label>
 									<p>{translate key="ResourcesDescription"}</p>
 										{$SelectedResourceGroup=$Resource->ResourceTypeId}
 										{$resource->Id}
@@ -149,8 +146,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 									<input type="hidden" id="scheduleId" {formname key=SCHEDULE_ID}
 										   value="{$ScheduleId}"/>
 									<input class="resourceId" type="hidden"
-										   id="primaryResourceId" {formname key=RESOURCE_ID} value="{$ResourceId}"/>
-									{displayResource checked=$Checked resource=$Resource arrangementIds={getArrangement($ResourceId,$SeriesId)} availableResourcesArrangements=$AvailableResourcesArrangements[$ResourceId] selectedResourceGroup=$SelectedResourceGroup}
+										   id="primaryResourceId" {formname key=RESOURCE_ID} value="{$ResourceId}"/>{if isset($smarty.get.roomconf)}{$temp=$smarty.get.roomconf}{else}{$temp=getConfId(getArrangement($ResourceId,$SeriesId))}{/if}
+									{displayResource checked=$Checked resource=$Resource arrangementIds={$temp} availableResourcesArrangements=$AvailableResourcesArrangements[$ResourceId] selectedResourceGroup=$SelectedResourceGroup}
 								</div>
 
 								<div id="additionalResources">
@@ -187,8 +184,9 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							</div>
 						</div>
 					</div>
-					<div class="reservationDatesBox">
+					<div class="col-xs-12 reservationDatesBox">
 						<div class="reservationDatesBox">
+							<p>{translate key = "SelectTime"}:</p>
 							<div class="reservationDatesBoxLeft">
 								<label for="BeginDate" class="reservationDate">{translate key='BeginDate'}</label>
 							</div>
@@ -616,5 +614,5 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		});
 	});
 </script>
-
+<div id="testingthings"></div>
 {include file='globalfooter.tpl'}

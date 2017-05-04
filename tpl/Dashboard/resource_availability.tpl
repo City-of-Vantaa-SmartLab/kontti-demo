@@ -84,9 +84,10 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						</div>
 						<div class="reserveButton col-xs-12 col-sm-3">
 							<a class="btn btn-xs col-xs-12"
-							   href="{$Path}{Pages::RESERVATION}?{QueryStringKeys::RESOURCE_ID}={$i->ResourceId()}&{QueryStringKeys::START_DATE}={format_date date=$i->ReservationEnds() timezone=$Timezone key=url_full}">{translate key=Reserve}</a>
+							   href="{$Path}{Pages::RESERVATION}?{QueryStringKeys::RESOURCE_ID}={$i->ResourceId()}&amp;{QueryStringKeys::START_DATE}={format_date date=$i->ReservationEnds() timezone=$Timezone key=url_full}">{translate key=Reserve}</a>
 						</div>
 					</div>
+					<div class="clearfix"></div>
 					{foreachelse}
 					<div class="no-data">{translate key=None}</div>
 				{/foreach}
@@ -116,6 +117,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							   href="{$Path}{Pages::RESERVATION}?{QueryStringKeys::RESOURCE_ID}={$i->ResourceId()}&{QueryStringKeys::START_DATE}={format_date date=$i->ReservationEnds() timezone=$Timezone key=url_full}">{translate key=Reserve}</a>
 						</div>
 					</div>
+					<div class="clearfix"></div>
 					{foreachelse}
 					<div class="no-data">{translate key=None}</div>
 				{/foreach}

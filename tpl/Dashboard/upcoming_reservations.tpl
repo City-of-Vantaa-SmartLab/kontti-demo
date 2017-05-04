@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-
+		{if $Total > 0}
 <div class="dashboard upcomingReservationsDashboard" id="upcomingReservationsDashboard">
 	<div class="dashboardHeader">
 		<div class="pull-left">{translate key="UpcomingReservations"} <span class="badge">{$Total}</span></div>
@@ -57,3 +57,4 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		{csrf_token}
 	</form>
 </div>
+		{/if}

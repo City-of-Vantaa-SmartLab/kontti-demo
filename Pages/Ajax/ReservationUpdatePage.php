@@ -86,9 +86,8 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 						}
 						
 					}
-				}elseif(isset($_POST['resourceconf'])){
-					//update resourceconfiguration in database
-					setArrangementWResIID($_POST['resourceconf'],regexnums($_POST['resourceId']),regexnums($_POST['reservationId'])); //viimeisenä, jos muut jumittuvat
+				}else{
+					echo "Missing something.";
 				}
 				$this->Display('Ajax/reservation/update_successful.tpl');
 			}

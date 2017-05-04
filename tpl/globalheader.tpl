@@ -140,6 +140,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	{cssfile src="scripts/css/jquery-ui-timepicker-addon.css"}
 	{cssfile src="booked.css"}
+	{cssfile src="muuntamo.css"}
 	{if $cssFiles neq ''}
 		{assign var='CssFileList' value=','|explode:$cssFiles}
 		{foreach from=$CssFileList item=cssFile}
@@ -159,7 +160,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	<!-- End CSS -->
 </head>
-<body>
+<body{if basename($smarty.server.PHP_SELF) == "index.php"} class=infoFrontpage{/if}>
 
 {if $HideNavBar == false}
 <nav class="navbar navbar-default {if $IsDesktop}navbar-fixed-top{else}navbar-static-top adjust-nav-bar-static{/if}" role="navigation">
@@ -171,7 +172,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="{$HomeUrl}">{html_image src="$LogoUrl?2.6" alt="{translate key="LogoAltText"}"}</a>
+			<a class="navbar-brand" href="{if basename($smarty.server.PHP_SELF) == "index.php"}index.php{elseif basename($smarty.server.PHP_SELF) == "login.php"}index.php{elseif basename($smarty.server.PHP_SELF) == "register.php"}index.php{else}{$HomeUrl}{/if}">{html_image src="$LogoUrl?2.6" alt="{translate key="LogoAltText"}"}</a>
 		</div>
 		<div class="collapse navbar-collapse" id="booked-navigation">
 			<ul class="nav navbar-nav">
@@ -195,9 +196,11 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{translate key="Schedule"} <b
 									class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="{$Path}{Pages::SCHEDULE}">{translate key="Bookings"}</a></li>
-							<li><a href="{$Path}{Pages::MY_CALENDAR}">{translate key="MyCalendar"}</a></li>
-							<li><a href="{$Path}{Pages::CALENDAR}">{translate key="ResourceCalendar"}</a></li>
+								<li><a href="{$Path}{Pages::SCHEDULE}">{translate key="Bookings"}</a></li>
+							{if $CanViewAdmin}
+								<li><a href="{$Path}{Pages::MY_CALENDAR}">{translate key="MyCalendar"}</a></li>
+								<li><a href="{$Path}{Pages::CALENDAR}">{translate key="ResourceCalendar"}</a></li>
+							{/if}
 							<!--<li class="menuitem"><a href="#">{translate key="Current Status"}</a></li>-->
 							<li class="menuitem"><a href="{$Path}{Pages::OPENINGS}">{translate key="FindATime"}</a></li>
 						</ul>
@@ -215,7 +218,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								<li><a href="{$Path}admin/manage_schedules.php">{translate key="ManageSchedules"}</a>
 								<li><a href="{$Path}admin/manage_resources.php">{translate key="ManageResources"}</a></li>
 								<li><a href="{$Path}admin/manage_accessories.php">{translate key="ManageAccessories"}</a></li>
-
+								<li><a href="{$Path}admin/manage_resource_confs.php">{translate key="ResourceConfigurations"}</a></li>
 								<li class="divider"></li>
 								<li><a href="{$Path}admin/manage_users.php">{translate key="ManageUsers"}</a></li>
 								<li><a href="{$Path}admin/manage_groups.php">{translate key="ManageGroups"}</a></li>
@@ -256,6 +259,9 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 									<li>
 										<a href="{$Path}admin/manage_blackouts.php">{translate key="ManageBlackouts"}</a>
 									</li>
+									<li>
+										<a href="{$Path}admin/manage_resource_confs.php">{translate key="ResourceConfigurations"}</a>
+									</li>
 								{/if}
 								{if $CanViewResourceAdmin}
 									<li>
@@ -291,11 +297,12 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 					{/if}
 				{/if}
 				{if $LoggedIn}{else}
-					<li><a href="{$Path}{Pages::INDEX}">{translate key="Dashboard"}</a></li>
+					{*<li><a href="{$Path}{Pages::INDEX}">{translate key="Dashboard"}</a></li>*}
 				{/if}
-				<li><a href="{$Path}{Pages::ABOUT}">{translate key="About"}</a></li>
+				{*<li><a href="{$Path}{Pages::ABOUT}">{translate key="About"}</a></li>*}
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
+			{$ShowScheduleLink=FALSE}
 				{if $ShowScheduleLink}
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{translate key="Schedule"} <b
@@ -305,7 +312,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						</ul>
 					</li>
 				{/if}
-				<li class="dropdown">
+				{*<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">{translate key="Help"} <b
 								class="caret"></b></a>
 					<ul class="dropdown-menu">
@@ -314,7 +321,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							<li><a href="{$Path}help.php?ht=admin">{translate key=Administration}</a></li>{/if}
 						<li><a href="{$Path}help.php?ht=about">{translate key=About}</a></li>
 					</ul>
-				</li>
+				</li>*}
 				{if $LoggedIn}
 					<li><a href="{$Path}logout.php">{translate key="SignOut"}</a></li>
 				{else}
@@ -327,5 +334,5 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 </nav>
 
 {/if}
-
-<div id="main" class="container-fluid">
+{$_SERVER['PHP_SELF']}
+<div id="main" class="container-fluid{if basename($smarty.server.PHP_SELF) == "index.php"} infoFrontpage{/if}">

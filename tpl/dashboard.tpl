@@ -23,6 +23,36 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		{foreach from=$items item=dashboardItem}
 			<div>{$dashboardItem->PageLoad()}</div>
 		{/foreach}
+		<div class="ResourceConfFrontpage">
+			<div class="ResourceConfFrontpageInfo">
+				<h1 class="ResourceConfFrontpageInfo">{translate key="CreateReservationHeading"}</h1>
+				<p class="ResourceConfFrontpageInfo">{translate key="FrontReservationConfSelect"}</p>
+			</div>
+			{foreach from=$ResourceConfs item=Conf}
+				<div class="ResourceConfInner">
+					<div class="ResourceConfInfo">
+						<b>{$Conf['name']}</b><i class="fa fa-info-circle pull-right" aria-hidden="true"></i><br/>
+						{$Conf['description']}
+					</div>
+					<div class="ResourceConfCheckBox">
+						<input type="hidden" value="{$Conf['conf_id']}">
+					</div>
+					<div class="ResourceConfSmallImage">
+						<a href='#arrangement-{$Conf['conf_id']}' role='button' data-toggle='collapse'>
+								<img class='ResourceConfSmol' src="../uploads/arrangements/1.png" alt="{$Conf['name']}">
+						</a>
+					</div>
+					<div id='arrangement-{$Conf['conf_id']}notinuse' class='ResourceConfInfoBox collapse'>
+						<a href='#arrangement-{$Conf['conf_id']}' role='button' data-toggle='collapse'>
+								<img class='ResourceConfBig' src="../uploads/arrangements/1.png" alt="{$Conf['name']}">
+						</a>
+					</div>
+					<div class="ResourceConfFrontBottom">
+						<a class="btn btn-default" href="./reservation.php?rid=1&roomconf={$Conf['conf_id']}">{translate key="Create"}</a>
+					</div>
+				</div>
+			{/foreach}
+		</div>
 	</div>
 
 	{jsfile src="dashboard.js"}

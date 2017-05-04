@@ -42,12 +42,11 @@ class DashboardPresenter
 		$upcomingReservations = new UpcomingReservations(new SmartyPage());
 		$availability = new ResourceAvailabilityControl(new SmartyPage());
 
-		$this->_page->AddItem($availability);
 		$this->_page->AddItem($upcomingReservations);
-		$this->_page->AddItem($announcement);
-
 		if (ServiceLocator::GetServer()->GetUserSession()->IsAdmin)
 		{
+			$this->_page->AddItem($availability);
+			$this->_page->AddItem($announcement);
 			$allUpcomingReservations = new AllUpcomingReservations(new SmartyPage());
 			$this->_page->AddItem($allUpcomingReservations);
 		}

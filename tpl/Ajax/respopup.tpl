@@ -18,7 +18,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 {if $authorized}
 <div class="res_popup_details" style="margin:0">
-
 	{capture "name"}
 	<div class="user">
 		{if $hideUserInfo || $hideDetails}

@@ -19,8 +19,22 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 
 	</div><!-- close main-->
 
-	<footer class="footer navbar">
-		&copy; 2017 <a href="http://www.twinkletoessoftware.com">Twinkle Toes Software</a> <br/><a href="http://www.bookedscheduler.com">Booked Scheduler v{$Version}</a>
+	<footer class="footer navbar">	
+		<div class="partnerlogo">
+			<img src="{$Path}partners/vantaa-logo.png" alt="Vantaa" class="partnerlogo">
+		</div>
+		<div class="partnerlogo">
+			<img src="{$Path}partners/SmartLab-logo-pieni.png" alt="Smartlab" class="partnerlogo">
+		</div>
+		<div class="partnerlogo">
+			<img src="{$Path}partners/Metropolia_Ammattikorkeakoulu_logo.png" alt="Metropolia AMK" class="partnerlogo">
+		</div>
+		<div class="footercopyright">
+			<p class="footercopyright">&copy; 2017 <a href="http://smartlabvantaa.fi/">Smartlab</a>, <a href="https://github.com/City-of-Vantaa-SmartLab/kontti-demo">Muuntamo v0.1</a></p>
+		</div>
+		<div class="footercopyright">
+			<p class="footercopyright">&copy; 2017 <a href="http://www.twinkletoessoftware.com">Twinkle Toes Software</a>, <a href="http://www.bookedscheduler.com">Booked Scheduler v{$Version}</a></p>
+		</div>
 	</footer>
 
 	<script type="text/javascript">

@@ -19,11 +19,11 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 {include file='globalheader.tpl' cssFiles='css/participation.css'}
 
 {if $IsMissingInformation}
-	<div class="error">This invitation is incorrect or does not exist</div>
+	<div class="error">Tämä kutsu on väärä tai sitä ei ole olemassa</div>
 {/if}
 
 {if $InvitationAccepted ||  $InvitationDeclined}
-	<div class="success">Thanks, we've recorded your response
+	<div class="success">Kiitos, olemme tallentaneet vastauksenne
 		{if $IsGuest || $AllowRegistration}
 			<div><a href="{Pages::REGISTRATION}">{translate key=CreateAnAccount}</a></div>
 		{/if}

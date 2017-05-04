@@ -35,6 +35,7 @@ class DashboardPage extends SecurePage implements IDashboardPage
 	{
 		$this->_presenter->Initialize();
 
+		$this->Set('ResourceConfs', getAllResourceArrangements());
 		$this->Set('items', $this->items);
 		$this->Display('dashboard.tpl');
 	}

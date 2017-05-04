@@ -15,13 +15,20 @@ You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 {include file='globalheader.tpl'}
-
 <div class="col-md-offset-3 col-md-6 col-xs-12 ">
-	<div id="info-header" class="default-box-header">
-		<span>{translate key='AboutFrontTitle'}</span>
+	<div id="info-header">
 	</div>
-	<div class="col-xs-12 default-box straight-top">
-		<p>{translate key='AboutFrontText'}</p>
+	<div class="frontInfo col-xs-12 default-box straight-top">
+		<span class="frontInfo"><h1 class="frontInfo">{translate key='AboutFrontTitle'}</h1></span>
+		<span><p>{translate key='AboutFrontText'}</p></span>
+		<span>
+			{if $LoggedIn}
+				<a href="{$Path}logout.php">{translate key="SignOut"}</a>
+			{else}
+				<a class="btn btn-default" href="{$Path}{Pages::LOGIN}">{translate key="LogIn"}</a>
+				<a class="btn btn-default" href="{$Path}register.php">{translate key="Register"}</a>
+			{/if}
+		</span>
 	</div>
 </div>
 
