@@ -2,6 +2,7 @@
 Copyright 2011-2016 Nick Korbel
 
 This file is part of Booked Scheduler.
+This file has been modified for Muuntamo.
 
 Booked Scheduler is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,7 +40,13 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			    max-height:200px;
 			    max-width:200px;
 			}
-
+			div.headerTop{
+				display: inline-block;
+				width: 100%;
+				height: 50px;
+				background-color: #6BC24A;
+			}
 		</style>
 	</head>
 	<body>
+		<div class="headerTop"><img src="{$ScriptUrl}/img/custom-logo.png" alt="Muuntamo"></div>

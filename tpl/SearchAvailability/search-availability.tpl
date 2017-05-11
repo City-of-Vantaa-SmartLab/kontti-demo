@@ -42,7 +42,7 @@
                     <input type="radio" id="today" checked="checked"
                            value="today" {formname key=AVAILABILITY_RANGE} />
                     <span class="hidden-xs">{translate key=Today},</span>
-                    <span> {format_date date=$Today key=calendar_dates}</span>
+                    <span> {formatdate date=$Today key=calendar_dates}</span>
                 </label>
                 <label class="btn btn-default">
                     <input type="radio" id="tomorrow" value="tomorrow" {formname key=AVAILABILITY_RANGE} />

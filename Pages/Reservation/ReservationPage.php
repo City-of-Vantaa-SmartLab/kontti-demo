@@ -3,6 +3,7 @@
  * Copyright 2011-2016 Nick Korbel
  *
  * This file is part of Booked Scheduler.
+ * This file has been modified for Muuntamo.
  *
  * Booked Scheduler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -224,11 +225,11 @@ abstract class ReservationPage extends Page implements IReservationPage
 	public function BindAvailableResources($resources)
 	{
 		$this->Set('AvailableResources', $resources);
+		$row=NULL;
 		foreach($resources as $split){
 			$row[$split->GetId()]=defineArrangements($split->GetId());
 		}			
 		$this->Set('AvailableResourcesArrangements', $row);
-
 	}
 
 	public function ShowAdditionalResources($shouldShow)

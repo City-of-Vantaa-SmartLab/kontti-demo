@@ -16,29 +16,27 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
+Varauksen tiedot:
+<br/>
+<br/>
 
+Käyttäjä: {$UserName}
+Alkaa: {formatdate date=$StartDate key=reservation_email}<br/>
+Päättyy: {formatdate date=$EndDate key=reservation_email}<br/>
+Tila: {$ResourceName}<br/>
 
-	Varauksen tiedot:
+{if $ResourceImage}
+	<div class="resource-image"><img src="{$ScriptUrl}/{$ResourceImage}"/></div>
+{/if}
+
+Tapahtuman nimi: {$Title}<br/>
+Tapahtuman kuvaus: {$Description}<br/>
+
+{if count($RepeatDates) gt 0}
 	<br/>
+	Varaus toistuu seuraavina päivinä:
 	<br/>
-
-	Käyttäjä: {$UserName}
-	Alkaa: {formatdate date=$StartDate key=reservation_email}<br/>
-	Päättyy: {formatdate date=$EndDate key=reservation_email}<br/>
-	Resurssi: {$ResourceName}<br/>
-
-	{if $ResourceImage}
-		<div class="resource-image"><img src="{$ScriptUrl}/{$ResourceImage}"/></div>
-	{/if}
-
-	Otsikko: {$Title}<br/>
-	Kuvaus: {$Description}<br/>
-
-	{if count($RepeatDates) gt 0}
-		<br/>
-		Varaus toistuu seuraavina päivinä:
-		<br/>
-	{/if}
+{/if}
 
 	{foreach from=$RepeatDates item=date name=dates}
 		{formatdate date=$date}<br/>
@@ -50,6 +48,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 
 	<br/>
-	<a href="{$ScriptUrl}/{$ReservationUrl}">Näytä varaus</a> | <a href="{$ScriptUrl}">Kirjaudu sovellukseen Booked Scheduler</a>
+	<a href="{$ScriptUrl}/{$ReservationUrl}">Näytä varaus</a> | <a href="{$ScriptUrl}">Kirjaudu sovellukseen Muuntamo</a>
 
 

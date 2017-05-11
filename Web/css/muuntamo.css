@@ -1,0 +1,476 @@
+﻿/*
+ Vantaan värit: (vihreät)
+D4EB91 	//ei käytetty missään
+6BC24A	//Not clicked, not hover, header
+4A7829	//Hover/clicked
+
+*/
+
+
+@font-face {
+    font-family: GTWalsheim;
+    src: url(fonts/GT-Walsheim-Regular.woff);
+}
+@font-face {
+    font-family: GTWalsheimBold;
+    src: url(fonts/GT-Walsheim-Bold.woff);
+}
+div.DashboardBlock{
+	text-align: center;
+	display: inline-block;
+	width: 100%;
+}
+div.infoFrontpage{
+	padding-top: 70px;
+	padding-bottom: 70px;
+	background-image: url("images/myyrmäki_MG_1791.png");
+	background-size:cover;
+}
+
+div.frontInfo{
+    float: right;
+	background-color: rgba(245, 245, 245, 0.9);
+}
+.default-box{
+	background-color: rgba(245, 245, 245, 0.9);
+	border: solid 1px #FFFFFF;
+}
+#page-login .default-box{
+	background-color: rgba(245, 245, 245, 0.9);
+	border: solid 1px #FFFFFF;
+}
+
+h1.frontInfo{
+	color: black;
+}
+nav.navbar-default, .navbar-fixed-top{
+	background-color: #6BC24A;
+	border: 0px solid transparent;
+}
+#main{
+	min-height: 80%;
+}
+body{
+background-color: #ffffff;
+}
+div.schedule-legend{
+    margin-top: 10px;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: white;
+    background-color: #4A7829;
+}
+div.registerModalBox{
+	width: auto;
+	max-width: 700px;
+}
+div.registerModalBoxBody{
+	width: 100%;
+	max-height: 500px;
+	overflow-y: auto;
+}
+span.registerModalBoxBodyOwn{
+	width: 100%;
+}
+span.registerModalBoxBodyLeft{
+	width: 20px;
+	vertical-align: top;
+	float:left;
+}
+div.registerModalBoxBodyRight{
+	vertical-align: top;
+	max-width: 630px;
+	padding-left: 30px;
+	height: auto;
+	display: inline-block;
+}
+.btn-default.active{
+    background-color: #4A7829;
+    border-color: #4A7829;
+}
+body.infoFrontpage{
+	padding-top: 0px;
+}
+.btn{
+	max-width: 200px;
+}
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    background-color: #4A7829;
+    border-color: #4A7829;
+}
+
+div.legend{
+	height: 40px;
+	line-height: 40px;
+	vertical-align: middle;
+}
+div.schedule-dates{
+	width: 100%;
+}
+table.reservations td{
+	border: solid #d9d9d6 1px;
+	color: #000000;
+	background-color: transparent;
+}
+td.unreservable.slot{    
+	background-color: #CF9D9B;
+}
+td.reserved.clickres.slot{    
+	background-color: #408AD2;
+}
+
+td.mine{    
+	background-color: #6F9BAE !important; 
+	/*important because the rule above overwrite this*/
+}
+#reservations-left{
+		display: none;
+}
+div.row-fluid{
+	text-align: center;
+}
+#reservations{
+	float: none;
+	display: inline-block;
+}
+.footer {
+	text-align: center;
+	border-top: solid 1px #d9d9d6;
+	padding-top: 2px;
+	color: #fff;
+	border-radius: 0;
+}
+.footer a {
+    color: #76777B;
+}
+td.reslabel{
+	text-align: center;
+}
+.btn-primary{    
+	background-color: #6BC24A;
+	border-color: #6BC24A;
+}
+a.btn-default{  
+	color: #FFFFFF;
+}
+.btn-default{    
+	color: white;
+	background-color: #6BC24A;
+	border-color: #6BC24A;
+}
+.btn-success{
+	background-color: #6BC24A;
+	border-color: #6BC24A;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+    color: white;
+	background-color: #4A7829;
+	border-color: #4A7829;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: white;
+    background-color: #4A7829;
+}
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+div.partnercontainer{
+	width: 100%;
+}
+div.reservationInfoBox{
+	max-width: 500px;
+}
+div.partnerlogo{
+	margin: auto;
+    display: inline-block;
+	width: 200px;
+    height: 75px;
+    margin: 0px;
+}
+div.registercheckbox{
+	width: 100%;
+	display: inline-block;
+
+}
+img.partnerlogo{
+	max-height: 75px;
+	min-height: 25px;
+	max-width: 150px;
+	min-width: 75px;
+}
+div.footercopyright{
+	vertical-align:text-top;
+    display: inline-block;
+	color: #76777B;
+    width: 100%;
+    height: 20px;
+    margin: 1px;
+}
+footer.footer {
+	color: #fafafa;
+	vertical-align: bottom;
+	width: 100%;
+	text-align: center;
+	height: auto;
+	background: none;
+	background-image: none;
+	background-color: #d9d9d6;
+	padding-top: 1px;
+	border-top: solid 1px #d9d9d6;
+	font-size: 8pt;
+	font-weight: normal;
+	min-height: 200px;
+}
+div.reservationResourceBox{
+/*
+Used in:
+Web/reservation.php
+*/
+	display: inline-block;
+	min-width: 250px;
+    max-width: 500px;
+    height: 30px;
+    margin: 1px;
+	background-image: none;
+	background-color: none;
+}
+div.maxItOut{
+	width: 100%;
+}
+div.ResourceConfInner{
+	margin-top: 20px;
+    margin-right: 20px;
+	vertical-align:text-top;
+	width: 300px;
+    display: inline-block;
+}
+div.ResourceConfInfo{
+	min-height: 175px;
+	
+}
+div.ResourceConfFrontBottom{
+	margin-top: 20px;
+	text-align: center;
+}
+
+div.ResourceConfFrontpage{
+	max-width: 1200px;
+	margin-top: 20px;
+    display: inline-block;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.dashboard {
+	max-width: 1200px;
+    display: inline-block;
+	box-sizing: border-box;
+	width: 100%;
+	letter-spacing: 1px;
+    padding: 0px;
+    color: #000000;
+    background-color: #FFFFFF;
+}
+.dashboardHeader {
+    padding: 0px !important;
+}
+div.dashboardList{
+	max-width: 1000px;
+}
+div.ResourceConfFrontpageInfo{
+    display: inline-block;
+	width: 100%;
+	background-color: #D4EB91;
+	text-align: left;
+	padding-left: 20px;
+}
+p,h1.ResourceConfFrontpageInfo{
+}
+h1.ResourceConfFrontpageInfo{
+    text-transform: uppercase;
+}
+h2.ResourceConfFrontpageInfo{
+    text-transform: uppercase;
+}
+
+div.resourceContainerLeft{
+/*
+Used in:
+Web/reservation.php
+*/
+    display: inline-block;
+	/*max-width: 200px;*/
+}
+div.resourceContainerRight{
+/*
+Used in:
+Web/reservation.php
+*/
+    display: inline-block;
+	max-width: 250px;
+}
+
+select.resourceContainerRight{
+/*
+Used in:
+Web/reservation.php
+*/
+	max-width: 200px;
+}
+
+div.reservationDatesBox{
+    display: inline-block;
+}
+
+div.reservationDatesBoxLeft{
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+}
+
+div.reservationDatesBoxMid{
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+}
+
+div.reservationDatesBoxRight{
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+}
+
+.dateform-control {
+	width: 85px;
+	font-size:12px;color: #555;
+	background-color: #fff;
+	background-image: none;
+	border:1px solid #ccc;
+	border-radius:4px;
+	-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+	box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+	-webkit-transition:border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+	-o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s
+}
+
+div.resourceConfBoxAdd{
+/*
+Used in:
+
+*/
+	
+	vertical-align:text-top;
+    display: inline-block;
+}
+
+img.resourceConfBoxAdd{
+/*
+Used in:
+
+*/
+	width: 50%;
+	height: 50%;
+}
+
+div.resourceConfLeftBoxAdd{
+/*
+Used in:
+
+*/
+	vertical-align:text-top;
+    display: inline-block;
+	width: 50px;
+}
+
+div.resourceConfRightBoxAdd{
+/*
+Used in:
+
+*/
+	vertical-align:text-top;
+    display: inline-block;
+	width: 150px;
+}
+select.resourceConfRightBoxAdd{
+
+	width: 200px;
+}
+.resourceConfRightBoxAdd textarea{
+	width: 126px;
+}
+div.resourceConfBoxUpdate{
+    display: inline-block;
+}
+textarea.resourceConfBoxUpdate{
+/*
+Used in:
+Web/admin/manage_resource_confs.php
+*/
+width: 150px;
+
+	
+}
+div.ResourceConfSelection{
+    display: inline-block;
+}
+
+input[type="checkbox"].ResourceConfCheckBox{
+}
+
+input[type="radio"].ResourceConfCheckBox{
+}
+
+div.ResourceConfSmallImage{
+    display: inline-block;
+}
+img.ResourceConfSmol{
+	width: 200px;
+	text-align: center;
+}
+
+#reservation-box .resourceName {
+	color: black;
+	background-color: transparent;
+}
+input[type=checkbox].resourceContainerLeft{
+  transform: scale(1.5);
+}
+
+div.resourceConfLinkList{
+    display: inline-block;
+}
+div.resourceConfLinkListConf{
+	width: 100%;
+    display: inline-block;
+	vertical-align: top
+}
+span.resourceConfLinkListConf{
+	vertical-align: top;
+	width: 100%;
+	overflow: auto;
+	height: 10px;
+	white-space:nowrap;
+}
+
+
+#reservation-box label {
+    min-width: 100px;
+}
+html, body, div, span, applet, object, iframe, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	font-family: GTWalsheim;
+}
+b, h1, h2{
+	font-family: GTWalsheimBold;
+}

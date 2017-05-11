@@ -3,6 +3,7 @@
  * Copyright 2011-2016 Nick Korbel
  *
  * This file is part of Booked Scheduler.
+ * This file has been modified for Muuntamo.
  *
  * Booked Scheduler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +19,7 @@
  * along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once(ROOT_DIR . 'Pages/mod/functions.php');
+require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 require_once(ROOT_DIR . 'Pages/SecurePage.php');
 require_once(ROOT_DIR . 'Pages/Ajax/IReservationSaveResultsView.php');
 require_once(ROOT_DIR . 'Presenters/Reservation/ReservationPresenterFactory.php');
@@ -179,23 +180,26 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 			$reservation = $this->_presenter->BuildReservation();
 			$this->_presenter->HandleReservation($reservation);
 
-			if ($this->_reservationSavedSuccessfully)		//pelkästään uutta luodessa?
+			if ($this->_reservationSavedSuccessfully)		//Only when creating a new Reservation
 			{
 				$this->Set('Resources', $reservation->AllResources());
 				$this->Set('Instances', $reservation->Instances());
 				$this->Set('Timezone', ServiceLocator::GetServer()->GetUserSession()->Timezone);
 				
-				
-				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined
-					$RoomArrangement=$_POST['RoomArrangement'];
-					$RoomArrangementAR=$_POST['additionalResources'];
-					foreach($RoomArrangementAR as $resource){
-							setArrangement(regexnums($RoomArrangement[$resource]),regexnums($resource),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+				// MODIFIED CODE STARTS HERE
+				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined'
+					if(isset($_POST['ResourceArrangement'])&&isset($_POST['additionalResources'])&&isset($_POST['beginDate'])&&isset($_POST['beginPeriod'])){
+						$ResourceArrangement=$_POST['ResourceArrangement'];
+						$ResourceArrangementAR=$_POST['additionalResources'];
+						foreach($ResourceArrangementAR as $resource){
+								setArrangement($ResourceArrangement[$resource],$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+						}
+					}else{
+						echo "Tilaratkaisuja ei tallennettu! Virhe: Puuttuva muuttuja.";
 					}
-				}elseif(isset($_POST['roomconf'])){	//unused code?
-					//update roomconfiguration in database
-					setArrangement($_POST['roomconf'],regexnums($_POST['resourceId']),timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 				}
+				// MODIFIED CODE STOPS HERE
+				
 				$this->Display('Ajax/reservation/save_successful.tpl');
 			}
 			else

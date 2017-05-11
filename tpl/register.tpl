@@ -17,7 +17,6 @@ You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 {include file='globalheader.tpl' Validator=true}
-
 <div class="page-register">
 
 
@@ -63,7 +62,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
                         <label class="reg" for="login">{translate key="Username"}</label>
                         {textbox name="LOGIN" value="Login" required="required"
                         data-bv-notempty="true"
-                        data-bv-notempty-message="{translate key=UserNameRequired}"}
+                        data-bv-notempty-message="{translate key=UserNameRequired}"
+						maxlength="85"}
                     </div>
                 </div>
 
@@ -74,7 +74,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
                         data-bv-notempty="true"
                         data-bv-notempty-message="{translate key=ValidEmailRequired}"
                         data-bv-emailaddress="true"
-                        data-bv-emailaddress-message="{translate key=ValidEmailRequired}" }
+                        data-bv-emailaddress-message="{translate key=ValidEmailRequired}" 
+						maxlength="85"}
                     </div>
                 </div>
             </div>
@@ -88,7 +89,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
                         data-bv-notempty-message="{translate key=PwMustMatch}"
                         data-bv-identical="true"
                         data-bv-identical-field="{FormKeys::PASSWORD_CONFIRM}"
-                        data-bv-identical-message="{translate key=PwMustMatch}" }
+                        data-bv-identical-message="{translate key=PwMustMatch}"}
                     </div>
                 </div>
 
@@ -111,18 +112,67 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
                         <label class="reg" for="fname">{translate key="FirstName"}</label>
                         {textbox name="FIRST_NAME" class="input" value="FirstName" required="required"
                         data-bv-notempty="true"
-                        data-bv-notempty-message="{translate key=FirstNameRequired}"}
+                        data-bv-notempty-message="{translate key=FirstNameRequired}" maxlength="85"}
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group">
                         <label class="reg" for="lname">{translate key="LastName"}</label>
                         {textbox name="LAST_NAME" class="input" value="LastName" required="required" data-bv-notempty="true"
-                        data-bv-notempty-message="{translate key=LastNameRequired}"}
+                        data-bv-notempty-message="{translate key=LastNameRequired}" maxlength="85"}
                     </div>
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group">
+                        <label class="reg" for="phone">{translate key="Phone"}</label>
+                        {textbox name="PHONE" class="input" value="Phone" size="20" maxlength="85"}
+                    </div>
+                </div>
+			<br/><br/><br/><br/>
+                <div class="col-xs-12 col-sm-6 maxItOut">
+                    <div class="form-group">
+                        <label class="reg" for="organization">{translate key="Organization"}</label>
+                        {textbox name="ORGANIZATION" class="input" value="Organization" size="20" maxlength="200"}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group hidden">
+                        <label class="reg" for="position">{translate key="Position"}</label>
+                        {textbox name="POSITION" class="input" value="Position" size="20" maxlength="85"}
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 maxItOut">
+                    {if $Attributes|count > 0}
+                        {control type="AttributeControl" attribute=$Attributes[0]}
+                    {/if}
+                </div>
+
+            </div>
+
+            {if $Attributes|count > 1}
+                {for $i=1 to $Attributes|count-1}
+                    {if $i%2==1}
+                        <div class="row">
+                    {/if}
+                    <div class="col-xs-12 col-sm-6 registercheckbox">
+                        {control type="AttributeControl" attribute=$Attributes[$i]}
+                    </div>
+                    {if $i%2==0 || $i==$Attributes|count-1}
+                        </div>
+                    {/if}
+                {/for}
+            {/if}
+
+			<input type="hidden" {formname key='DEFAULT_HOMEPAGE'} id="homepage" value={$Homepage}>
+			<input type="hidden" {formname key='TIMEZONE'} id="timezoneDropDown" value={$Timezone}>
+			{*
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group">
@@ -144,52 +194,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                    <div class="form-group">
-                        <label class="reg" for="phone">{translate key="Phone"}</label>
-                        {textbox name="PHONE" class="input" value="Phone" size="20"}
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-6">
-                    <div class="form-group">
-                        <label class="reg" for="organization">{translate key="Organization"}</label>
-                        {textbox name="ORGANIZATION" class="input" value="Organization" size="20"}
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                    <div class="form-group">
-                        <label class="reg" for="position">{translate key="Position"}</label>
-                        {textbox name="POSITION" class="input" value="Position" size="20"}
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-6">
-                    {if $Attributes|count > 0}
-                        {control type="AttributeControl" attribute=$Attributes[0]}
-                    {/if}
-                </div>
-
-            </div>
-
-            {if $Attributes|count > 1}
-                {for $i=1 to $Attributes|count-1}
-                    {if $i%2==1}
-                        <div class="row">
-                    {/if}
-                    <div class="col-xs-12 col-sm-6">
-                        {control type="AttributeControl" attribute=$Attributes[$i]}
-                    </div>
-                    {if $i%2==0 || $i==$Attributes|count-1}
-                        </div>
-                    {/if}
-                {/for}
-            {/if}
+			*}
 
             {if $EnableCaptcha}
                 <div class="form-group">

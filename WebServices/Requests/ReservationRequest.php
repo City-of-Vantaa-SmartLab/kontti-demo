@@ -63,6 +63,7 @@ class ReservationRequest
 	public $resources = array();
 	public $startDateTime;
 	public $title;
+	public $target_id;
 	public $userId;
 	/**
 	 * @var ReminderRequestResponse
@@ -101,6 +102,7 @@ class ReservationRequest
 		$request->startDateTime = $date;
 		$request->title = 'reservation title';
 		$request->userId = 1;
+		$request->targetId = 1;
 		$request->startReminder = ReminderRequestResponse::Example();
 		$request->allowParticipation = true;
 		$request->retryParameters = array(ReservationRetryParameterRequestResponse::Example());

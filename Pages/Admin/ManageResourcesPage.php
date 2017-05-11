@@ -24,6 +24,7 @@ require_once(ROOT_DIR . 'Pages/Ajax/AutoCompletePage.php');
 require_once(ROOT_DIR . 'Presenters/Admin/ManageSchedulesPresenter.php');
 require_once(ROOT_DIR . 'Domain/Access/ScheduleRepository.php');
 require_once(ROOT_DIR . 'lib/Application/Attributes/namespace.php');
+require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 
 interface IUpdateResourcePage
 {
@@ -453,7 +454,7 @@ class ManageResourcesPage extends ActionPage implements IManageResourcesPage
 
 		return $id;
 	}
-
+	
 	public function GetScheduleId()
 	{
 		return $this->GetForm(FormKeys::SCHEDULE_ID);
@@ -828,7 +829,7 @@ class ManageResourcesPage extends ActionPage implements IManageResourcesPage
 	{
 		return $this->GetForm(FormKeys::GROUP_ID);
 	}
-
+	
 	/**
 	 * @param ResourceGroupTree $resourceGroups
 	 */

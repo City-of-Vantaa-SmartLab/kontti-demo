@@ -17,18 +17,18 @@ You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 {include file='globalheader.tpl'}
-<h1>Booked Scheduler Help</h1>
+<h1>Muuntamo-ohje</h1>
 
 <div id="help">
-<h2>Registration</h2>
+<h2>Rekisteröityminen</h2>
 
 <p>
-	Registration is required in order to use Booked Scheduler if you administrator has enabled it. After your account
-	has been registered
-	you will be able to log in and access any resources that you have permission to.
+	Rekisteröinti on vaadittu sovelluksen käyttöön jos ylläpito on näin asettanut. Käyttäjätilin 
+	rekisteröitymisen jälkeen
+	pystyt kirjautumaan ja varaamaan ylläpidon määrittelemiä tiloja.
 </p>
 
-<h2>Booking</h2>
+<h2>Varaaminen</h2>
 
 <p>
 	Under the Schedule menu item you will find the Booking item. This will show you the available, reserved and
@@ -45,7 +45,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	reference number to use for reservation follow-up.
 </p>
 
-<p>Any changes made to a reservation will not take effect until you save the reservation.</p>
+<p>Muutokset tulevat voimaan vain jos tallennat muutokset.</p>
 
 <p>Only Application Administrators can create reservations in the past.</p>
 

@@ -22,6 +22,7 @@ class Pages
 {
 	const DEFAULT_HOMEPAGE_ID = 1;
 
+	const ABOUT = 'about.php';
 	const ACTIVATION = 'activate.php';
 	const CALENDAR = 'calendar.php';
 	const CALENDAR_EXPORT = 'ical.php';
@@ -34,7 +35,8 @@ class Pages
 	const FORGOT_PASSWORD = 'forgot.php';
 	const GUEST_RESERVATION = 'guest-reservation.php';
 	const INVITATION_RESPONSES = 'participation.php';
-	const LOGIN = 'index.php';
+	const LOGIN = 'login.php';
+	const INDEX = 'index.php';
 	const MANAGE_RESERVATIONS = 'manage_reservations.php';
 	const MANAGE_GROUPS = 'manage_groups.php';
 	const MANAGE_GROUPS_ADMIN = 'manage_admin_groups.php';

@@ -3,6 +3,7 @@
  * Copyright 2011-2016 Nick Korbel
  *
  * This file is part of Booked Scheduler.
+ * This file has been modified for Muuntamo.
  *
  * Booked Scheduler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -177,6 +178,8 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 		}
 		if (!$readOnly && $this->IsEditable)
 		{
+			$HideRepeat=1;
+			$this->Set('HideRepeat', "1");
 			return 'Reservation/edit.tpl';
 		}
 		return 'Reservation/view.tpl';

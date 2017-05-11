@@ -72,7 +72,6 @@ class ReservationsWebService
 		$userId = $this->GetUserId();
 		$resourceId = $this->GetResourceId();
 		$scheduleId = $this->GetScheduleId();
-
 		Log::Debug('GetReservations called. userId=%s, startDate=%s, endDate=%s', $userId, $startDate, $endDate);
 
 		$reservations = $this->reservationViewRepository->GetReservations($startDate, $endDate, $userId, null,

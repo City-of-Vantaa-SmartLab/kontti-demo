@@ -14,8 +14,8 @@ function timeForDatabase($date,$time){
 	return $time;
 }
 function convertTimeTo($date,$time){	//converts the time to database time using booked's Date class
-	require_once(ROOT_DIR.'lib/Common/date.php');
-	require_once(ROOT_DIR.'lib/Common/time.php');
+	require_once(ROOT_DIR.'lib/Common/Date.php');
+	require_once(ROOT_DIR.'lib/Common/Time.php');
 	
 	$databasetime = new Date();
 	$databasetime->__construct($date." ".$time, 'Europe/Helsinki');

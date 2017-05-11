@@ -2,6 +2,7 @@
 Copyright 2011-2016 Nick Korbel
 
 This file is part of Booked Scheduler.
+This file has been modified for Muuntamo.
 
 Booked Scheduler is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -372,24 +373,52 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							</div>
 						</div>
 						<div class="col-xs-6">
-							</br>
-							<h5 class="inline">Huonekonfiguraatiot</h5><br>
-							<a class="update changeStatus"
-									   href="#" rel="popover"
-									   data-popover-content="#roomconfDialog">Lisää huonekonfiguraatio</a>
-							<table>
+							<div class="resourceConfLinkList">
+								<br/>
+								<h5 class="inline">{translate key='ResourceConfigurations'}</h5><br>
+								<a class="update changeStatus"
+										   href="#{$resource->GetId()}-AddResourceConf" role='button' data-toggle='collapse'><b>{translate key='AddResourceConfiguration'}</b></a>
+								<div id='{$resource->GetId()}-AddResourceConf' class='collapse'>	
+									<form id="resourceconfFormLink" role="form" method="POST" action="resourceConf/add_resourceconflink.php">
+										<div class="control-group form-group resourceConfBoxAdd">
+											<input type='hidden' value='{$resource->GetId()}' name='resource_id'>
+											<div class='resourceConfLeftBoxAdd'>
+												{translate key='ResourceConfiguration'}:
+											</div>
+											<div class='resourceConfRightBoxAdd'>
+												<select name='resourceconfId'>
+													{foreach from=getAllResourceArrangements() item=temp}
+														<option value='{$temp['conf_id']}'>{$temp['conf_id']}.{$temp['name']}</option>
+													{/foreach}
+												</select>
+											</div><br/>
+											<div class='resourceConfBoxAddSend'>
+												<input type='submit' value='{translate key='Add'}'>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="resourceConfLinkList">
 								{foreach from=defineArrangements($resource->GetId()) item=temp}
 									{$Arrangementsplit = ":"|explode:$temp}
-										<tr>
-											<td>
+										<div class="resourceConfLinkListConf">
+											<span class="resourceConfLinkListConf text-right">
 												<a href='#{$resource->GetId()}-arrangements-{$Arrangementsplit[0]}' role='button' data-toggle='collapse'>{$Arrangementsplit[1]}</a>
-												<div id='{$resource->GetId()}-arrangements-{$Arrangementsplit[0]}' class='collapse'>
-													<img src='../../uploads/arrangements/{$Arrangementsplit[0]}.png' alt='{$Arrangementsplit[1]}'>
-												</div>
-											</td>
-										</tr>
+												<form action="resourceConf/remove_resourceconflink.php" method="POST" width=20px>
+													<input type='hidden' value='{$resource->GetId()}' name='resource_id'>
+													<input type='hidden' value='{$Arrangementsplit[0]}' name='resourceconfId'>
+													<button type="submit" class="close resourceConfLinkListConf" aria-label="Close"> 
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</form>
+											</span>
+											<div id='{$resource->GetId()}-arrangements-{$Arrangementsplit[0]}' class='collapse'>
+												<img src='../../uploads/arrangements/{$Arrangementsplit[0]}.png' alt='{$Arrangementsplit[1]}'>
+											</div>
+										</div>
 								{/foreach}
-							</table>
+							</div>
 								
 						</div>
 						<div class="col-xs-6">
@@ -778,15 +807,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						{indicator}
 					</div>
 				</div>
-			</div>
-		</form>
-	</div>
-	<div id="roomconfDialog" class="hide">
-		<form id="roomconfForm" role="form" method="POST" ajaxAction="addRoomconf">
-			<div class="control-group form-group">
-				Nimi:<input type='text' name='roomconfName'><br>
-				Kuvaus:<input type='text' name='roomconfDesc'><br>
-				<input type='submit' value='Tallenna'>
 			</div>
 		</form>
 	</div>

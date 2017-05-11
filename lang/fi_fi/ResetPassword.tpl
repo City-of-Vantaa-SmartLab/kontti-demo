@@ -24,6 +24,6 @@ Tässä on väliaikainen Booked Scheduler-salasanasi: {$TemporaryPassword}
 
 Vanha salasanasi ei enää toimi.
 
-<a href="{$ScriptUrl}">Kirjaudu sovellukseen Booked Scheduler</a> ja vaihda salasanasi mahdollisimman pian.
+<a href="{$ScriptUrl}">Kirjaudu sovellukseen Muuntamo</a> ja vaihda salasanasi mahdollisimman pian.
 
 
