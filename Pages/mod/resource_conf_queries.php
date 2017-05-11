@@ -117,10 +117,8 @@ function removeResourceConfResourceLinkWTarget($target_id){	//removes a link bet
 	}
 }
 
-function createResourceConf($name,$description,$resource_id){	//Creates a resource configuration
-	$resource_id=regexnums($resource_id);
-	$list=pdoExecute("INSERT INTO resource_conf(name,description) VALUES ('".$name."','".$description."')");
-	//createResourceConfResourceLink($resource_id,$dbh->lastInsertId()); //temp
+function createResourceConf($name,$description,$price,$furni){	//Creates a resource configuration
+	$list=pdoExecute("INSERT INTO resource_conf(name,description,price,furniturelist) VALUES ('".$name."','".$description."',".$price.",'".$furni."')");
 }
 
 function createResourceConfResourceLink($resource_id,$conf_id){	
@@ -209,12 +207,12 @@ function getAllResourceArrangements(){
 }
 
 
-function updateResourceArrangement($conf_id,$name,$description){
+function updateResourceArrangement($conf_id,$name,$description,$price,$furni){
 	//Updates a resource configuration
 	$conf_id = regexnums($conf_id);
 	$name = $name;
 	$description = $description;
-	$list=pdoExecute("UPDATE `resource_conf` SET `name`='".$name."', `description`='".$description."' WHERE `conf_id`=".$conf_id."");
+	$list=pdoExecute("UPDATE `resource_conf` SET `name`='".$name."', `description`='".$description."', `price`=".$price.",`furniturelist`='".$furni."' WHERE `conf_id`=".$conf_id."");
 	$row=$list->fetch(PDO::FETCH_ASSOC);
 }
 

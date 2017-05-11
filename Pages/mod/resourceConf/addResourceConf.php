@@ -38,18 +38,20 @@ class AddResourceConfPage extends ActionPage
 	public function ProcessPageLoad()
 	{
 		if (ServiceLocator::GetServer()->GetUserSession()->IsAdmin){
-		if(isset($_POST['resourceConfName'])&&isset($_POST['resourceConfDesc'])){
-			$resourceConfName=$_POST['resourceConfName'];
-			$resourceConfDesc=$_POST['resourceConfDesc'];
-			if($resourceConfName!=NULL){
-				createResourceConf($resourceConfName,$resourceConfDesc);
+			if(isset($_POST['resourceConfName'])&&isset($_POST['resourceConfDesc'])&&isset($_POST['resourceConfPrice'])&&isset($_POST['resourceConfFurni'])){
+				$resourceConfName=$_POST['resourceConfName'];
+				$resourceConfDesc=$_POST['resourceConfDesc'];
+				$resourceConfPrice=$_POST['resourceConfPrice'];
+				$resourceConfFurni=$_POST['resourceConfFurni'];
+				if($resourceConfName!=NULL){
+					createResourceConf($resourceConfName,$resourceConfDesc,$resourceConfPrice,$resourceConfFurni);
+				}
+			}else{
+				
 			}
 		}else{
-			
+			//log this?
 		}
-	}else{
-		//log this?
-	}
 		header( "Location: ../manage_resources.php" ) ;
 	}
 }

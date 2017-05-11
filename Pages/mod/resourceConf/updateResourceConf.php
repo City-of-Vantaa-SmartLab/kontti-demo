@@ -38,11 +38,13 @@ class UpdateResourceConfPage extends ActionPage
 	public function ProcessPageLoad()
 	{
 		if (ServiceLocator::GetServer()->GetUserSession()->IsAdmin){
-			if(isset($_POST['conf_id'])&&isset($_POST['name'])&&isset($_POST['description'])){
+			if(isset($_POST['conf_id'])&&isset($_POST['name'])&&isset($_POST['description'])&&isset($_POST['price'])&&isset($_POST['furni'])){
 				$conf_id=$_POST['conf_id'];
 				$name=$_POST['name'];
 				$description=$_POST['description'];
-				updateResourceArrangement($conf_id,$name,$description);
+				$price=$_POST['price'];
+				$furni=$_POST['furni'];
+				updateResourceArrangement($conf_id,$name,$description,$price,$furni);
 			}else{
 				
 			}

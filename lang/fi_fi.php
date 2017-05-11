@@ -63,6 +63,9 @@ class fi_fi extends en_us
 	protected function _LoadStrings()
 	{
 		$strings = parent::_LoadStrings();
+		$strings['Price'] = 'Hinta';
+		$strings['Furni'] = 'Tarvike- ja huonekalulista';
+		$strings['RecurrenceDisabledBugLink'] = 'tee uusi varaus';
 		$strings['ThereAreNoTimesForSearch'] = 'Haulla ei löytynyt vapaita aikoja';
 		$strings['RecurrenceDisabledBugLink'] = 'tee uusi varaus';
 		$strings['RecurrenceDisabledBugPt2'] = '(aukeaa uuteen välilehteen).';

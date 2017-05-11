@@ -28,6 +28,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<form id='resourceconfForm' role='form' method='POST' action='resourceConf/add_resourceconf.php'>
 					<div class='resourceConfLeftBoxAdd'>{translate key='Name'}:</div><div class='resourceConfRightBoxAdd'><input type='text' name='resourceConfName'></div><br/>
 					<div class='resourceConfLeftBoxAdd'>{translate key='Description'}:</div><div class='resourceConfRightBoxAdd'><textarea rows='8' cols='2' name='resourceConfDesc'></textarea></div><br/>
+					<div class='resourceConfLeftBoxAdd'>{translate key='Price'}:</div><div class='resourceConfRightBoxAdd'><input type="number" min="0" max="30000" step="0.01" name='resourceConfPrice'></textarea></div><br/>
+					<div class='resourceConfLeftBoxAdd'>{translate key='Furni'}:</div><div class='resourceConfRightBoxAdd'><textarea rows='8' cols='2' name='resourceConfFurni'></textarea></div><br/>
 					<div class='resourceConfBoxAddSend'><input type='submit' value='{translate key='Add'}'></div>
 				</form>
 			</div>
@@ -36,7 +38,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<div class="resourceConfBoxAdd"> 
 					{foreach from=$ResourceConfs item=Conf}
 						<div class="resourceConfBoxAdd"> 
-							<a href='#{$Conf['conf_id']}-confbox' role='button' data-toggle='collapse'>{$Conf['conf_id']}.{$Conf['name']}</a>
+							<a href='#{$Conf['conf_id']}-confbox' role='button' data-toggle='collapse'>{$Conf['conf_id']}.{$Conf['name']}</a> {$Conf['price']} €
 							<div>
 								<div id='{$Conf['conf_id']}-confbox' class='collapse'>
 									<div class="resourceConfBoxAdd"><img src='../../uploads/arrangements/{$Conf['conf_id']}.png' alt='{$Conf['name']}' class='resourceConfBoxAdd'></div>
@@ -44,7 +46,9 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										<form action='resourceConf/update_resourceconf.php' method='POST'>
 											<input type='hidden' name='conf_id' value='{$Conf['conf_id']}'>
 											<div class='resourceConfLeftBoxAdd'>{translate key='Name'}: 		</div>	<div class='resourceConfRightBoxAdd'><input type='text' name='name' value='{$Conf['name']}'></div><br/>
-											<div class='resourceConfLeftBoxAdd'>{translate key='Description'}: 	</div>	<div class='resourceConfBoxUpdate'><textarea rows='4' cols='50' name='description'>{$Conf['description']}</textarea></div>
+											<div class='resourceConfLeftBoxAdd'>{translate key='Description'}: 	</div>	<div class='resourceConfBoxUpdate'><textarea rows='4' cols='50' name='description'>{$Conf['description']}</textarea></div><br/>
+											<div class='resourceConfLeftBoxAdd'>{translate key='Price'}: 		</div>	<div class='resourceConfBoxUpdate'><input type="number" min="0" max="30000" step="0.01" name='price' value={$Conf['price']}></div><br/>
+											<div class='resourceConfLeftBoxAdd'>{translate key='Furni'}: 		</div>	<div class='resourceConfBoxUpdate'><textarea rows='4' cols='50' name='furni'>{$Conf['furniturelist']}</textarea></div>
 											<br/><input type='submit' value='{translate key='Edit'}'><br/>
 											{translate key='ResourceConfInResources'}:
 											{foreach from=$ConfResources item=ResourceTarget}
