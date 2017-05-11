@@ -160,8 +160,20 @@ function Reservation(opts) {
 
 	// pre-submit callback 
 	Reservation.prototype.preSubmit = function (formData, jqForm, options) {
+		//Added code for Muuntamo starts
+		//This makes the Reservation title and description required fields
+		//by blocking the submit. This 'fix' was suggested by the original
+		//booked dev.
+		if ($('#reservationTitle').val().length <= 0){
+					alert('Tapahtuman nimi on vaadittu.');
+					return false;
+		}else if($('#description').val().length <= 0){
+					alert('Tapahtuman kuvaus on vaadittu.');
+					return false;
+		}
+		
+		//Added code for Muuntamo ends
 		$.blockUI({message: $('#wait-box')});
-
 		$('#creatingNotification').find('h3').addClass('no-show');
 		$('#createUpdateMessage').removeClass('no-show');
 		$('#result').hide();
@@ -347,7 +359,7 @@ function Reservation(opts) {
 			$.each(checkboxes, function (i, checkbox) {
 				displayDiv = elements.additionalResources;
 				var checkedResourceId = $(checkbox).attr('resource-id');
-				var checkedResourceArrangement = $(checkbox).attr('arrangement-id');
+				var checkedResourceArrangements = $(checkbox).attr('arrangement-ids');
 				var checkedResourceName = $(checkbox).parent().text();
 				var color = $(checkbox).attr('reservation-color');
 				var textColor = $(checkbox).attr('reservation-text-color');

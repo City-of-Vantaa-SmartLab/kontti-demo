@@ -1,7 +1,6 @@
 function Calendar(opts) {
     var _options = opts;
     var _fullCalendar;
-
     var dayDialog = $('#dayDialog');
 
     Calendar.prototype.init = function () {

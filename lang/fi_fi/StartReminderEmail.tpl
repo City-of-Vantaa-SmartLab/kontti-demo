@@ -23,8 +23,8 @@ Varauksen tiedot:
 	Alkaa: {formatdate date=$StartDate key=reservation_email}<br/>
 	Loppuu: {formatdate date=$EndDate key=reservation_email}<br/>
 	Tila: {$ResourceName}<br/>
-	Otsikko: {$Title}<br/>
-	Kuvaus: {$Description|nl2br}
+	Tapahtuman nimi: {$Title}<br/>
+	Tapahtuman kuvaus: {$Description|nl2br}
 <br/>
 <br/>
 <a href="{$ScriptUrl}/{$ReservationUrl}">Näyätä varaus</a> |

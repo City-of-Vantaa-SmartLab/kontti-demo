@@ -48,7 +48,8 @@ function Dashboard(opts) {
 
 		var reservations = $(".reservation");
 
-		reservations.qtip({
+		reservations.qtip({/*Disabling popup on mouseover
+			//Mouse over popup
 			position: {
 				my: 'bottom left', at: 'top left', effect: false
 			},
@@ -78,7 +79,7 @@ function Dashboard(opts) {
 
 			style: {
 				classes: 'qtip-light qtip-bootstrap'
-			}
+			}*/
 		});
 
 		reservations.hover(function () {

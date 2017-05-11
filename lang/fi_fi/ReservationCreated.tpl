@@ -16,41 +16,93 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
+Kiitos varauksestasi!<br/><br/>
+Tarkista varauksesi tiedot ja muista päivittää tapahtumasi tiedot ennen kesäkuuta.<br/>
+Toivottavasti tapahtumasi onnistuu!<br/>
+<br/>
+Varauksen tiedot:
+<br/>
+<br/>
 
-
-	Varauksen tiedot:
+Alkaa: {formatdate date=$StartDate key=reservation_email}<br/>
+Loppuu: {formatdate date=$EndDate key=reservation_email}<br/>
+{if $ResourceNames|count > 1}
+	Tilat:
 	<br/>
-	<br/>
-
-	Alkaa: {formatdate date=$StartDate key=reservation_email}<br/>
-	Päättyy: {formatdate date=$EndDate key=reservation_email}<br/>
-	Resurssi: {$ResourceName}<br/>
-
-	{if $ResourceImage}
-		<div class="resource-image"><img src="{$ScriptUrl}/{$ResourceImage}"/></div>
-	{/if}
-
-	Otsikko: {$Title}<br/>
-	Kuvaus: {$Description|nl2br}<br/>
-
-	{if count($RepeatDates) gt 0}
+	{foreach from=$ResourceNames item=resourceName}
+		{$resourceName}
 		<br/>
-		Varaus toistuu seuraavina päivinä:
-		<br/>
-	{/if}
-
-	{foreach from=$RepeatDates item=date name=dates}
-		{formatdate date=$date}<br/>
 	{/foreach}
-
-	{if $RequiresApproval}
-		<br/>
-		Yksi tai useampi varattu resurssi vaatii hyväksynnän ennen käyttöä.  Ole hyvä ja varmista, hyväksytäänkö vai hylätäänkö tämä varauspyyntö.
-	{/if}
-
+{else}
+	Tila: {$ResourceName}
 	<br/>
-	<a href="{$ScriptUrl}/{$ReservationUrl}">Näytä varaus</a> |
-	<a href="{$ScriptUrl}/{$ICalUrl}">Lisää Outlookiin</a> |
-	<a href="{$ScriptUrl}">Kirjaudu sovellukseen Muuntamo</a>
+{/if}
+
+{if $ResourceImage}
+	<div class="resource-image"><img src="{$ScriptUrl}/{$ResourceImage}"/></div>
+{/if}
+
+Tapahtuman nimi: {$Title}<br/>
+Tapahtuman kuvaus: {$Description|nl2br}
+
+{if count($RepeatDates) gt 0}
+	<br/>
+	Varaus toistuu seuraavina päivämäärinä:
+	<br/>
+{/if}
+
+{foreach from=$RepeatDates item=date name=dates}
+	{formatdate date=$date}
+	<br/>
+{/foreach}
+
+{if $Accessories|count > 0}
+	<br/>
+	Lisävarusteet:
+	<br/>
+	{foreach from=$Accessories item=accessory}
+		({$accessory->QuantityReserved}) {$accessory->Name}
+		<br/>
+	{/foreach}
+{/if}
+
+{if $Attributes|count > 0}
+	<br/>
+	{foreach from=$Attributes item=attribute}
+		<div>{control type="AttributeControl" attribute=$attribute readonly=true}</div>
+	{/foreach}
+{/if}
+
+{if $RequiresApproval}
+	<br/>
+
+	Yksi tai useampi varattu tila vaatii hyväksynnän ennen käyttöä.  Varaus on odottavassa tilassa kunnes se hyväksytään.
+{/if}
+
+{if $CheckInEnabled}
+	<br/>
+	Yksi tai useampi varattu tila vaatii sisään- ja uloskirjautumisen varaukseen/varauksesta.
+	{if $AutoReleaseMinutes != null}
+		Tämä varaus perutaan jos siihen ei sisäänkirjauduta {$AutoReleaseMinutes} minuuttia varauksen alkamisesta.
+	{/if}
+{/if}
+
+{if !empty($ApprovedBy)}
+	<br/>
+	Hyväksyjä: {$ApprovedBy}
+{/if}
 
 
+{if !empty($CreatedBy)}
+	<br/>
+	Varaaja: {$CreatedBy}
+{/if}
+
+<br/>
+Varausnumero: {$ReferenceNumber}
+
+<br/>
+<br/>
+<a href="{$ScriptUrl}/{$ReservationUrl}">Näytä varaus</a> |
+<a href="{$ScriptUrl}/{$ICalUrl}">Lisää Outlookiin/kalenteriin</a> |
+<a href="{$ScriptUrl}">Kirjaudu Muuntamoon</a>

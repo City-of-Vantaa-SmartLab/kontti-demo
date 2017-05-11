@@ -157,7 +157,7 @@ class SlotLabelFactory
 			return Resources::GetInstance()->GetString('Private');
 		}
 
-		$name = new FullName($reservation->FirstName, $reservation->LastName);
+		$name = new FullName($reservation->Title, "");//$reservation->FirstName, $reservation->LastName);
 		return $name->__toString();
 	}
 }

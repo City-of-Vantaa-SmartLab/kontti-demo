@@ -16,4 +16,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-{$FullName} on kutsunut sinut rekisteröitymään {$AppTitle}-sovellukseen. Ole hyvä ja <a href="{$RegisterUrl}">rekisteröidy</a>.
+<p>
+Hei, tässä on sinulle linkki {$AppTitle}-järjestelmän rekisteröitymissivulle. <br/>
+Ole hyvä, ja täydennä huolellisesti tarvittavat tiedot. <br/>
+<br/>
+Tämä viesti on lähetetty Muuntamo-tilavarausjärjestelmästä, älä vastaa tähän viestiin.<br/>
+<br/>
+<a href="{$RegisterUrl}">Rekisteröidy</a><br/>
+<br/>
+Terveisin, <br/>
+Muuntamo-tiimi.<br/>
+</p>

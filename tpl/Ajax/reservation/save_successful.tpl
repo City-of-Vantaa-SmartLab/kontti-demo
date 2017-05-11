@@ -20,7 +20,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 <div id="{$divId|default:'reservation-created'}" class="reservationResponseMessage">
 	<div id="reservation-response-image">
 	{if $RequiresApproval}
-		<span class="fa fa-warning fa-5x warning"></span>
+		<span class="fa fa-check fa-5x success"></span>
+		{*<span class="fa fa-warning fa-5x warning"></span>*}
 	{else}
 		<span class="fa fa-check fa-5x success"></span>
 	{/if}
@@ -46,6 +47,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{if $RequiresApproval}
 		<div id="approval-message">{translate key=ReservationRequiresApproval}</div>
 	{/if}
-
+	<br/>
 	<input type="button" id="btnSaveSuccessful" value="{translate key='Close'}" class="btn btn-success" />
 </div>

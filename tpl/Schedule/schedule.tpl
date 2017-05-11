@@ -29,7 +29,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	<td {$spantype|default:'col'}span="{$Slot->PeriodSpan()}" class="reserved {$class} {$OwnershipClass} clickres slot"
 		resid="{$Slot->Id()}" {$color} {if $Draggable}draggable="true"{/if} data-resourceId="{$ResourceId}"
 		id="{$Slot->Id()}|{$Slot->Date()->Format('Ymd')}">{$Slot->Label($SlotLabelFactory)|escapequotes}</td>
-{/function}
+		{/function}
 
 {function name=displayMyReserved}
 	{call name=displayGeneralReserved Slot=$Slot Href=$Href SlotRef=$SlotRef OwnershipClass='mine' Draggable=true ResourceId=$ResourceId}
@@ -89,6 +89,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{block name="schedule_control"}
 		<div class="row-fluid">
 			<div id="schedule-actions" class="col-md-3">
+			{*
 				{block name="actions"}
 					<a href="#" id="make_default" style="display:none;">{html_image src="star_boxed_full.png" altKey="MakeDefaultSchedule"}</a>
 					<a href="#" class="schedule-style" id="schedule_standard"
@@ -108,10 +109,11 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						{/if}
 					</div>
 				{/block}
+			*}
 			</div>
 
 			<div id="schedule-title" class="schedule_title col-md-6">
-				<span>{$ScheduleName}</span>
+				{*<span>{$ScheduleName}</span>*}<span>{translate key="Bookings"}</span>
 				{if $Schedules|@count gt 1}
 					<div class="dropdown btn-group">
 						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#" id="scheduleListDropdown"><span class="caret dropdown-toggle"></span></a>
@@ -122,8 +124,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						</ul>
 					</div>
 				{/if}
-				<a href="#" id="calendar_toggle" title="{translate key=ShowHideNavigation}">
-					<span class="glyphicon glyphicon-calendar"></span>
+				<br/><a href="#" id="calendar_toggle" title="{translate key=ShowHideNavigation}">
+					Näytä Kalenteri
 				</a>
 				<div id="individualDates">
 					<div class="checkbox inline">
@@ -136,10 +138,10 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			</div>
 
 			{capture name="date_navigation"}
-				<div class="row">
+				<div class="row center">
 				<div class="schedule-dates col-lg-3 col-md-12">
 					{assign var=TodaysDate value=Date::Now()}
-					<a href="#" class="change-date btn-link btn-success" data-year="{$TodaysDate->Year()}" data-month="{$TodaysDate->Month()}" data-day="{$TodaysDate->Day()}" alt="{translate key=Today}"><i class="fa fa-home"></i></a>
+					{*<a href="#" class="change-date btn-link btn-success" data-year="{$TodaysDate->Year()}" data-month="{$TodaysDate->Month()}" data-day="{$TodaysDate->Day()}" alt="{translate key=Today}"><i class="fa fa-home"></i></a>*}
 					{assign var=FirstDate value=$DisplayDates->GetBegin()}
 					{assign var=LastDate value=$DisplayDates->GetEnd()->AddDays(-1)}
 					<a href="#" class="change-date" data-year="{$PreviousDate->Year()}" data-month="{$PreviousDate->Month()}"
@@ -156,7 +158,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				</div>
 			{/capture}
 
-			{$smarty.capture.date_navigation}
+			{*{$smarty.capture.date_navigation}*}
 		</div>
 		<div type="text" id="datepicker" style="display:none;"></div>
 	{/block}
@@ -169,13 +171,15 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<div class="legend reserved">{translate key=Reserved}</div>
 				{if $LoggedIn}
 				<div class="legend reserved mine">{translate key=MyReservation}</div>
-				<div class="legend reserved participating">{translate key=Participant}</div>
+				{*<div class="legend reserved participating">{translate key=Participant}</div>*}
 				{/if}
-				<div class="legend reserved pending">{translate key=Pending}</div>
+				{*<div class="legend reserved pending">{translate key=Pending}</div>
 				<div class="legend pasttime">{translate key=Past}</div>
 				<div class="legend restricted">{translate key=Restricted}</div>
+				*}
 			</div>
 		</div>
+		<center>{$smarty.capture.date_navigation}</center>
 	{/block}
 
 	<div class="row-fluid">
@@ -183,7 +187,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			<div class="reservations-left-header">{translate key=ResourceFilter}
 				<a href="#" class="pull-right toggle-sidebar" title="Hide Reservation Filter"><i class="glyphicon glyphicon-remove"></i></a>
 			</div>
-
 			<div class="reservations-left-content">
 				<form method="get" role="form" id="advancedFilter">
 
@@ -258,7 +261,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								{/if}
 								<td class="resdate">{formatdate date=$date key="schedule_daily"}</td>
 								{foreach from=$periods.$ts item=period}
-									<td class="reslabel" colspan="{$period->Span()}">{$period->Label($date)}</td>
+									{$ArrangementsplitUS = ":"|explode:$period->Label($date)}{$Arrangementsplit = "."|explode:$period->Label($date)}{if strcmp($Arrangementsplit[1],"00") == 0 || strcmp($ArrangementsplitUS[1],"30 AM") == 0 || strcmp($ArrangementsplitUS[1],"00 PM") == 0 }<td class="reslabel" colspan="{$period->Span()*2}">{$period->Label($date)}</td>{else}{/if}
 								{/foreach}
 							</tr>
 							{foreach from=$Resources item=resource name=resource_loop}
@@ -299,7 +302,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 
 	<div class="row">
 		<div class="col-xs-9 visible-md visible-lg">&nbsp;</div>
-		{$smarty.capture.date_navigation}
+		{*{$smarty.capture.date_navigation}*}
 	</div>
 </div>
 

@@ -16,10 +16,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
+
 <p>Olet luonut uuden käyttäjän seuraavilla tiedoilla:<br/>
 Email: {$EmailAddress}<br/>
-Nimi: {$FullName}<br/>
-Puhelin: {$Phone}<br/>
-Organisaatio: {$Organization}<br/>
-Rooli: {$Position}
+
 <a href="{$ScriptUrl}">Kirjaudu sisään nähdäksesi varauksesi ja muuttaaksesi tietoja</a>

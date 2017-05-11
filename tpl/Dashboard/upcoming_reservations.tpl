@@ -17,44 +17,47 @@ You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 		{if $Total > 0}
-<div class="dashboard upcomingReservationsDashboard" id="upcomingReservationsDashboard">
-	<div class="dashboardHeader">
-		<div class="pull-left">{translate key="UpcomingReservations"} <span class="badge">{$Total}</span></div>
-		<div class="pull-right">
-			<a href="#" title="{translate key=ShowHide} {translate key="UpcomingReservations"}">
-				<i class="glyphicon"></i>
-			</a>
-		</div>
-		<div class="clearfix"></div>
-	</div>
-	<div class="dashboardContents">
-		{assign var=colspan value="5"}
-		{if $Total > 0}
-			<div>
-				{foreach from=$TodaysReservations item=reservation}
-                    {include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
-				{/foreach}
-				
-				{foreach from=$TomorrowsReservations item=reservation}
-                    {include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
-				{/foreach}
+		
+		<div class="dashboard upcomingReservationsDashboard DashboardBlock" id="upcomingReservationsDashboard">
+			<div class="dashboardHeader ResourceConfFrontpage">
+				<div class="ResourceConfFrontpageInfo">
+					<div class="pull-left"><h2 class="ResourceConfFrontpageInfo">{translate key="UpcomingReservations"}</h2>{*<span class="badge">{$Total}</span>*}</div>
+					<div class="pull-right">
+						<a href="#" title="{translate key=ShowHide} {translate key="UpcomingReservations"}">
+							<i class="glyphicon"></i>
+						</a>
+					</div>
+					<div class="clearfix"></div>
+					<div class="dashboardContents">
+						{assign var=colspan value="5"}
+						{if $Total > 0}
+							<div>
+								{foreach from=$TodaysReservations item=reservation}
+									{include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
+								{/foreach}
+								
+								{foreach from=$TomorrowsReservations item=reservation}
+									{include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
+								{/foreach}
 
-				{foreach from=$ThisWeeksReservations item=reservation}
-                    {include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
-				{/foreach}
+								{foreach from=$ThisWeeksReservations item=reservation}
+									{include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
+								{/foreach}
 
-				{foreach from=$NextWeeksReservations item=reservation}
-                    {include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
-				{/foreach}
+								{foreach from=$NextWeeksReservations item=reservation}
+									{include file='Dashboard/dashboard_reservation.tpl' reservation=$reservation}
+								{/foreach}
+							</div>
+						{else}
+							<div class="noresults">{translate key="NoUpcomingReservations"}</div>
+						{/if}
+					</div>
+				</div>
+
+				<form id="form-checkin" method="post" action="ajax/reservation_checkin.php?action={ReservationAction::Checkin}">
+					<input type="hidden" id="referenceNumber" {formname key=REFERENCE_NUMBER} />
+					{csrf_token}
+				</form>
 			</div>
-		{else}
-			<div class="noresults">{translate key="NoUpcomingReservations"}</div>
-		{/if}
-	</div>
-
-	<form id="form-checkin" method="post" action="ajax/reservation_checkin.php?action={ReservationAction::Checkin}">
-		<input type="hidden" id="referenceNumber" {formname key=REFERENCE_NUMBER} />
-		{csrf_token}
-	</form>
-</div>
+		</div>
 		{/if}

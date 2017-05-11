@@ -24,14 +24,14 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 
 	Alkaa: {formatdate date=$StartDate key=reservation_email}<br/>
 	Päättyy: {formatdate date=$EndDate key=reservation_email}<br/>
-	Resurssi: {$ResourceName}<br/>
+	Tila: {$ResourceName}<br/>
 
 	{if $ResourceImage}
 		<div class="resource-image"><img src="{$ScriptUrl}/{$ResourceImage}"/></div>
 	{/if}
 
-	Otsikko: {$Title}<br/>
-	Kuvaus: {$Description|nl2br}<br/>
+	Tapahtuman nimi: {$Title}<br/>
+	Tapahtuman kuvaus: {$Description|nl2br}<br/>
 
 	{if count($RepeatDates) gt 0}
 		<br/>

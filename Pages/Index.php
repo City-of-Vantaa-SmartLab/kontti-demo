@@ -17,6 +17,7 @@ along with Muuntamo.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require_once(ROOT_DIR . 'Pages/Page.php');
+require_once(ROOT_DIR . 'Pages/LoginPage.php');
 
 class IndexPage extends Page
 {

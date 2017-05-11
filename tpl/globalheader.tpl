@@ -139,8 +139,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		{jsfile src="js/fullcalendar.js"}
 	{/if}
 	{cssfile src="scripts/css/jquery-ui-timepicker-addon.css"}
-	{cssfile src="booked.css"}
-	{cssfile src="muuntamo.css"}
+	{cssfile src="booked.css?v=1"}
+	{cssfile src="muuntamo.css?v=2"}
 	{if $cssFiles neq ''}
 		{assign var='CssFileList' value=','|explode:$cssFiles}
 		{foreach from=$CssFileList item=cssFile}
@@ -160,7 +160,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	<!-- End CSS -->
 </head>
-<body{if basename($smarty.server.PHP_SELF) == "index.php"} class=infoFrontpage{/if}>
+<body{if basename($smarty.server.PHP_SELF) == "index.php"||basename($smarty.server.PHP_SELF) == "register.php"||basename($smarty.server.PHP_SELF) == "login.php"} class=infoFrontpage{/if}>
 
 {if $HideNavBar == false}
 <nav class="navbar navbar-default {if $IsDesktop}navbar-fixed-top{else}navbar-static-top adjust-nav-bar-static{/if}" role="navigation">
@@ -196,7 +196,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{translate key="Schedule"} <b
 									class="caret"></b></a>
 						<ul class="dropdown-menu">
-								<li><a href="{$Path}{Pages::SCHEDULE}">{translate key="Bookings"}</a></li>
+								<li><a href="{$Path}{Pages::SCHEDULE}?sd=2017-6-5">{translate key="Bookings"}</a></li>
 							{if $CanViewAdmin}
 								<li><a href="{$Path}{Pages::MY_CALENDAR}">{translate key="MyCalendar"}</a></li>
 								<li><a href="{$Path}{Pages::CALENDAR}">{translate key="ResourceCalendar"}</a></li>
@@ -335,4 +335,4 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 
 {/if}
 {$_SERVER['PHP_SELF']}
-<div id="main" class="container-fluid{if basename($smarty.server.PHP_SELF) == "index.php"} infoFrontpage{/if}">
+<div id="main" class="container-fluid{if basename($smarty.server.PHP_SELF) == "index.php"||basename($smarty.server.PHP_SELF) == "register.php"||basename($smarty.server.PHP_SELF) == "login.php"} infoFrontpage{/if}">

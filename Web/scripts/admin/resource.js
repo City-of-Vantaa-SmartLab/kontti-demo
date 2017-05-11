@@ -1,6 +1,6 @@
 function ResourceManagement(opts) {
 	var options = opts;
-
+	
 	var elements = {
 		activeId: $('#activeId'),
 
@@ -92,6 +92,7 @@ function ResourceManagement(opts) {
 	var reasons = [];
 
 	function initializeResourceUI(id, details) {
+		
 		var resource = getResource(id);
 		if (resource.allowSubscription == 1)
 		{

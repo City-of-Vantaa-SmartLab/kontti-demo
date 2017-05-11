@@ -16,33 +16,36 @@
  You should have received a copy of the GNU General Public License
  along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
+ //Every function was commented as a solution to disable this feature
 
 $.fn.bindResourceDetails = function (resourceId, options) {
 	var opts = $.extend({preventClick: false, position:'left top'}, options);
-
+	
 	$(this).removeAttr('resource-details-bound');
 	bindResourceDetails($(this));
 
 	function getDiv() {
-		if ($('#resourceDetailsDiv').length <= 0)
+	/*	if ($('#resourceDetailsDiv').length <= 0)
 		{
 			return $('<div id="resourceDetailsDiv"/>').appendTo('body');
 		}
 		else
 		{
-			return $('#resourceDetailsDiv');
-		}
+			return$('#resourceDetailsDiv');
+		}*/
 	}
 
 	function hideDiv() {
-		var tag = getDiv();
+	/*	var tag = getDiv();
 		var timeoutId = setTimeout(function () {
 			tag.hide();
 		}, 500);
 		tag.data('timeoutId', timeoutId);
+		*/
 	}
 
 	function bindResourceDetails(resourceNameElement) {
+		/*
 		if (resourceNameElement.attr('resource-details-bound') === '1')
 		{
 			return;
@@ -119,5 +122,6 @@ $.fn.bindResourceDetails = function (resourceId, options) {
 		});
 
 		resourceNameElement.attr('resource-details-bound', '1');
+		*/
 	}
 };

@@ -62,7 +62,20 @@ class en_us extends Language
 	protected function _LoadStrings()
 	{
 		$strings = array();
-
+		$strings['ThereAreNoTimesForSearch'] = 'There are no available times that match your search';
+		$strings['reservationNameInfo'] = 'Give the event a clear and a communicative name.';
+		$strings['reservationDescriptionInfo'] = 'What is going to happen in the resource? The information you give us will be used as is when advertising the event.';
+		$strings['resourceConfInfo'] = 'Voit valita seitsemästä tilakonseptista parhaimman ratkaisun toiminnallesi. Lisämaksuton tilaratkaisu Muuntamo ORIGINAL on hyvä lähtökohta monenlaiseen toimintaan. Voit myös valita kohdennetuista tilaratkaisuista toiminnallesi parhaiten sopivan. Lisätiedoista näet tarkemman kuvauksen tilan varusteluista.';
+		$strings['SelectTime'] = 'Select the time';
+		$strings['FrontReservationConfSelect'] = 'You can choose between eight Resource Configurations. Check the additional information for a more detailed description of the space\'s equipment.';
+		$strings['ResourceConfInResources'] = 'The Resource Configuration is in use in the following resources:';
+		$strings['ManageResourceConfsTitle'] = 'Edit Resource configurations';
+		$strings['ResourceConfiguration'] = 'Resource configuration';
+		$strings['ResourceConfigurations'] = 'Resource configurations';
+		$strings['AddResourceConfiguration'] = 'Add Resource configuration';
+		$strings['AboutFrontTitle'] = 'Osallistava,<br/> muuntautuva<br/> ja oivaltava.';
+		$strings['ResourcesDescription'] = 'Select the resources and Resource Configurations:';
+		$strings['Index'] = 'Frontpage';
 		$strings['AboutFrontTitle'] = 'Muuntamo';
 		$strings['AboutFrontText'] = 'The idea of the service is to provide Vantaan kaupunki workers a chance to book an office space to their use and customise the furniture to suit their needs. In addition, the users of Muuntamo can order extra services from outside service providers. Muuntamo offers a spectacular framework for 	confluence of the city workers, municipal services and private sector service providers and of course for the residents.';
 		$strings['About'] = 'About';

@@ -1,10 +1,10 @@
 {assign var=checkin value=$reservation->IsCheckinEnabled() && $reservation->RequiresCheckin()}
 <div class="reservation row" id="{$reservation->ReferenceNumber}">
-    <div class="col-sm-3 col-xs-12">{$reservation->Title|default:$DefaultTitle}</div>
-    <div class="col-sm-2 col-xs-12">{fullname first=$reservation->FirstName last=$reservation->LastName ignorePrivacy=$reservation->IsUserOwner($UserId)} {if !$reservation->IsUserOwner($UserId)}{html_image src="users.png" altKey=Participant}{/if}</div>
-    <div class="col-sm-2 col-xs-6">{formatdate date=$reservation->StartDate->ToTimezone($Timezone) key=dashboard}</div>
-    <div class="col-sm-2 col-xs-6">{formatdate date=$reservation->EndDate->ToTimezone($Timezone) key=dashboard}</div>
-    <div class="col-sm-{if $checkin}2{else}3{/if} col-xs-12">{$reservation->Resources|join:', '}</div>
+    <div class="col-sm-{if $checkin}3{else}3{/if} col-xs-12">{translate key="Resource"}: {$reservation->Resources|join:', '}</div>
+    <div class="col-sm-8 col-xs-12">{translate key="ReservationTitle"}: {$reservation->Title|default:$DefaultTitle}</div><br/>
+    {*<div class="col-sm-2 col-xs-12">{fullname first=$reservation->FirstName last=$reservation->LastName ignorePrivacy=$reservation->IsUserOwner($UserId)} {if !$reservation->IsUserOwner($UserId)}{html_image src="users.png" altKey=Participant}{/if}</div>*}
+    <div class="col-sm-3 col-xs-12">{translate key="BeginDate"}: {formatdate date=$reservation->StartDate->ToTimezone($Timezone) key=dashboard}</div>
+    <div class="col-sm-4 col-xs-12">{translate key="EndDate"}: {formatdate date=$reservation->EndDate->ToTimezone($Timezone) key=dashboard}</div>
     {if $checkin}
         <div class="col-sm-1 col-xs-12">
             <button type="button" class="btn btn-xs col-xs-12 btn-success btnCheckin" data-referencenumber="{$reservation->ReferenceNumber}">

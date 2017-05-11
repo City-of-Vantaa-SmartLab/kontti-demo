@@ -178,6 +178,8 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 		}
 		if (!$readOnly && $this->IsEditable)
 		{
+			$HideRepeat=1;
+			$this->Set('HideRepeat', "1");
 			return 'Reservation/edit.tpl';
 		}
 		return 'Reservation/view.tpl';

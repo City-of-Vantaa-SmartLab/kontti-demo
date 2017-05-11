@@ -83,7 +83,7 @@ interface IReservationComponentInitializer
 	 * @param $canChangeUser bool
 	 */
 	public function SetCanChangeUser($canChangeUser);
-
+	
 	/**
 	 * @param $reservationUser UserDto
 	 */

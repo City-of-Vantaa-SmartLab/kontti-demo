@@ -17,6 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
+
 {block name="header"}{include file='globalheader.tpl' Qtip=true printCssFiles='css/reservation.print.css'}
 {/block}
 
@@ -30,12 +31,15 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				</div>
 				<div class="resourceContainerRight" style="color:Black}">
 					<span>
+						{*
 						<select name="ResourceArrangement[{$resource->GetId()}]" class="resourceContainerRight">
 							{foreach from=$availableResourcesArrangements item=temp}
 											{$Arrangementsplit = ":"|explode:$temp}
 											<option value="{$Arrangementsplit[0]}"{if $arrangementIds == $Arrangementsplit[0]} selected="selected"{/if}>{$Arrangementsplit[1]}</option>
 							{/foreach}
 						</select>
+						*}
+						<input type=hidden name="ResourceArrangement[{$resource->GetId()}]" value="1">
 					</span>
 					{if $resource->GetRequiresApproval()}<span class="fa fa-lock" data-tooltip="approval"></span>{/if}
 					{if $resource->IsCheckInEnabled()}<i class="fa fa-sign-in" data-tooltip="checkin"></i>{/if}
@@ -84,12 +88,12 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 					<div class="col-xs-12">
 						<div class="form-group">
 							{if $ShowUserDetails && $ShowReservationDetails}
-								<a href="#" id="userName" data-userid="{$UserId}">{$ReservationUserName}</a>
 							{else}
 								{translate key=Private}
 							{/if}
 							<input id="userId" type="hidden" {formname key=USER_ID} value="{$UserId}"/>
 							{if $CanChangeUser}
+								<a href="#" id="userName" data-userid="{$UserId}">{$ReservationUserName}</a>
 								<a href="#" id="showChangeUsers" class="small-action">{translate key=Change} <i
 											class="fa fa-user"></i></a>
 								<div class="modal fade" id="changeUserDialog" tabindex="-1" role="dialog"
@@ -135,13 +139,13 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<div class="form-group">
 							<div class="pull-left">
 								<div>
-									<p>{translate key="ResourcesDescription"}</p>
+									{*<p>{translate key="ResourcesDescription"}</p>*}
 										{$SelectedResourceGroup=$Resource->ResourceTypeId}
 										{$resource->Id}
 								</div>
 								{$Checked=True}
 
-								<div id="primaryResourceContainer" class="inline">
+								<div id="primaryResourceContainer" class="col-sm-4 inline">
 										{$resource->Id}
 									<input type="hidden" id="scheduleId" {formname key=SCHEDULE_ID}
 										   value="{$ScheduleId}"/>
@@ -184,6 +188,10 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							</div>
 						</div>
 					</div>
+					
+							<div class="col-xs-12">
+								<p class="pull-left">Mahdollisuus vain pienen osan varaamiseen tulee myöhemmin</p>
+							</div>
 					<div class="col-xs-12 reservationDatesBox">
 						<div class="reservationDatesBox">
 							<p>{translate key = "SelectTime"}:</p>
@@ -251,13 +259,27 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 
 					{if !$HideRecurrence}
 						<div class="col-xs-12">
+							{if isset($HideRepeat)}
+								{translate key='RecurrenceDisabledBugPt1'} <a href="{$Path}{Pages::SCHEDULE}?sd={formatdate date=$StartDate key=system}" target="_blank">{translate key='RecurrenceDisabledBugLink'}</a> {translate key='RecurrenceDisabledBugPt2'}
+								<div class="hidden">
+							{/if}
+							
 							{control type="RecurrenceControl" RepeatTerminationDate=$RepeatTerminationDate}
+							
+							{if isset($HideRepeat)}
+								</div>
+							{/if}
+							
 						</div>
 					{/if}
-
 					<div class="col-xs-12 reservationTitle">
 						<div class="form-group has-feedback">
 							<label for="reservationTitle">{translate key="ReservationTitle"}</label>
+							<div class="reservationInfoBox">
+								<p>
+								{translate key="reservationNameInfo"}
+								</p>
+							</div>
 							{textbox name="RESERVATION_TITLE" class="form-control" value="ReservationTitle" id="reservationTitle" maxlength="85"}
 							{*<i class="glyphicon glyphicon-asterisk form-control-feedback" data-bv-icon-for="reservationTitle"></i>*}
 						</div>
@@ -266,8 +288,13 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 					<div class="col-xs-12">
 						<div class="form-group">
 							<label for="description">{translate key="ReservationDescription"}</label>
+							<div class="reservationInfoBox">
+								<p>
+								{translate key="reservationDescriptionInfo"}
+								</p>
+							</div>
 							<textarea id="description" name="{FormKeys::DESCRIPTION}"
-									  class="form-control">{$Description}</textarea>
+									  class="form-control" required>{$Description}</textarea>
 						</div>
 					</div>
 
@@ -614,5 +641,27 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		});
 	});
 </script>
+{*<script type="text/javascript">
+var cbs = document.querySelectorAll('input[id=CheckRes][type=checkbox]');
+var testi = [];
+for(var i = 0; i < cbs.length; i++) {
+    cbs[i].addEventListener('change', function() {
+        if(this.checked){
+			testi[this.value] = this.value;
+			$.ajax(
+			{	
+				url: "about.php",
+				dataType: "HTML",
+				success: function(data) { $('#testingthings').html(data);},
+				error: function(e){ alert('Error: ' + e);}
+			});
+            //console.log(this.value);
+            //console.log(testi);
+			console.log($);
+			return false;
+		}
+    });
+}
+</script>*}
 <div id="testingthings"></div>
 {include file='globalfooter.tpl'}

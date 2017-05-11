@@ -99,23 +99,23 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						</a>
 					</div>
 				{/if}
-			</div>
-			<div id="login-footer" class="col-xs-12">
-				{if $ShowForgotPasswordPrompt}
-					<div id="forgot-password" class="col-xs-12 col-sm-6">
-						<a href="{$ForgotPasswordUrl}" {$ForgotPasswordUrlNew} class="btn btn-link pull-left-sm"><span><i
-										class="glyphicon glyphicon-question-sign"></i></span> {translate key='ForgotMyPassword'}</a>
-					</div>
-				{/if}
-				<div id="change-language" class="col-xs-12 col-sm-6">
-					<button type="button" class="btn btn-link pull-right-sm" data-toggle="collapse"
-							data-target="#change-language-options"><span><i class="glyphicon glyphicon-globe"></i></span>
-						{translate key=ChangeLanguage}
-					</button>
-					<div id="change-language-options" class="collapse">
-						<select {formname key=LANGUAGE} class="form-control input-sm" id="languageDropDown">
-							{object_html_options options=$Languages key='GetLanguageCode' label='GetDisplayName' selected=$SelectedLanguage}
-						</select>
+				<div id="login-footer" class="col-xs-12">
+					{if $ShowForgotPasswordPrompt}
+						<div id="forgot-password" class="col-xs-12 col-sm-6">
+							<a href="{$ForgotPasswordUrl}" {$ForgotPasswordUrlNew} class="btn btn-link pull-left-sm"><span><i
+											class="glyphicon glyphicon-question-sign"></i></span> {translate key='ForgotMyPassword'}</a>
+						</div>
+					{/if}
+					<div id="change-language" class="col-xs-12 col-sm-6">
+						<button type="button" class="btn btn-link pull-right-sm" data-toggle="collapse"
+								data-target="#change-language-options"><span><i class="glyphicon glyphicon-globe"></i></span>
+							{translate key=ChangeLanguage}
+						</button>
+						<div id="change-language-options" class="collapse">
+							<select {formname key=LANGUAGE} class="form-control input-sm" id="languageDropDown">
+								{object_html_options options=$Languages key='GetLanguageCode' label='GetDisplayName' selected=$SelectedLanguage}
+							</select>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -128,7 +128,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 {setfocus key='EMAIL'}
 
 <script type="text/javascript">
-	var url = 'index.php?{QueryStringKeys::LANGUAGE}=';
+	var url = 'login.php?{QueryStringKeys::LANGUAGE}=';
 	$(document).ready(function () {
 		$('#languageDropDown').change(function () {
 			window.location.href = url + $(this).val();
