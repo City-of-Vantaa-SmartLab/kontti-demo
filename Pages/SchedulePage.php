@@ -20,6 +20,7 @@
 
 require_once(ROOT_DIR . 'Pages/SecurePage.php');
 require_once(ROOT_DIR . 'Presenters/SchedulePresenter.php');
+require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 
 interface ISchedulePage extends IActionPage
 {

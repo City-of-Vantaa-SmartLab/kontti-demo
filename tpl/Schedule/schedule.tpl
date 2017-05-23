@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-
+{debug}
 {* All of the slot display formatting *}
 
 {function name=displayGeneralReserved}
@@ -86,6 +86,14 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		{translate key=DefaultScheduleSet}
 	</div>
 
+				<div class="ScheduleInfo">
+					<div class="ScheduleInfoInner">
+				{*<span>{$ScheduleName}</span>*}<span class="ScheduleInfo"><h1>{translate key="Bookings"}</h1></span><br/>
+				
+				{if isset($smarty.get.roomconf)}<p class="ScheduleInfo">{translate key="ScheduleInfoResConfPt1"} {getArrangementName($smarty.get.roomconf)}{translate key="ScheduleInfoResConfPt2"}</p>{/if}
+				<p class="ScheduleInfo">{translate key="ScheduleInfo"}</p><br/>
+					</div>
+				</div>
 	{block name="schedule_control"}
 		<div class="row-fluid">
 			<div id="schedule-actions" class="col-md-3">
@@ -113,7 +121,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			</div>
 
 			<div id="schedule-title" class="schedule_title col-md-6">
-				{*<span>{$ScheduleName}</span>*}<span>{translate key="Bookings"}</span>
 				{if $Schedules|@count gt 1}
 					<div class="dropdown btn-group">
 						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#" id="scheduleListDropdown"><span class="caret dropdown-toggle"></span></a>
@@ -125,14 +132,14 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 					</div>
 				{/if}
 				<br/><a href="#" id="calendar_toggle" title="{translate key=ShowHideNavigation}">
-					Näytä Kalenteri
+					{translate key="ToggleCalendar"}
 				</a>
 				<div id="individualDates">
 					<div class="checkbox inline">
 						<input type='checkbox' id='multidateselect'/>
 						<label for='multidateselect'>{translate key=SpecificDates}</label>
 					</div>
-					<a class="btn btn-default btn-sm" href="#" id="individualDatesGo"><i class="fa fa-angle-double-right"></i></a>
+					<a class="btn btn-success btn-sm" href="#" id="individualDatesGo"><i class="fa fa-angle-double-right"></i></a>
 				</div>
 				<div id="individualDatesList"></div>
 			</div>
@@ -140,16 +147,21 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			{capture name="date_navigation"}
 				<div class="row center">
 				<div class="schedule-dates col-lg-3 col-md-12">
+					<div class="weekselectorButtonsLeft">
 					{assign var=TodaysDate value=Date::Now()}
-					{*<a href="#" class="change-date btn-link btn-success" data-year="{$TodaysDate->Year()}" data-month="{$TodaysDate->Month()}" data-day="{$TodaysDate->Day()}" alt="{translate key=Today}"><i class="fa fa-home"></i></a>*}
-					{assign var=FirstDate value=$DisplayDates->GetBegin()}
-					{assign var=LastDate value=$DisplayDates->GetEnd()->AddDays(-1)}
-					<a href="#" class="change-date" data-year="{$PreviousDate->Year()}" data-month="{$PreviousDate->Month()}"
-					   data-day="{$PreviousDate->Day()}">{html_image src="arrow_large_left.png" alt="{translate key=Back}"}</a>
-					{formatdate date=$FirstDate} - {formatdate date=$LastDate}
-					<a href="#" class="change-date" data-year="{$NextDate->Year()}" data-month="{$NextDate->Month()}"
-					   data-day="{$NextDate->Day()}">{html_image src="arrow_large_right.png" alt="{translate key=Forward}"}</a>
-
+						{*<a href="#" class="change-date btn-link btn-success" data-year="{$TodaysDate->Year()}" data-month="{$TodaysDate->Month()}" data-day="{$TodaysDate->Day()}" alt="{translate key=Today}"><i class="fa fa-home"></i></a>*}
+						{assign var=FirstDate value=$DisplayDates->GetBegin()}
+						{assign var=LastDate value=$DisplayDates->GetEnd()->AddDays(-1)}
+						<a href="#" class="change-date" data-year="{$PreviousDate->Year()}" data-month="{$PreviousDate->Month()}"
+						   data-day="{$PreviousDate->Day()}">{html_image src="arrow_large_left.png" alt="{translate key=Back}"}</a>
+					</div>
+					<div class="weekselectorButtonsMid">
+						{formatdate date=$FirstDate} - {formatdate date=$LastDate}
+					</div>
+					<div class="weekselectorButtonsRight">
+						<a href="#" class="change-date" data-year="{$NextDate->Year()}" data-month="{$NextDate->Month()}"
+						   data-day="{$NextDate->Day()}">{html_image src="arrow_large_right.png" alt="{translate key=Forward}"}</a>
+					</div>
 					{if $ShowFullWeekLink}
 						<a href="{add_querystring key=SHOW_FULL_WEEK value=1}"
 						   id="showFullWeek">({translate key=ShowFullWeek})</a>
@@ -321,7 +333,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 {block name="scripts-common"}
 
 	{jsfile src="js/moment.min.js"}
-	{jsfile src="schedule.js"}
+	{jsfile src="schedule.js?v=1"}
 	{jsfile src="resourcePopup.js"}
 	{jsfile src="js/tree.jquery.js"}
 	{jsfile src="js/jquery.cookie.js"}

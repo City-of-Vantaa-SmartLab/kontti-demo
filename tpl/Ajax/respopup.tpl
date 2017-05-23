@@ -52,7 +52,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
         {if $startDate->DateEquals($endDate)}
             {assign var="key" value="res_popup_time"}
         {/if}
-		<div class="dates">{formatdate date=$startDate key=res_popup} - {formatdate date=$endDate key=$key}</div>
+		<div class="dates">{formatdate date=$startDate key=res_popup} - {formatdate date=$endDate key=res_popup}{*$key*}</div>
 	{/capture}
 	{$formatter->Add('dates', $smarty.capture.dates)}
 
@@ -65,7 +65,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 
 	{capture "resources"}
 	<div class="resources">
-	{translate key="Resources"} ({$resources|@count}):
+	{translate key="Resources"}{* ({$resources|@count})*}:
 	{foreach from=$resources item=resource name=resource_loop}
 		{$resource->Name()}
 		{if !$smarty.foreach.resource_loop.last}, {/if}
@@ -73,7 +73,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 	{/capture}
 	{$formatter->Add('resources', $smarty.capture.resources)}
-
+{*
 	{capture "participants"}
 	{if !$hideUserInfo && !$hideDetails}
 	<div class="users">
@@ -88,7 +88,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	{/capture}
 	{$formatter->Add('participants', $smarty.capture.participants)}
-
+*}
+{*
 	{capture "accessories"}
 	{if !$hideDetails}
 	<div class="accessories">
@@ -101,7 +102,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	{/capture}
 	{$formatter->Add('accessories', $smarty.capture.accessories)}
-
+*}
 	{capture "description"}
 	{if !$hideDetails}
 		<div class="summary">{if $summary neq ''}{$summary|truncate:300:"..."|nl2br}{else}{translate key=NoDescriptionLabel}{/if}</div>

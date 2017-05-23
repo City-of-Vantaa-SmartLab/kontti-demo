@@ -4,6 +4,19 @@
 	
 
 */
+
+require_once(ROOT_DIR . '/Pages/mod/connectors/mysql_connect.php');
+$instance = new databaseConnect();
+$instance->connect();
+		global $dbh;
+		
+function pdoExecute($query){
+		global $dbh;
+		$list=$dbh->prepare($query);
+		$list->execute();
+	return $list;
+}
+
 function regexnums($value){ // Poistaa kaiken muun paitsi numerot
 	return preg_replace("/[^0-9]/","",$value);
 }
@@ -44,6 +57,9 @@ function regexDateIsReal($time){
 }
 function regexTimeIsReal($time){
     return preg_replace("/[^0-9:]/","",$time); //poistaa annetusta $time muut kuin numerot ja : merkit ja palauttaa tuloksen
+}
+function regexCheckTimeIsReal($time){
+	return preg_match("/(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])/", $time);
 }
 function regexLengthIsTwo($time){	//poistaa formaatista 00:00:00 ylimääräiset : eroteltuna, [2]:[2]:[2]
 	$time=explode(":", $time);

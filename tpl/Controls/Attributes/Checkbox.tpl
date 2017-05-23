@@ -37,7 +37,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			{elseif strcmp($attribute->Label(),"Tutkimus")==0}Olen lukenut <a type="button" data-toggle="modal" data-target="#modal{$attribute->Label()}">tutkimus- ja tietosuojaselosteen</a>, <a type="button" data-toggle="modal" data-target="#modal{$attribute->Label()}3">tiedotteen tutkimuksesta</a> ja annan <a type="button" data-toggle="modal" data-target="#modal{$attribute->Label()}2">suostumukseni tutkimukseen osallistumiseen</a>.
 			{else}{$attribute->Label()}{/if}
                 {if $attribute->Required() && !$searchmode}
-                    <i class="glyphicon glyphicon-asterisk"></i>
+                    <i class="glyphicon glyphicon-asterisk checkboxglyphicon"></i>
                 {/if}
             </label>
         </div>

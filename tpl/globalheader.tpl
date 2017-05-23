@@ -140,7 +140,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	{cssfile src="scripts/css/jquery-ui-timepicker-addon.css"}
 	{cssfile src="booked.css?v=1"}
-	{cssfile src="muuntamo.css?v=2"}
+	{cssfile src="muuntamo.css?v=18"}
 	{if $cssFiles neq ''}
 		{assign var='CssFileList' value=','|explode:$cssFiles}
 		{foreach from=$CssFileList item=cssFile}
@@ -160,8 +160,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	<!-- End CSS -->
 </head>
-<body{if basename($smarty.server.PHP_SELF) == "index.php"||basename($smarty.server.PHP_SELF) == "register.php"||basename($smarty.server.PHP_SELF) == "login.php"} class=infoFrontpage{/if}>
-
+<body{if basename($smarty.server.PHP_SELF) == "dashboard.php"} class="dashboardpage"{/if}{if basename($smarty.server.PHP_SELF) == "index.php"||basename($smarty.server.PHP_SELF) == "register.php"||basename($smarty.server.PHP_SELF) == "login.php"} class="infoFrontpage"{/if}{if basename($smarty.server.PHP_SELF) == "dashboard.php"} class="infoDashboard"{/if}>
 {if $HideNavBar == false}
 <nav class="navbar navbar-default {if $IsDesktop}navbar-fixed-top{else}navbar-static-top adjust-nav-bar-static{/if}" role="navigation">
 	<div class="container-fluid">
@@ -172,7 +171,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="{if basename($smarty.server.PHP_SELF) == "index.php"}index.php{elseif basename($smarty.server.PHP_SELF) == "login.php"}index.php{elseif basename($smarty.server.PHP_SELF) == "register.php"}index.php{else}{$HomeUrl}{/if}">{html_image src="$LogoUrl?2.6" alt="{translate key="LogoAltText"}"}</a>
+			<a class="navbar-brand" href="{if basename($smarty.server.PHP_SELF) == "index.php"}index.php{elseif basename($smarty.server.PHP_SELF) == "login.php"}index.php{elseif basename($smarty.server.PHP_SELF) == "register.php"}index.php{else}{$HomeUrl}{/if}">{html_image src="$LogoUrl?2.6" alt="{translate key="LogoAltText"}" class="logo"}</a>
 		</div>
 		<div class="collapse navbar-collapse" id="booked-navigation">
 			<ul class="nav navbar-nav">
@@ -183,7 +182,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 									class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="{$Path}{Pages::PROFILE}">{translate key="Profile"}</a></li>
-							<li><a href="{$Path}{Pages::PASSWORD}">{translate key="ChangePassword"}</a></li>
+							{*<li><a href="{$Path}{Pages::PASSWORD}">{translate key="ChangePassword"}</a></li>*}
 							<li>
 								<a href="{$Path}{Pages::NOTIFICATION_PREFERENCES}">{translate key="NotificationPreferences"}</a>
 							</li>
@@ -335,4 +334,4 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 
 {/if}
 {$_SERVER['PHP_SELF']}
-<div id="main" class="container-fluid{if basename($smarty.server.PHP_SELF) == "index.php"||basename($smarty.server.PHP_SELF) == "register.php"||basename($smarty.server.PHP_SELF) == "login.php"} infoFrontpage{/if}">
+<div id="main" class="container-fluid{if basename($smarty.server.PHP_SELF) == "index.php"||basename($smarty.server.PHP_SELF) == "register.php"||basename($smarty.server.PHP_SELF) == "login.php"} infoFrontpage{/if}{if basename($smarty.server.PHP_SELF) == "dashboard.php"} infoDashboard{/if}">

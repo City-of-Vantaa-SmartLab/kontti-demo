@@ -317,7 +317,7 @@ function Schedule(opts, resourceGroups) {
 									api.set('content.text', status + ': ' + error);
 								});
 
-						return 'Loading...';
+						return 'Ladataan...';
 					}
 				},
 
@@ -366,15 +366,14 @@ function Schedule(opts, resourceGroups) {
 				{
 					var start = moment(decodeURIComponent(startDate));
 					var end = moment(decodeURIComponent(endDate));
-
 					// the user dragged right to left
 					if (end < start)
 					{
-						window.location = href + "&sd=" + endDate + "&ed=" + startDate;
+						window.location = href + "&sd=" + endDate + "&ed=" + startDate + "&roomconf=" + findGetParameter("roomconf");
 					}
 					else
 					{
-						window.location = href + "&sd=" + startDate + "&ed=" + endDate;
+						window.location = href + "&sd=" + startDate + "&ed=" + endDate + "&roomconf=" + findGetParameter("roomconf");
 					}
 				}
 			}
@@ -576,4 +575,17 @@ function RedirectToSelf(queryStringParam, regexMatch, substitution, preProcess) 
 	newUrl = newUrl.replace("#", "");
 
 	window.location = newUrl;
+}
+
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+    .substr(1)
+        .split("&")
+        .forEach(function (item) {
+        tmp = item.split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    });
+    return result;
 }

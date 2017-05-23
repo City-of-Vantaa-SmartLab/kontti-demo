@@ -25,9 +25,9 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			{if $LoggedIn}
 				<a href="{$Path}logout.php">{translate key="SignOut"}</a>
 			{else}
-				<a class="btn btn-default" href="{$Path}{Pages::LOGIN}">{translate key="LogIn"}</a>
-				{*<a class="btn btn-default" href='#loginbox' role='button' data-toggle='collapse'>{translate key="LogIn"}</a>*}
-				<a class="btn btn-default" href="{$Path}register.php">{translate key="Register"}</a>
+				<a class="btn btn-success linkbutton" href="{$Path}{Pages::LOGIN}">{translate key="LogIn"}</a>
+				{*<a class="btn btn-success linkbutton" href='#loginbox' role='button' data-toggle='collapse'>{translate key="LogIn"}</a>*}
+				<a class="btn btn-success linkbutton" href="{$Path}register.php">{translate key="Register"}</a>
 				<div id='loginbox' class='collapse'>
 					<form role="form" name="login" id="login" class="form-horizontal" method="post"
 					  action="{$smarty.server.SCRIPT_NAME}">

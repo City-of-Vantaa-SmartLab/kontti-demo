@@ -4,16 +4,12 @@
 	
 
 */
-require_once(ROOT_DIR . '/Pages/mod/connectors/mysql_connect.php');
-$instance = new databaseConnect();
-$instance->connect();
-		global $dbh;
-		
-function pdoExecute($query){
-		global $dbh;
-		$list=$dbh->prepare($query);
-		$list->execute();
-	return $list;
+require_once(ROOT_DIR . '/Pages/mod/functions.php');
+
+function getArrangementInfo($conf_id){		//hakee ja palauttaa conf_id:n perusteella huonekonfiguraation kuvauksen
+		$list=pdoExecute("SELECT * FROM `resource_conf` WHERE conf_id=".regexnums($conf_id)." Limit 1");
+		$row=$list->fetch(PDO::FETCH_ASSOC);
+	return $row;
 }
 
 function getArrangementDescription($conf_id){		//hakee ja palauttaa conf_id:n perusteella huonekonfiguraation kuvauksen
@@ -23,7 +19,8 @@ function getArrangementDescription($conf_id){		//hakee ja palauttaa conf_id:n pe
 }
 
 function getArrangementName($conf_id){		//hakee ja palauttaa conf_id:n perusteella huonekonfiguraation nimen
-		$list=pdoExecute("SELECT name FROM `resource_conf` WHERE conf_id=".regexnums($conf_id)." Limit 1");
+		$conf_id=regexnums($conf_id);
+		$list=pdoExecute("SELECT name FROM `resource_conf` WHERE conf_id=".$conf_id." Limit 1");
 		$row=$list->fetch(PDO::FETCH_ASSOC);
 		return $row['name'];
 }
@@ -117,10 +114,8 @@ function removeResourceConfResourceLinkWTarget($target_id){	//removes a link bet
 	}
 }
 
-function createResourceConf($name,$description,$resource_id){	//Creates a resource configuration
-	$resource_id=regexnums($resource_id);
-	$list=pdoExecute("INSERT INTO resource_conf(name,description) VALUES ('".$name."','".$description."')");
-	//createResourceConfResourceLink($resource_id,$dbh->lastInsertId()); //temp
+function createResourceConf($name,$description,$price,$furni){	//Creates a resource configuration
+	$list=pdoExecute("INSERT INTO resource_conf(name,description,price,furniturelist) VALUES ('".$name."','".$description."',".$price.",'".$furni."')");
 }
 
 function createResourceConfResourceLink($resource_id,$conf_id){	
@@ -183,9 +178,17 @@ function getSeriesIdWResIID($reservation_instance_id){
 function matchDateAndResource($resource_id,$StartDate){
 	//selvitetään series_id (eli varaustapahtuman id) etsimällä $StartDate:n perusteella 
 	//ja tarkistamalla että kyseinen aika on halutussa resource_id:ssä
-	$list=pdoExecute("SELECT series_id FROM reservation_instances WHERE start_date='".$StartDate."' AND series_id IN(SELECT series_id FROM reservation_resources WHERE resource_id = ".regexnums($resource_id).") LIMIT 1");
-	$row=$list->fetch(PDO::FETCH_ASSOC);
-	return $row['series_id'];
+	$list=pdoExecute("SELECT series_id FROM reservation_instances WHERE start_date='".$StartDate."' AND series_id IN(SELECT series_id FROM reservation_resources WHERE resource_id = ".regexnums($resource_id).")");
+	while($row=$list->fetch(PDO::FETCH_ASSOC)){
+		$list2=pdoExecute("SELECT status_id FROM reservation_series WHERE series_id=".$row['series_id']." AND status_id = 1 LIMIT 1");
+		$status=$list2->fetch(PDO::FETCH_ASSOC);
+		if(isset($status)){
+			$series_id=$row['series_id'];
+		}else{
+			echo "$series id";
+		}
+	}
+	return $series_id;
 }
 
 function getAllConfResources(){
@@ -203,18 +206,18 @@ function getAllResourceArrangements(){
 	//Returns them in an array
 	$list=pdoExecute("SELECT * FROM `resource_conf`");
 	while($row=$list->fetch(PDO::FETCH_ASSOC)){
-		$result[]=$row;
+		$result[$row['conf_id']]=$row;
 	}
 	return $result;
 }
 
 
-function updateResourceArrangement($conf_id,$name,$description){
+function updateResourceArrangement($conf_id,$name,$description,$price,$furni){
 	//Updates a resource configuration
 	$conf_id = regexnums($conf_id);
 	$name = $name;
 	$description = $description;
-	$list=pdoExecute("UPDATE `resource_conf` SET `name`='".$name."', `description`='".$description."' WHERE `conf_id`=".$conf_id."");
+	$list=pdoExecute("UPDATE `resource_conf` SET `name`='".$name."', `description`='".$description."', `price`=".$price.",`furniturelist`='".$furni."' WHERE `conf_id`=".$conf_id."");
 	$row=$list->fetch(PDO::FETCH_ASSOC);
 }
 

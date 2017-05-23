@@ -198,6 +198,16 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 						echo "Tilaratkaisuja ei tallennettu! Virhe: Puuttuva muuttuja.";
 					}
 				}
+				if(isset($_POST['IsPublicEvent'])&&isset($_POST['SelectPublicTime'])&&isset($_POST['SelectPublicEndTime'])){
+					
+					if(isset($_POST['IsPublicEvent'])){
+						$publicStatus=1;
+					}else{
+						$publicStatus=0;
+					}
+					insertEventPublicWithDate($publicStatus,$_POST['SelectPublicTime'],$_POST['SelectPublicEndTime'],$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+					//updateEventPublicWithDate($_POST['IsPublicEvent'],$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+				}
 				// MODIFIED CODE STOPS HERE
 				
 				$this->Display('Ajax/reservation/save_successful.tpl');

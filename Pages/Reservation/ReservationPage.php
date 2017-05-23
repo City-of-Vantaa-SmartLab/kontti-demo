@@ -272,6 +272,15 @@ abstract class ReservationPage extends Page implements IReservationPage
 		$this->Set('ResourceId', $resource->GetId());
         $this->Set('Arrangements', defineArrangements($resource->GetId()));
 		$this->Set('Resource', $resource);
+		//MUUNTAMO CODE STARTS
+		$this->Set('ResourceConfs', getAllResourceArrangements());
+		$ResourceInfo=getAllResourceInfo($resource->GetId());
+        $this->Set('description', $ResourceInfo['description']);
+        $this->Set('notes', $ResourceInfo['notes']);
+        $this->Set('contactInformation', $ResourceInfo['contact_info']);
+        $this->Set('locationInformation', $ResourceInfo['location']);
+        $this->Set('maxParticipants', $ResourceInfo['max_participants']);
+		//MUUNTAMO CODE ENDS
 	}
 
 	public function SetScheduleId($scheduleId)
