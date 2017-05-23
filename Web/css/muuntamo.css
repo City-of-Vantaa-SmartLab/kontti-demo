@@ -1,8 +1,10 @@
 ﻿/*
  Vantaan värit: (vihreät)
-D4EB91 	//ei käytetty missään
+D4EB91 	//Frontpageinfo?
 6BC24A	//Not clicked, not hover, header
 4A7829	//Hover/clicked
+
+d9d9d6	//Footer gray
 
 */
 
@@ -15,16 +17,28 @@ D4EB91 	//ei käytetty missään
     font-family: GTWalsheimBold;
     src: url(fonts/GT-Walsheim-Bold.woff);
 }
+img.logo {
+    width: 211px;
+    height: 51px;
+    padding-top: 12px;
+    padding-bottom: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 div.DashboardBlock{
 	text-align: center;
 	display: inline-block;
 	width: 100%;
 }
 div.infoFrontpage{
+	margin-top: -20px;
 	padding-top: 70px;
 	padding-bottom: 70px;
 	background-image: url("images/myyrmäki_MG_1791.png");
 	background-size:cover;
+}
+div.infoDashboard{
+	margin-top: -55px;
 }
 
 div.frontInfo{
@@ -40,8 +54,22 @@ div.frontInfo{
 	border: solid 1px #FFFFFF;
 }
 
+* {/*Removing round corners from everything*/
+  border-radius: 0 !important;
+}
+* {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+hr.ResourceConfFrontBottom{
+	border-top: 4px solid #d9d9d6;
+}
 h1.frontInfo{
 	color: black;
+}
+.navbar{
+	margin-bottom: 0px;
 }
 nav.navbar-default, .navbar-fixed-top{
 	background-color: #6BC24A;
@@ -51,7 +79,9 @@ nav.navbar-default, .navbar-fixed-top{
 	min-height: 80%;
 }
 body{
-background-color: #ffffff;
+	background-color: #ffffff;
+}
+body.dashboardpage{
 }
 div.schedule-legend{
     margin-top: 10px;
@@ -59,6 +89,9 @@ div.schedule-legend{
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
     color: white;
     background-color: #4A7829;
+}
+#page-login .register {
+    text-align: unset;
 }
 div.registerModalBox{
 	width: auto;
@@ -68,6 +101,9 @@ div.registerModalBoxBody{
 	width: 100%;
 	max-height: 500px;
 	overflow-y: auto;
+}
+*.languagebox{
+	padding-left: 0px;
 }
 span.registerModalBoxBodyOwn{
 	width: 100%;
@@ -88,8 +124,11 @@ div.registerModalBoxBodyRight{
     background-color: #4A7829;
     border-color: #4A7829;
 }
+.btn-link {
+    color: #428181;
+}
 body.infoFrontpage{
-	padding-top: 0px;
+	/*padding-top: 40px;*/
 }
 .btn{
 	max-width: 200px;
@@ -100,6 +139,7 @@ body.infoFrontpage{
 }
 
 div.legend{
+	border: solid #555 1px;
 	height: 40px;
 	line-height: 40px;
 	vertical-align: middle;
@@ -113,21 +153,37 @@ table.reservations td{
 	background-color: transparent;
 }
 td.unreservable.slot{    
-	background-color: #CF9D9B;
+	background-color: #d9d9d6;
 }
-td.reserved.clickres.slot{    
-	background-color: #408AD2;
+td.reserved.clickres.slot{   
+    overflow: hidden;
+    white-space: nowrap; 
+	background-color: #db3db0;
 }
 
+.unreservable{
+	background-color: #d9d9d6;
+	color: #000000;
+}
+.reserved{
+    background-color: #db3db0;
+	color: #000000;
+}
+.reserved.mine {
+    background-color: #d4eb91;
+}
 td.mine{    
-	background-color: #6F9BAE !important; 
-	/*important because the rule above overwrite this*/
+	background-color: #d4eb91 !important; 
+	/*important because the rules above overwrite this*/
 }
 #reservations-left{
 		display: none;
 }
 div.row-fluid{
 	text-align: center;
+}
+i.checkboxglyphicon{
+	color: #e91e1e;
 }
 #reservations{
 	float: none;
@@ -154,15 +210,20 @@ a.btn-default{
 	color: #FFFFFF;
 }
 .btn-default{    
-	color: white;
-	background-color: #6BC24A;
+	color: black;
+	background-color: #FFFFFF;
 	border-color: #6BC24A;
 }
 .btn-success{
 	background-color: #6BC24A;
 	border-color: #6BC24A;
 }
-
+*.linkbutton{
+	min-width: 100px;
+}
+a.linkbutton, a:visited .linkbutton{
+    color: #FFFFFF;
+}
 .btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
     color: white;
 	background-color: #4A7829;
@@ -176,6 +237,7 @@ a.btn-default{
     color: white;
 }
 div.partnercontainer{
+	padding-top: 20px;
 	width: 100%;
 }
 div.reservationInfoBox{
@@ -187,6 +249,11 @@ div.partnerlogo{
 	width: 200px;
     height: 75px;
     margin: 0px;
+}
+td.partnerlogo{
+	width: 100%;
+	height: 100%;
+	vertical-align: middle;
 }
 div.registercheckbox{
 	width: 100%;
@@ -200,6 +267,8 @@ img.partnerlogo{
 	min-width: 75px;
 }
 div.footercopyright{
+	padding-top: 20px;
+	padding-bottom: 10px;
 	vertical-align:text-top;
     display: inline-block;
 	color: #76777B;
@@ -222,6 +291,9 @@ footer.footer {
 	font-weight: normal;
 	min-height: 200px;
 }
+.resourceDetails {
+    padding: 0px;
+}
 div.reservationResourceBox{
 /*
 Used in:
@@ -238,15 +310,138 @@ Web/reservation.php
 div.maxItOut{
 	width: 100%;
 }
+div.resourceConfReservationShowcase{
+	min-width: 200px;
+	min-height: 200px;
+	display: inline-block;
+}
+div.selectedResourceConf{
+	vertical-align: text-top;
+}
+div.selectedResourceConfImage{
+	text-align: right;
+}
+
+div.ResourceConfDashboardDefault{
+	margin-top: 10px;
+    margin-right: 20px;
+	vertical-align: text-top;
+	width: 100%;
+	text-align: center;
+	background-color: #F2F9DE;
+	min-height: 300px;
+	overflow:auto;
+	overflow-y: auto;
+}
+a.furnilistTip{
+	cursor: default;
+	color: #000000;
+}
+.furnilistTip + .tooltip > .tooltip-inner { 
+	text-align: left;
+	margin-left: -30px;
+	background-color: #FFFFFF;
+	color: #000000;
+	border-style: solid;
+	border-width: 1px;
+	border-color: gray;
+}
+.furnilistTip + .tooltip > .tooltip-arrow { 
+	border-bottom-color:#FFFFFF; 
+	background-color: #FFFFFF;
+	display:none;
+}
+div.furnilistTipInner{
+	text-align: left;
+	width: 100%;
+	height: 100%;
+	color: #000000;
+	background-color: #FFFFFF;
+}
+div.furnilistTipInnerText{
+	margin-left: -20px;
+}
+div.ResourceConfDashboardDefaultText
+{
+	min-height: 250px;
+}
+div.ResourceConfDashboardDefaultLeft{
+	margin-top: 10px;
+    margin-right: 20px;
+	margin-left: 5px;
+	vertical-align:text-top;
+	text-align: left;
+	float: left;
+    display: inline-block;
+}
+*.nopaddingleft{
+	padding-left: 0px;
+}
+p.ResourceConfDashboardDefaultText{
+	float: left;
+	margin-top: 40px;
+}
+div.ResourceConfDefaultDashText{
+	margin-left: 30px;
+}
+div.ResourceConfDashboardDefaultRight{
+	margin-top: 70px;
+    margin-right: 20px;
+	vertical-align:text-top;
+	width: 60%;
+	text-align: center;
+    display: inline-block;
+}
+img.ResourceConfBig{    
+	max-width: 100%;
+    max-height: 300px;
+    height: auto;
+    width: auto;
+	padding-bottom: 20px;
+}
+img.ResourceConfDashBig{    
+	max-width: 100%;
+    max-height: 500px;
+    height: auto;
+    width: auto;
+	padding-bottom: 20px;
+}
+div.ResourceConfDashboardDefaultButton
+{
+	float: left;
+	margin-left: 30%;
+	margin-right: 70%;
+	margin-bottom: 10px;
+	margin-top: 10px;
+    display: inline-block;
+}
+
+div.weekselectorButtonsLeft{
+	display: inline-block;
+}
+
+div.weekselectorButtonsMid{
+	display: inline-block;
+	min-width: 220px;
+}
+
+div.weekselectorButtonsRight{
+	display: inline-block;
+}
+div.charcount{
+	color:gray;
+}
+
 div.ResourceConfInner{
 	margin-top: 20px;
     margin-right: 20px;
 	vertical-align:text-top;
 	width: 300px;
+	text-align: left;
     display: inline-block;
 }
 div.ResourceConfInfo{
-	min-height: 175px;
+	min-height: 120px;
 	
 }
 div.ResourceConfFrontBottom{
@@ -285,6 +480,12 @@ div.ResourceConfFrontpageInfo{
 	text-align: left;
 	padding-left: 20px;
 }
+div.ResourceConfFrontpageInfoNot{
+    display: inline-block;
+	width: 100%;
+	text-align: left;
+	padding-left: 20px;
+}
 p,h1.ResourceConfFrontpageInfo{
 }
 h1.ResourceConfFrontpageInfo{
@@ -293,7 +494,26 @@ h1.ResourceConfFrontpageInfo{
 h2.ResourceConfFrontpageInfo{
     text-transform: uppercase;
 }
-
+p.ResourceConfFrontpageInfo{
+}
+div.selectPublicTime{
+	margin-bottom: 30px;
+}
+ul.Furniturelist{
+	margin-left: -25px;
+}
+div.ScheduleInfo{
+	text-align:center;
+	width:100%;
+}
+div.ScheduleInfoInner{
+	  width: 50%;
+	  margin: 0 auto;
+	text-align:center;
+	max-width: 480px;
+}
+p.ScheduleInfo{
+}
 div.resourceContainerLeft{
 /*
 Used in:
@@ -319,6 +539,14 @@ Web/reservation.php
 	max-width: 200px;
 }
 
+div.reservationPublicDatesBox{
+    display: inline-block;
+}
+div.reservationPublicDatesBoxInner{
+    display: inline-block;
+	margin-bottom: 10px;
+	margin-top:10px;
+}
 div.reservationDatesBox{
     display: inline-block;
 }
@@ -358,13 +586,24 @@ div.reservationDatesBoxRight{
 div.resourceConfBoxAdd{
 /*
 Used in:
-
+	manage_resource_confs.php
 */
 	
 	vertical-align:text-top;
     display: inline-block;
 }
 
+div.resourceConfBoxAddLeft{
+/*
+Used in:
+	manage_resource_confs.php
+
+*/
+	
+	vertical-align:text-top;
+    display: inline-block;
+	height: 1000px;
+}
 img.resourceConfBoxAdd{
 /*
 Used in:
@@ -424,13 +663,15 @@ input[type="radio"].ResourceConfCheckBox{
 
 div.ResourceConfSmallImage{
     display: inline-block;
+	max-height:280px;
 }
 img.ResourceConfSmol{
-	width: 200px;
-	text-align: center;
+	max-width: 100%;
+	max-height: 270px;
 }
 
 #reservation-box .resourceName {
+	padding: 0px;
 	color: black;
 	background-color: transparent;
 }

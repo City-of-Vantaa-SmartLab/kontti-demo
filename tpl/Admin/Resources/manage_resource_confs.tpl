@@ -23,7 +23,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	<div>
 		<h1>{translate key='ManageResourceConfsTitle'}</h1>	
 		<div>
-			<div class="control-group form-group resourceConfBoxAdd">
+			<div class="control-group form-group resourceConfBoxAddLeft">
 				<h5>{translate key='AddResourceConfiguration'}</h5>
 				<form id='resourceconfForm' role='form' method='POST' action='resourceConf/add_resourceconf.php'>
 					<div class='resourceConfLeftBoxAdd'>{translate key='Name'}:</div><div class='resourceConfRightBoxAdd'><input type='text' name='resourceConfName'></div><br/>
@@ -56,6 +56,10 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 													{$ResourceTarget['resource_id']}
 												{/if}
 											{/foreach}
+										</form>
+										<form action='resourceConf/remove_resourceconf.php' method='POST'>
+											<input type='hidden' value='{$Conf['conf_id']}' name='resourceconfId'>
+											<input type='submit' value='{translate key="Delete"}'>
 										</form>
 									</div>
 								</div>

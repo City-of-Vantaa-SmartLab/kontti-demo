@@ -106,8 +106,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 											class="glyphicon glyphicon-question-sign"></i></span> {translate key='ForgotMyPassword'}</a>
 						</div>
 					{/if}
-					<div id="change-language" class="col-xs-12 col-sm-6">
-						<button type="button" class="btn btn-link pull-right-sm" data-toggle="collapse"
+					<div id="change-language" class="col-xs-12 col-sm-6 languagebox">
+						<button type="button" class="btn btn-link languagebox" data-toggle="collapse"
 								data-target="#change-language-options"><span><i class="glyphicon glyphicon-globe"></i></span>
 							{translate key=ChangeLanguage}
 						</button>

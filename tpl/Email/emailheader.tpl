@@ -46,7 +46,20 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				height: 50px;
 				background-color: #6BC24A;
 			}
+			
+			img.logo {
+				width: 211px;
+				height: 26px;
+				padding-top: 12px;
+				padding-bottom: 14px;
+				padding-left: 10px;
+			}
+			div.content{
+				margin-left: 20px;
+				mergin-right: 20px;
+			}
 		</style>
 	</head>
 	<body>
-		<div class="headerTop"><img src="{$ScriptUrl}/img/custom-logo.png" alt="Muuntamo"></div>
+		<div class="headerTop"><img src="{$ScriptUrl}/img/custom-logo.png" alt="Muuntamo" class="logo"></div>
+		<div class="content">

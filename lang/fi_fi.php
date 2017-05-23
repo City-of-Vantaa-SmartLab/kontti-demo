@@ -63,6 +63,17 @@ class fi_fi extends en_us
 	protected function _LoadStrings()
 	{
 		$strings = parent::_LoadStrings();
+		$strings['BeginTime2'] = 'Alkaen';
+		$strings['EndTime2'] = 'Lopetus';
+		$strings['SelectPublic'] = 'Tapahtuma on avoinna yleisölle';
+		$strings['ScheduleInfoResConfPt1'] = 'Valitse';
+		$strings['ScheduleInfoResConfPt2'] = '-varauksellesi sopiva ajankohta varauskalenterista.';
+		$strings['ScheduleInfo'] = 'Maalaa sopiva ajankohta kalenterin vapaista ajoista. Siirryt automaattisesti varauslomakkeelle, jolla voit vielä tarkentaa varauksesi ajankohtaa.';
+		$strings['ComingSoon'] = 'Tulossa pian!';
+		$strings['MaxParticipantsPt1'] = 'Henkilömäärä: Max.';
+		$strings['MaxParticipantsPt2'] = 'hlöä';
+		$strings['MaxParticipantsPt3'] = ', Kehotilassa max. 27 hlöä';
+		$strings['ToggleCalendar'] = 'Näytä/piilota kuukausikalenteri';
 		$strings['Price'] = 'Hinta';
 		$strings['Furni'] = 'Tarvike- ja huonekalulista';
 		$strings['RecurrenceDisabledBugLink'] = 'tee uusi varaus';
@@ -74,14 +85,14 @@ class fi_fi extends en_us
 		$strings['reservationDescriptionInfo'] = 'Mitä tilassa aiotaan tehdä? Antamiasi tietoja hyödynnetään sellaisenaan tapahtumasta viestittäessä.';
 		$strings['resourceConfInfo'] = 'Voit valita seitsemästä tilakonseptista parhaimman ratkaisun toiminnallesi. Lisämaksuton tilaratkaisu Muuntamo ORIGINAL on hyvä lähtökohta monenlaiseen toimintaan. Voit myös valita kohdennetuista tilaratkaisuista toiminnallesi parhaiten sopivan. Lisätiedoista näet tarkemman kuvauksen tilan varusteluista.';
 		$strings['SelectTime'] = 'Valitse aika';
-		$strings['FrontReservationConfSelect'] = 'Voit valita kahdeksasta tilakonseptista parhaimman ratkaisun toiminnallesi. Lisätiedoista näet tarkemman kuvauksen tilan varusteluista.';
+		$strings['FrontReservationConfSelect'] = 'Voit valita seitsemästä tilakonseptista parhaimman ratkaisun toiminnallesi. Lisätiedoista näet tarkemman kuvauksen tilan varusteluista.';
 		$strings['ResourceConfInResources'] = 'Tilaratkaisu käytössä tiloissa';
 		$strings['ManageResourceConfsTitle'] = 'Muokkaa tilaratkaisuja';
 		$strings['ResourceConfiguration'] = 'Tilaratkaisu';
 		$strings['ResourceConfigurations'] = 'Tilaratkaisut';
 		$strings['AddResourceConfiguration'] = 'Lisää tilaratkaisu';
-		$strings['AboutFrontTitle'] = 'Osallistava,<br/> muuntautuva<br/> ja oivaltava.';
-		$strings['ResourcesDescription'] = 'Valitse varattavat tilat ja tilaratkaisut:';
+		$strings['AboutFrontTitle'] = 'Osallistava,<br/> muuntautuva<br/> ja oivaltava';
+		$strings['ResourcesDescription'] = 'Valitse tilaratkaisu';
 		$strings['Index'] = 'Etusivu';
 		$strings['AboutFrontText'] = 'Tuo toimintasi keskelle kaupunkia tilaan, joka muuntautuu tarpeisiisi. Tee tilavarauksesi Muuntamoon kirjautumalla sisään:';
 		$strings['About'] = 'Lisätietoa palvelusta';
