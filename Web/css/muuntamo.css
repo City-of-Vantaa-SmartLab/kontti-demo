@@ -8,7 +8,6 @@ d9d9d6	//Footer gray
 
 */
 
-
 @font-face {
     font-family: GTWalsheim;
     src: url(fonts/GT-Walsheim-Regular.woff);
@@ -171,6 +170,14 @@ td.reserved.clickres.slot{
 }
 .reserved.mine {
     background-color: #d4eb91;
+}
+
+td.reserved.OtherPresenter{
+	background-color: #f2a6db !important;
+}
+div.legend.OtherPresenter{
+	line-height: 19px;
+	background-color: #f2a6db !important;
 }
 td.mine{    
 	background-color: #d4eb91 !important; 

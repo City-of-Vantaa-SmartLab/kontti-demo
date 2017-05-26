@@ -357,6 +357,10 @@ class ReservationPopupPresenter
 		$this->_page->SetSummary($reservation->Description);
 		$this->_page->SetTitle($reservation->Title);
 		$this->_page->SetAccessories($reservation->Accessories);
+		$temp=getPublicStatus($reservation->SeriesId);
+		$temp['PublicStartTime']=regexRemoveSecs($temp['PublicStartTime']);
+		$temp['PublicEndTime']=regexRemoveSecs($temp['PublicEndTime']);
+		$this->_page->Set('PublicStatus',$temp);
 
 		$this->_page->SetDates($startDate, $endDate);
 

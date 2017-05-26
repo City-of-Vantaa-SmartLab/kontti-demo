@@ -171,7 +171,6 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 	protected function GetTemplateName()
 	{
 		$readOnly = $this->GetQuerystring(QueryStringKeys::READ_ONLY) == 1;
-
 		if (!$readOnly && $this->IsApprovable && !$this->UpdatingBeforeApproving())
 		{
 			return 'Reservation/approve.tpl';
@@ -262,7 +261,8 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 
 	public function SetSeriesId($seriesId)
 	{
-		$this->Set('SeriesId', $seriesId);;
+		$this->Set('PublicStatus',getPublicStatus($seriesId));
+		$this->Set('SeriesId', $seriesId);
 	}
 
 	public function SetIsRecurring($isRecurring)

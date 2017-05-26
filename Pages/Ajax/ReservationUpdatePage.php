@@ -89,20 +89,26 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 				}else{
 					echo "Missing something.";
 				}
-					if(isset($_POST['SelectPublicTime'])&&isset($_POST['SelectPublicEndTime'])){
-						$PublicTime=$_POST['SelectPublicTime'];
-						$PublicEndTime=$_POST['SelectPublicEndTime'];
-					}else{
-						$PublicTime="00:00:00";
-						$PublicEndTime="00:00:00";
-					}
-					if(isset($_POST['IsPublicEvent'])){
-						$publicStatus=1;
-					}else{
-						$publicStatus=0;
-					}
-					insertEventPublicWResIID($publicStatus,$PublicTime,$PublicEndTime,regexnums($resource),regexnums($_POST['reservationId']));
-				
+				if(isset($_POST['SelectPublicTime'])&&isset($_POST['SelectPublicEndTime'])){
+					$PublicTime=$_POST['SelectPublicTime'];
+					$PublicEndTime=$_POST['SelectPublicEndTime'];
+				}else{
+					$PublicTime="00:00:00";
+					$PublicEndTime="00:00:00";
+				}
+				if(isset($_POST['IsPublicEvent'])){
+					$publicStatus=1;
+				}else{
+					$publicStatus=0;
+				}
+				if(isset($_POST['RoomForOtherPresenter'])){
+					$RoomForOtherPresenter=1;
+				}else{
+					$RoomForOtherPresenter=0;
+				}
+				if(isset($PublicTime)&&isset($PublicEndTime)&&isset($publicStatus)&&isset($RoomForOtherPresenter)){
+					insertEventPublicWResIID($publicStatus,$PublicTime,$PublicEndTime,$RoomForOtherPresenter,regexnums($resource),regexnums($_POST['reservationId']));
+				}
 				
 				$this->Display('Ajax/reservation/update_successful.tpl');
 			}

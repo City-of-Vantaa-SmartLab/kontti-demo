@@ -559,9 +559,13 @@ class DisplaySlotFactory
 	{
 		if ($slot->IsReserved())
 		{
+			$publicStatus=getPublicStatus(GetSeriesIdFromInstanceId($slot->_seriesId));
 			if ($this->IsMyReservation($slot))
 			{
 				return "displayMyReserved$functionSuffix";
+			}
+			elseif($publicStatus['RoomForOtherPresenter']==1){
+				return "displayReservedWithOther$functionSuffix";
 			}
 			elseif ($this->AmIParticipating($slot))
 			{

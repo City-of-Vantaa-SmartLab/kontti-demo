@@ -63,6 +63,22 @@ class fi_fi extends en_us
 	protected function _LoadStrings()
 	{
 		$strings = parent::_LoadStrings();
+		$strings['January'] = 'Tammikuu'; 
+		$strings['February'] = 'Helmikuu'; 
+		$strings['March'] = 'Maaliskuu'; 
+		$strings['April'] = 'Huhtikuu'; 
+		$strings['May'] = 'Toukokuu'; 
+		$strings['June'] = 'Kesäkuu';
+		$strings['July'] = 'Heinäkuu'; 
+		$strings['August'] = 'Elokuu';
+		$strings['September'] = 'Syyskuu'; 
+		$strings['October'] = 'Lokakuu';
+		$strings['November'] = 'Marraskuu';
+		$strings['December'] = 'Joulukuu';
+
+		$strings['RoomForOtherPresenterLegend'] = 'Yhteisvaraus mahdollinen';
+		$strings['RoomForOtherPresenterContact'] = 'ole minuun yhteydessä';
+		$strings['RoomForOtherPresenter'] = 'Tilaan mahtuu myös toinen toimija';
 		$strings['BeginTime2'] = 'Alkaen';
 		$strings['EndTime2'] = 'Lopetus';
 		$strings['SelectPublic'] = 'Tapahtuma on avoinna yleisölle';

@@ -198,15 +198,26 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 						echo "Tilaratkaisuja ei tallennettu! Virhe: Puuttuva muuttuja.";
 					}
 				}
-				if(isset($_POST['IsPublicEvent'])&&isset($_POST['SelectPublicTime'])&&isset($_POST['SelectPublicEndTime'])){
-					
-					if(isset($_POST['IsPublicEvent'])){
-						$publicStatus=1;
-					}else{
-						$publicStatus=0;
-					}
-					insertEventPublicWithDate($publicStatus,$_POST['SelectPublicTime'],$_POST['SelectPublicEndTime'],$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
-					//updateEventPublicWithDate($_POST['IsPublicEvent'],$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+				if(isset($_POST['SelectPublicTime'])&&isset($_POST['SelectPublicEndTime'])){
+					$PublicTime=$_POST['SelectPublicTime'];
+					$PublicEndTime=$_POST['SelectPublicEndTime'];
+				}else{
+					$PublicTime=NULL;
+					$PublicEndTime=NULL;
+				}
+				if(isset($_POST['IsPublicEvent'])){
+					$publicStatus=1;
+				}else{
+					$publicStatus=0;
+				}
+				if(isset($_POST['RoomForOtherPresenter'])){
+					$RoomForOtherPresenter=1;
+				}else{
+					$RoomForOtherPresenter=0;
+				}
+				
+				if(isset($PublicTime)&&isset($PublicEndTime)&&isset($publicStatus)&&isset($RoomForOtherPresenter)){
+					insertEventPublicWithDate($publicStatus,$PublicTime,$PublicEndTime,$RoomForOtherPresenter,$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 				}
 				// MODIFIED CODE STOPS HERE
 				

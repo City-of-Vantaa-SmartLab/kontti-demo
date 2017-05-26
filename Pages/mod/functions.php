@@ -68,6 +68,11 @@ function regexLengthIsTwo($time){	//poistaa formaatista 00:00:00 ylimääräiset
 	}
 	return implode(":", $time);
 }
+function regexRemoveSecs($time){	//leaves 00:00 from any input with :
+	$time=explode(":", $time);
+	$output=$time[0].".".$time[1];
+	return $output;
+}
 /**
 function createThumb($address, $conf_id){	//thumbnail creator
 		$tempfilename="temp_".$conf_id.".jpg";

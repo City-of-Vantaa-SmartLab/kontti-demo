@@ -72,7 +72,7 @@ class ReservationSlot implements IReservationSlot
 	 */
 	public function __construct(SchedulePeriod $begin, SchedulePeriod $end, Date $displayDate, $periodSpan,
 								IReservedItemView $reservation)
-	{
+	{;
 		$this->_reservation = $reservation;
 		$this->_begin = $begin->BeginDate();
 		$this->_displayDate = $displayDate;
@@ -84,6 +84,7 @@ class ReservationSlot implements IReservationSlot
 
 		$this->_beginPeriod = $begin;
 		$this->_endPeriod = $end;
+		$this->_seriesId = $reservation->GetId();
 	}
 
 	/**

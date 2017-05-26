@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2017 at 01:22 PM
+-- Generation Time: May 24, 2017 at 12:44 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -28,18 +28,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `reservation_addons` (
   `series_id` int(10) UNSIGNED NOT NULL,
-  `PublicStartTime` time NOT NULL,
-  `PublicEndTime` time NOT NULL,
-  `PublicStatus` tinyint(1) NOT NULL DEFAULT '0'
+  `PublicStartTime` time DEFAULT NULL,
+  `PublicEndTime` time DEFAULT NULL,
+  `PublicStatus` tinyint(1) NOT NULL DEFAULT '0',
+  `RoomForOtherPresenter` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `reservation_addons`
---
-
-INSERT INTO `reservation_addons` (`series_id`, `PublicStartTime`, `PublicEndTime`, `PublicStatus`) VALUES
-(165, '08:45:00', '09:30:00', 1),
-(200, '16:20:00', '00:00:00', 1);
 
 --
 -- Indexes for dumped tables

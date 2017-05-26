@@ -398,6 +398,16 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							</div>
 						</div>
 					</div>
+					
+					<div class="col-xs-12">
+						<div class="reservationPublicDatesBox">
+							<div class="reservationPublicDatesBoxInner">
+								<div class="checkbox">
+									<input type="checkbox" id="RoomForOtherPresenter" name="RoomForOtherPresenter"{if $PublicStatus['RoomForOtherPresenter']==1} checked{/if}> <label for="RoomForOtherPresenter">{translate key="RoomForOtherPresenter"}</label>
+								</div>
+							</div>
+						</div>
+					</div>
 					{if !empty($ReferenceNumber)}
 					<div class="col-xs-12">
 						<div class="form-group">
@@ -421,8 +431,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<div id="custom-attributes-placeholder" class="col-xs-12">
 				</div>
 			</div>
-			<div class="row col-xs-12 same-height">
-					
 						<script>
 							document
 								.getElementById('IsPublicEvent')
@@ -467,7 +475,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										PublicTimeStartTimes.forEach(function(element) {
 										
 											{if isset($SeriesId)}
-												{$PublicStatus=getPublicStatus($SeriesId)}
 												{if isset($PublicStatus)}
 													if(type==1){
 														PreSetTime="{$PublicStatus['PublicStartTime']}";
@@ -541,7 +548,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								}
 							}
 							{if isset($SeriesId)}
-								{$PublicStatus=getPublicStatus($SeriesId)}
 								{if isset($PublicStatus)}
 									{if $PublicStatus['PublicStatus'] == 1}
 										document.getElementById("IsPublicEvent").checked = true;
@@ -551,8 +557,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								{/if}
 							{/if}
 						</script>
-				</div>
-			</div>
 			{if $RemindersEnabled}
 				<div class="row col-xs-12">
 					<div class="col-xs-12 reservationReminders">
