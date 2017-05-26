@@ -50,6 +50,11 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{call name=displayGeneralReservedMobile Slot=$Slot Href=$Href SlotRef=$SlotRef OwnershipClass=''}
 {/function}
 
+{function name=displayReservedWithOtherMobile}
+	{call name=displayGeneralReservedMobile Slot=$Slot Href=$Href SlotRef=$SlotRef OwnershipClass='OtherPresenter' Draggable="{$CanViewAdmin}" ResourceId=$ResourceId}
+
+{/function}
+
 {function name=displayPastTimeMobile}
 	&nbsp;
 {/function}
