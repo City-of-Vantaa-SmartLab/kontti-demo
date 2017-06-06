@@ -129,17 +129,17 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										document.getElementById("ResourceFoodArrangementCount").classList.add('hidden');
 									}
 									{foreach from=$ResourceFoodConfs item=Food}
-										{$contentlist = "\n"|explode:$Food['contentlist']}
+										{$contentlist = PHP_EOL|explode:$Food['contentlist']}
 										{if isset($Food['contentlist'])}
 											{$foodtemp="<ul>"}
 											{foreach from=$contentlist item=content}
 												{$foodtemp="`$temp`<li>`$content`</li>"}
 											{/foreach}
 											{$temp="`$foodtemp`</ul>"}
-											{$temp = preg_replace( "/\r|\n/", "", $foodtemp )}
+											{$temp = preg_replace( "/\r|\n/", "", $foodtemp )}{*removes linebreaks so javascript understands it*}
 										{/if}
 
-										test[{$Food['foodconf_id']}] = "{$foodtemp}";
+										test[{$Food['foodconf_id']}] = "{$temp}";
 										prices[{$Food['foodconf_id']}] = "{$Food['price']}";
 									{/foreach}
 									calcTotalPrice();
@@ -951,7 +951,10 @@ for(var i = 0; i < cbs.length; i++) {
 											PublicTimeStartString=PublicTimeStartString+"<option value='"+element+"'";
 											if(PreSetTime.localeCompare(element)==0){
 												PublicTimeStartString=PublicTimeStartString+" selected";
+											}else if(type==2){
+												PublicTimeStartString=PublicTimeStartString+" selected";
 											}
+											console.log(element);
 											element=element.replaceAt(2,".") //changing the : to a .
 											PublicTimeStartString=PublicTimeStartString+">"+element.slice(0, -3)+"</option>";
 										});
@@ -987,6 +990,9 @@ for(var i = 0; i < cbs.length; i++) {
 												{$BeginPeriodArray[1]="30"}
 											{else}
 												{$BeginPeriodArray[0]=$BeginPeriodArray[0]+1}
+												{if $BeginPeriodArray[0]<10}
+													{$BeginPeriodArray[0]="0`$BeginPeriodArray[0]`"}
+												{/if}
 												{$BeginPeriodArray[1]="00"}
 											{/if}
 											temp = "{$BeginPeriodArray[0]}:{$BeginPeriodArray[1]}:{$BeginPeriodArray[2]}";
