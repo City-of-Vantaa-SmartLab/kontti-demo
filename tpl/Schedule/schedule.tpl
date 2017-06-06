@@ -89,7 +89,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		{translate key=DefaultScheduleSet}
 	</div>
 
-				<div class="ScheduleInfo">
+				<div class="ScheduleInfo col-sm-12">
 					<div class="ScheduleInfoInner">
 				{*<span>{$ScheduleName}</span>*}<span class="ScheduleInfo"><h1>{translate key="Bookings"}</h1></span><br/>
 				

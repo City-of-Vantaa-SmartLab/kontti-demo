@@ -52,7 +52,14 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
         {if $startDate->DateEquals($endDate)}
             {assign var="key" value="res_popup_time"}
         {/if}
-		<div class="dates">{formatdate date=$startDate key=res_popup} - {formatdate date=$endDate key=res_popup}{*$key*}</div>
+		{$startDateTemp={formatdate date=$startDate key=res_popup}}
+		{$endDateTemp={formatdate date=$endDate key=res_popup}}
+		{$startDateSplit = " "|explode:$startDateTemp}
+		{$endDateSplit = " "|explode:$endDateTemp}
+		{if strcmp($startDateSplit[0],$endDateSplit[0])==0}	{*if the day is the same on end and star date*}
+			{$endDateTemp=$endDateSplit[1]}					{*change the end date to be only time (xx:xx)*}
+		{/if}
+		<div class="dates">{$startDateTemp} - {$endDateTemp}{*$key*}</div>
 	{/capture}
 	{$formatter->Add('dates', $smarty.capture.dates)}
 

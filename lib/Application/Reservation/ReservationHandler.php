@@ -81,7 +81,6 @@ class ReservationHandler implements IReservationHandler
 
 		$validationFactory = new ReservationValidationFactory();
 		$validationService = $validationFactory->Create($reservationAction, $session);
-
 		$notificationFactory = new ReservationNotificationFactory();
 		$notificationService = $notificationFactory->Create($reservationAction, $session);
 

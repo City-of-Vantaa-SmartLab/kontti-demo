@@ -6,6 +6,12 @@
 */
 require_once(ROOT_DIR . '/Pages/mod/functions.php');
 
+function getSeriesConfInfo($series_id){
+		$list=pdoExecute("SELECT * FROM `resource_conf` WHERE conf_id IN ( SELECT conf_id FROM `resource_conf_target` WHERE target_id IN (SELECT target_id FROM `reservation_resources` WHERE series_id = ".$series_id." )) Limit 1");
+		$row=$list->fetch(PDO::FETCH_ASSOC);
+	return $row;
+}
+
 function getArrangementInfo($conf_id){		//hakee ja palauttaa conf_id:n perusteella huonekonfiguraation kuvauksen
 		$list=pdoExecute("SELECT * FROM `resource_conf` WHERE conf_id=".regexnums($conf_id)." Limit 1");
 		$row=$list->fetch(PDO::FETCH_ASSOC);
@@ -170,8 +176,17 @@ function updateTargetId($resourceconf_id,$series_id,$resource_id){
 }
 
 function getSeriesIdWResIID($reservation_instance_id){
+	$userSession = ServiceLocator::GetServer()->GetUserSession();		
 	$list=pdoExecute("SELECT series_id FROM `reservation_instances` WHERE reservation_instance_id = ".regexnums($reservation_instance_id)." LIMIT 1");
 	$row=$list->fetch(PDO::FETCH_ASSOC);
+	$checkuser=pdoExecute("SELECT owner_id FROM `reservation_series` WHERE series_id = ".regexnums($row['series_id'])." LIMIT 1");
+	$rowcheckuser=$checkuser->fetch(PDO::FETCH_ASSOC);
+	if($userSession->UserId==$rowcheckuser['owner_id']){
+		//checking if user and series_id match in ownership, if no, set series_id as null
+	}else{
+		echo "Jotain meni pieleen!";
+		$row['series_id']=NULL;
+	}
 	return $row['series_id'];
 }
 

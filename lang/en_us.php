@@ -62,12 +62,30 @@ class en_us extends Language
 	protected function _LoadStrings()
 	{
 		$strings = array();
+		$strings['CharactersLeft'] = 'Characters left';
+		$strings['RoomForOtherPresenterLegend'] = 'Secondary reservation possible';
+		$strings['RoomForOtherPresenterContact'] = 'contact me';
+		$strings['RoomForOtherPresenter'] = 'There\'s room for another presenter in the event';
+		$strings['BeginTime2'] = 'Starting at';
+		$strings['EndTime2'] = 'Ending at';
+		$strings['SelectPublic'] = 'The event is available for public';
+		$strings['ScheduleInfoResConfPt1'] = 'Choose';
+		$strings['ScheduleInfoResConfPt2'] = '-reservation a fitting time from the reservation calendar.';
+		$strings['ScheduleInfo'] = 'Paint the time best suited for you from the calendar\'s reservable times. You will automatically be moved to the reservation form, where you can set your reservation\'s info and change the time and date.';
+		$strings['ComingSoon'] = 'Coming soon!';
+		$strings['MaxParticipantsPt1'] = 'Capacity: Max.';
+		$strings['MaxParticipantsPt2'] = 'people';
+		$strings['MaxParticipantsPt3'] = ', Kehotilassa max. 27 people';
+		$strings['ToggleCalendar'] = 'Show/hide calendar';
+		$strings['Price'] = 'Price';
+		$strings['Furni'] = 'List of equipment and furnitures';
+		$strings['RecurrenceDisabledBugLink'] = 'make a new reservation';
 		$strings['ThereAreNoTimesForSearch'] = 'There are no available times that match your search';
 		$strings['reservationNameInfo'] = 'Give the event a clear and a communicative name.';
 		$strings['reservationDescriptionInfo'] = 'What is going to happen in the resource? The information you give us will be used as is when advertising the event.';
 		$strings['resourceConfInfo'] = 'Voit valita seitsemästä tilakonseptista parhaimman ratkaisun toiminnallesi. Lisämaksuton tilaratkaisu Muuntamo ORIGINAL on hyvä lähtökohta monenlaiseen toimintaan. Voit myös valita kohdennetuista tilaratkaisuista toiminnallesi parhaiten sopivan. Lisätiedoista näet tarkemman kuvauksen tilan varusteluista.';
 		$strings['SelectTime'] = 'Select the time';
-		$strings['FrontReservationConfSelect'] = 'You can choose between eight Resource Configurations. Check the additional information for a more detailed description of the space\'s equipment.';
+		$strings['FrontReservationConfSelect'] = 'You can choose between seven Resource Configurations. Check the additional information for a more detailed description of the space\'s equipment.';
 		$strings['ResourceConfInResources'] = 'The Resource Configuration is in use in the following resources:';
 		$strings['ManageResourceConfsTitle'] = 'Edit Resource configurations';
 		$strings['ResourceConfiguration'] = 'Resource configuration';

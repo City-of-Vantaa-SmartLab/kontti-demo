@@ -175,11 +175,40 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 	public function PageLoad()
 	{
 		try
-		{
+		{		
+			$ResourceArrangementAR=$_POST['additionalResources'];
+			if(isset($_POST['ResourceFoodArrangementCountSelect'])){
+				$tempCount=$_POST['ResourceFoodArrangementCountSelect'];
+				foreach($ResourceArrangementAR as $resource){
+					if($tempCount[$resource]>35){
+						$tempCount[$resource]=35;
+					}elseif($tempCount[$resource]<0){
+						$tempCount[$resource]=0;
+					}
+				}
+				
+				$_POST['ResourceFoodArrangementCountSelect']=$tempCount;
+			}
+			$compname=regexUserInfoText($_POST['compname']);
+			$personid=regexUserInfoText($_POST['personid']);
+			$billingaddress=regexUserInfoText($_POST['billingaddress']);
+			$reference=regexUserInfoText($_POST['reference']);
+			$ResourceArrangement=$_POST['ResourceArrangement'];
+			$ResourceFoodArrangement=$_POST['ResourceFoodArrangement'];
+			$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
+			if(isset($ResourceArrangementAR)){
+				foreach($ResourceArrangementAR as $resource){
+					setAllTemp($resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']),regexnums($ResourceArrangement[$resource]),regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$compname,$personid,$billingaddress,$reference);
+				}
+			}
+			
 			$this->EnforceCSRFCheck();
 			$reservation = $this->_presenter->BuildReservation();
 			$this->_presenter->HandleReservation($reservation);
-
+			$databaseTimeConv=timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']);
+			foreach($ResourceArrangementAR as $resource){
+				delAllTemp($resource,$databaseTimeConv);
+			}
 			if ($this->_reservationSavedSuccessfully)		//Only when creating a new Reservation
 			{
 				$this->Set('Resources', $reservation->AllResources());
@@ -187,15 +216,58 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 				$this->Set('Timezone', ServiceLocator::GetServer()->GetUserSession()->Timezone);
 				
 				// MODIFIED CODE STARTS HERE
+				$food=0;
 				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined'
-					if(isset($_POST['ResourceArrangement'])&&isset($_POST['additionalResources'])&&isset($_POST['beginDate'])&&isset($_POST['beginPeriod'])){
+					if(isset($_POST['ResourceArrangement'])&&isset($_POST['beginDate'])&&isset($_POST['beginPeriod'])){
 						$ResourceArrangement=$_POST['ResourceArrangement'];
 						$ResourceArrangementAR=$_POST['additionalResources'];
 						foreach($ResourceArrangementAR as $resource){
-								setArrangement($ResourceArrangement[$resource],$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+							setArrangement($ResourceArrangement[$resource],$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 						}
 					}else{
 						echo "Tilaratkaisuja ei tallennettu! Virhe: Puuttuva muuttuja.";
+					}
+					if(isset($_POST['ResourceFoodArrangementCountSelect'])&&isset($_POST['ResourceFoodArrangement'])&&isset($_POST['beginDate'])&&isset($_POST['beginPeriod'])){
+						$food=1;
+						$ResourceFoodArrangement=$_POST['ResourceFoodArrangement'];
+						$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
+						$ResourceArrangementAR=$_POST['additionalResources'];
+						foreach($ResourceArrangementAR as $resource){
+							if($ResourceFoodArrangement[$resource]!=0&&$ResourceFoodArrangementCountSelect[$resource]>0&&$ResourceFoodArrangementCountSelect[$resource]<36){
+								insertFoodConfToReservationWithDate($ResourceFoodArrangement[$resource],$ResourceFoodArrangementCountSelect[$resource],$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+								$ResourceFoodArrangementtemp=$ResourceFoodArrangement[$resource];
+								$ResourceFoodArrangementCountSelectTemp=$ResourceFoodArrangementCountSelect[$resource];
+								
+							}
+						}
+					}
+					
+					$userSession2 = ServiceLocator::GetServer()->GetUserSession();
+					if (isset($userSession2->UserId)){
+						if(isset($_POST['compname'])&&isset($_POST['personid'])&&isset($_POST['billingaddress'])&&isset($_POST['reference'])){
+							$compname=regexUserInfoText($_POST['compname']);
+							$personid=regexUserInfoText($_POST['personid']);
+							$billingaddress=regexUserInfoText($_POST['billingaddress']);
+							$reference=regexUserInfoText($_POST['reference']);
+							addUserAddonInfo($userSession2->UserId,$compname,$personid,$billingaddress,$reference);
+							$daycountlist="";
+							if($food==1){
+								$daycountlist="";
+								foreach($reservation->Instances() as $tempInstance){
+									$dayCountlist[]=$tempInstance->StartDate(); //make an array of the dates
+								}
+								$restime=explode(" ",$dayCountlist[0]); //get the reservation start time
+								$restime=timeFromDatabase($restime[0],$restime[1]);
+								$restime=date('H.i', strtotime($restime));
+								foreach($ResourceArrangementAR as $resource){
+								$foodInfo=getFoodArrangementInfo($resource);
+									$seriesid=MatchDateAndResource($resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+								}
+								mailToCatering(1,$foodInfo,$ResourceFoodArrangementCountSelectTemp,$userSession2->UserId,$dayCountlist,$restime,$seriesid);
+							}
+						}else{
+						}
+						
 					}
 				}
 				if(isset($_POST['SelectPublicTime'])&&isset($_POST['SelectPublicEndTime'])){
@@ -219,6 +291,7 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 				if(isset($PublicTime)&&isset($PublicEndTime)&&isset($publicStatus)&&isset($RoomForOtherPresenter)){
 					insertEventPublicWithDate($publicStatus,$PublicTime,$PublicEndTime,$RoomForOtherPresenter,$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 				}
+				
 				// MODIFIED CODE STOPS HERE
 				
 				$this->Display('Ajax/reservation/save_successful.tpl');

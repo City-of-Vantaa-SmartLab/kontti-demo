@@ -36,13 +36,13 @@ function insertEventPublicWithDate($PublicStatus,$PublicTime,$PublicEndTime,$Roo
 	if($PublicStatus>1||$PublicStatus<0){
 		$PublicStatus=0;
 	}
-	if(is_null($resource_id)||is_null($StartDate==NULL)){	//pakko olla molemmat, muuten ei voida olla varma oikeasta varauksesta
+	if(is_null($resource_id)&&is_null($StartDate==NULL)){	//pakko olla molemmat, muuten ei voida olla varma oikeasta varauksesta
 		echo "Muuttuja puuttuu! \$resource_id:".$resource_id.", \$StartDate:".$StartDate."<br>";
 	}else{
 		if(isset($PublicStatus)&&isset($PublicTime)&&isset($PublicEndTime)){
 			$series_id=matchDateAndResource($resource_id,$StartDate);
 			if(isset($series_id)){
-				insertPublicStatus($PublicStatus,$PublicTime,$PublicEndTime,$series_id,$RoomForOtherPresenter);
+				updatePublicStatus($PublicStatus,$PublicTime,$PublicEndTime,$series_id,$RoomForOtherPresenter);
 				$value=1;
 			}else{
 				echo "Jotain meni pieleen! Virhe: \$series_id:t&#228; ei saatu haettua. \$StartDate: ".$StartDate;

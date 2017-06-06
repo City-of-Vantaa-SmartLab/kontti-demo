@@ -98,6 +98,27 @@ Tapahtuman kuvaus: {$Description|nl2br}
 	Varaaja: {$CreatedBy}
 {/if}
 
+	<br/>
+	<br/>
+	<h3>Tilaratkaisu</h3>
+	Nimi: {$Conf['name']}<br/>
+	Kuvaus: {$Conf['description']}<br/>
+	Hinta: {$Conf['price']} €<br/><br/>
+	
+{if !empty($Tempdata)}
+	<h3>Ateriaratkaisu</h3>
+	Nimi: {$FoodConf['name']}<br/>
+	Tuotelista: <br/>
+	<ul>
+	{foreach from=$FoodConfList item=fooditem}
+		<li>{$fooditem}</li>
+	{/foreach}
+	</ul>
+	Hinta: {$FoodConf['price']} €<br/>
+	Määrä: {$Tempdata['ResourceFoodCount']} kpl<br/>
+	Alv 14%: {$Alv} €<br/>
+	Ateriaratkaisuiden lopullinen hinta: {$FoodTotal} €
+{/if}
 <br/>
 Varausnumero: {$ReferenceNumber}
 

@@ -20,6 +20,7 @@ require_once(ROOT_DIR . 'Pages/Export/CalendarExportDisplay.php');
 require_once(ROOT_DIR . 'lib/Application/Schedule/namespace.php');
 require_once(ROOT_DIR . 'lib/Application/Reservation/namespace.php');
 require_once(ROOT_DIR . 'Domain/Access/namespace.php');
+require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 
 abstract class ReservationEmailMessage extends EmailMessage
 {
@@ -97,6 +98,24 @@ abstract class ReservationEmailMessage extends EmailMessage
 	protected function PopulateTemplate()
 	{
 		$currentInstance = $this->reservationSeries->CurrentInstance();
+		$databaseTimeConv=$currentInstance->StartDate();
+		$databaseTimeConvTemp=explode(" ",$currentInstance->StartDate());
+		if(strcmp($databaseTimeConvTemp[2],"Europe/Helsinki")==0){
+			$databaseTimeConvTemp=convertTimeTo($databaseTimeConvTemp[0],$databaseTimeConvTemp[1]);
+			$databaseTimeConv=$databaseTimeConvTemp;
+		}
+		//Getting resource conf info, with series_id
+		$tempdata=getAllTemp($this->reservationSeries->Resource()->GetId(),$databaseTimeConv);
+		$this->Set('Tempdata', $tempdata);
+		$resourceFoodConfInfo=getFoodArrangementInfo($tempdata['ResourceFoodConf']);
+		$resourceConfInfo=getArrangementInfo($tempdata['ResourceConf']);
+		$this->Set('Conf', $resourceConfInfo);
+		$this->Set('FoodConf', $resourceFoodConfInfo);
+		$FoodConfList = explode("\n",$resourceFoodConfInfo['contentlist']);
+		$this->Set('FoodConfList',$FoodConfList);
+		$alv=round($resourceFoodConfInfo['price']*$tempdata['ResourceFoodCount']*0.14, 2);
+		$this->Set('Alv',$alv);
+		$this->Set('FoodTotal', $resourceFoodConfInfo['price']*$tempdata['ResourceFoodCount']+$alv);
 		$this->Set('UserName', $this->reservationOwner->FullName());
 		$this->Set('StartDate', $currentInstance->StartDate()->ToTimezone($this->timezone));
 		$this->Set('EndDate', $currentInstance->EndDate()->ToTimezone($this->timezone));
@@ -108,7 +127,6 @@ abstract class ReservationEmailMessage extends EmailMessage
 		}
 		$this->Set('Title', $this->reservationSeries->Title());
 		$this->Set('Description', $this->reservationSeries->Description());
-
 		$repeatDates = array();
 		if ($this->reservationSeries->IsRecurring())
 		{

@@ -226,10 +226,13 @@ abstract class ReservationPage extends Page implements IReservationPage
 	{
 		$this->Set('AvailableResources', $resources);
 		$row=NULL;
+		$row2=NULL;
 		foreach($resources as $split){
 			$row[$split->GetId()]=defineArrangements($split->GetId());
+			$row2[$split->GetId()]=defineFoodArrangements($split->GetId());
 		}			
 		$this->Set('AvailableResourcesArrangements', $row);
+		$this->Set('AvailableResourcesFoodArrangements', $row2);
 	}
 
 	public function ShowAdditionalResources($shouldShow)
@@ -263,6 +266,7 @@ abstract class ReservationPage extends Page implements IReservationPage
 	{
 		$this->Set('ReservationUserName', $user->FullName());
 		$this->Set('UserId', $user->Id());
+		$this->Set('UserBillingInfo', getAllUserAddonInfo($user->Id()));
         $this->Set('CurrentUserCredits', $user->CurrentCreditCount());
 	}
 
@@ -274,6 +278,7 @@ abstract class ReservationPage extends Page implements IReservationPage
 		$this->Set('Resource', $resource);
 		//MUUNTAMO CODE STARTS
 		$this->Set('ResourceConfs', getAllResourceArrangements());
+		$this->Set('ResourceFoodConfs', getAllResourceFoodArrangements());
 		$ResourceInfo=getAllResourceInfo($resource->GetId());
         $this->Set('description', $ResourceInfo['description']);
         $this->Set('notes', $ResourceInfo['notes']);

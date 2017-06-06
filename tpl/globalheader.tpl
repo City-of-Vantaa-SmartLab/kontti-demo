@@ -182,6 +182,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 									class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="{$Path}{Pages::PROFILE}">{translate key="Profile"}</a></li>
+							<li><a href="{$Path}billing-information.php">{translate key="BillingInfo"}</a></li>
 							{*<li><a href="{$Path}{Pages::PASSWORD}">{translate key="ChangePassword"}</a></li>*}
 							<li>
 								<a href="{$Path}{Pages::NOTIFICATION_PREFERENCES}">{translate key="NotificationPreferences"}</a>
@@ -218,6 +219,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								<li><a href="{$Path}admin/manage_resources.php">{translate key="ManageResources"}</a></li>
 								<li><a href="{$Path}admin/manage_accessories.php">{translate key="ManageAccessories"}</a></li>
 								<li><a href="{$Path}admin/manage_resource_confs.php">{translate key="ResourceConfigurations"}</a></li>
+								<li><a href="{$Path}admin/manage_resource_food_confs.php">{translate key="ResourceFoodConfigurations"}</a></li>
 								<li class="divider"></li>
 								<li><a href="{$Path}admin/manage_users.php">{translate key="ManageUsers"}</a></li>
 								<li><a href="{$Path}admin/manage_groups.php">{translate key="ManageGroups"}</a></li>

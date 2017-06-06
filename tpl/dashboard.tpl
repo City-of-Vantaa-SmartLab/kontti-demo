@@ -74,7 +74,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										{/foreach}
 										{$furnilist = "`$furnilist`</ul>"}
 									{/if}
-								<a href="{if strcmp($Conf['name'],"Semmajee")==0}#{$Conf['name']}{else}./schedule.php?sd=2017-6-5&roomconf={$Conf['conf_id']}{/if}" class="furnilistTip"><b>{$Conf['name']}</b></a><div class="infodot inline pull-right"><a title="<div class='furnilistTipInner'><div class='furnilistTipInnerText'>{$furnilist}</div></div>" data-html="true" rel="tooltip{$Conf['conf_id']}" href="{if strcmp($Conf['name'],"Semmajee")==0}#{$Conf['name']}{else}./schedule.php?sd=2017-6-5&roomconf={$Conf['conf_id']}{/if}" class="furnilistTip" name="{$Conf['name']}"><i class="fa fa-info-circle pull-right" aria-hidden="true"></i></div></a><br/>
+								<a href="{if strcmp($Conf['name'],"Semmajee")==0}#{$Conf['name']}{else}./schedule.php?sd=2017-6-5&roomconf={$Conf['conf_id']}{/if}" class="furnilistTip"><b>{$Conf['name']}</b></a><div class="infodot inline pull-right"><a title="<div class='furnilistTipInner'>{translate key='Furni'}<div class='furnilistTipInnerText'>{$furnilist}</div></div>" data-html="true" rel="tooltip{$Conf['conf_id']}" href="{if strcmp($Conf['name'],"Semmajee")==0}#{$Conf['name']}{else}./schedule.php?sd=2017-6-5&roomconf={$Conf['conf_id']}{/if}" class="furnilistTip" name="{$Conf['name']}"><i class="fa fa-info-circle pull-right" aria-hidden="true"></i></div></a><br/>
 								{$Conf['description']}
 							</div>
 							

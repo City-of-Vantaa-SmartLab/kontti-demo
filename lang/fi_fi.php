@@ -76,6 +76,19 @@ class fi_fi extends en_us
 		$strings['November'] = 'Marraskuu';
 		$strings['December'] = 'Joulukuu';
 
+		$strings['Save'] = 'Tallenna';
+		$strings['EditBillingInformation'] = 'Muokkaa Laskutustietoja';
+		$strings['BillingInfo'] = 'Laskutustiedot';
+		$strings['compname'] = 'Yrityksen nimi /Yksityishenkilön nimi';
+		$strings['personid'] = 'Y-tunnus / henkilötunnus';
+		$strings['billingaddress'] = 'Laskutusosoite (verkkolaskutustiedot tai paperilaskutustiedot)';
+		$strings['reference'] = 'Viitteenne tietoon kustannuspaikkanumero';
+		$strings['IsMinAllowed'] = 'on minimi sallittu määrä tarjoilua.';
+		$strings['IsMaxAllowed'] = 'on maksimi sallittu määrä tarjoilua.';
+		$strings['Or'] = 'tai';
+		$strings['ImageFile'] = 'Kuvatiedosto';
+		$strings['ResourcesFood'] = 'Menutilaus';
+		$strings['CharactersLeft'] = 'Merkkiä jäljellä';
 		$strings['RoomForOtherPresenterLegend'] = 'Yhteisvaraus mahdollinen';
 		$strings['RoomForOtherPresenterContact'] = 'ole minuun yhteydessä';
 		$strings['RoomForOtherPresenter'] = 'Tilaan mahtuu myös toinen toimija';
@@ -86,6 +99,7 @@ class fi_fi extends en_us
 		$strings['ScheduleInfoResConfPt2'] = '-varauksellesi sopiva ajankohta varauskalenterista.';
 		$strings['ScheduleInfo'] = 'Maalaa sopiva ajankohta kalenterin vapaista ajoista. Siirryt automaattisesti varauslomakkeelle, jolla voit vielä tarkentaa varauksesi ajankohtaa.';
 		$strings['ComingSoon'] = 'Tulossa pian!';
+		$strings['peopleShort'] = 'hlö';
 		$strings['MaxParticipantsPt1'] = 'Henkilömäärä: Max.';
 		$strings['MaxParticipantsPt2'] = 'hlöä';
 		$strings['MaxParticipantsPt3'] = ', Kehotilassa max. 27 hlöä';
@@ -102,11 +116,20 @@ class fi_fi extends en_us
 		$strings['resourceConfInfo'] = 'Voit valita seitsemästä tilakonseptista parhaimman ratkaisun toiminnallesi. Lisämaksuton tilaratkaisu Muuntamo ORIGINAL on hyvä lähtökohta monenlaiseen toimintaan. Voit myös valita kohdennetuista tilaratkaisuista toiminnallesi parhaiten sopivan. Lisätiedoista näet tarkemman kuvauksen tilan varusteluista.';
 		$strings['SelectTime'] = 'Valitse aika';
 		$strings['FrontReservationConfSelect'] = 'Voit valita seitsemästä tilakonseptista parhaimman ratkaisun toiminnallesi. Lisätiedoista näet tarkemman kuvauksen tilan varusteluista.';
+		
+		$strings['ResourceFoodConfInResources'] = 'Tarjoiluratkaisu käytössä tiloissa';
+		$strings['ManageResourceFoodConfsTitle'] = 'Muokkaa tarjoiluratkaisuja';
+		$strings['ResourceFoodConfiguration'] = 'Tarjoiluratkaisu';
+		$strings['ResourceFoodConfigurations'] = 'Tarjoiluratkaisut';
+		$strings['AddResourceFoodConfiguration'] = 'Lisää tarjoiluratkaisu';
+		$strings['contentlist'] = 'Sisältölista';
+		
 		$strings['ResourceConfInResources'] = 'Tilaratkaisu käytössä tiloissa';
 		$strings['ManageResourceConfsTitle'] = 'Muokkaa tilaratkaisuja';
 		$strings['ResourceConfiguration'] = 'Tilaratkaisu';
 		$strings['ResourceConfigurations'] = 'Tilaratkaisut';
 		$strings['AddResourceConfiguration'] = 'Lisää tilaratkaisu';
+		
 		$strings['AboutFrontTitle'] = 'Osallistava,<br/> muuntautuva<br/> ja oivaltava';
 		$strings['ResourcesDescription'] = 'Valitse tilaratkaisu';
 		$strings['Index'] = 'Etusivu';
