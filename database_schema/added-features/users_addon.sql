@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2017 at 12:06 PM
+-- Generation Time: Jun 06, 2017 at 01:48 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -23,17 +23,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reservation_addons`
+-- Table structure for table `users_addon`
 --
 
-CREATE TABLE `reservation_addons` (
-  `series_id` int(10) UNSIGNED NOT NULL,
-  `PublicStartTime` time DEFAULT NULL,
-  `PublicEndTime` time DEFAULT NULL,
-  `PublicStatus` tinyint(1) NOT NULL DEFAULT '0',
-  `RoomForOtherPresenter` tinyint(1) NOT NULL DEFAULT '0',
-  `foodtarget_id` smallint(5) UNSIGNED DEFAULT NULL,
-  `foodcount` int(10) UNSIGNED NOT NULL DEFAULT '0'
+CREATE TABLE `users_addon` (
+  `user_id` mediumint(8) UNSIGNED NOT NULL,
+  `compname` varchar(500) NOT NULL,
+  `personid` varchar(500) NOT NULL,
+  `billingaddress` varchar(500) NOT NULL,
+  `reference` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -41,20 +39,20 @@ CREATE TABLE `reservation_addons` (
 --
 
 --
--- Indexes for table `reservation_addons`
+-- Indexes for table `users_addon`
 --
-ALTER TABLE `reservation_addons`
-  ADD PRIMARY KEY (`series_id`);
+ALTER TABLE `users_addon`
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `reservation_addons`
+-- Constraints for table `users_addon`
 --
-ALTER TABLE `reservation_addons`
-  ADD CONSTRAINT `series_id` FOREIGN KEY (`series_id`) REFERENCES `reservation_series` (`series_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `users_addon`
+  ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

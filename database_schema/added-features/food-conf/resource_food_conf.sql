@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2017 at 12:06 PM
+-- Generation Time: Jun 06, 2017 at 12:03 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -23,17 +23,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reservation_addons`
+-- Table structure for table `resource_food_conf`
 --
 
-CREATE TABLE `reservation_addons` (
-  `series_id` int(10) UNSIGNED NOT NULL,
-  `PublicStartTime` time DEFAULT NULL,
-  `PublicEndTime` time DEFAULT NULL,
-  `PublicStatus` tinyint(1) NOT NULL DEFAULT '0',
-  `RoomForOtherPresenter` tinyint(1) NOT NULL DEFAULT '0',
-  `foodtarget_id` smallint(5) UNSIGNED DEFAULT NULL,
-  `foodcount` int(10) UNSIGNED NOT NULL DEFAULT '0'
+CREATE TABLE `resource_food_conf` (
+  `foodconf_id` smallint(5) UNSIGNED NOT NULL COMMENT 'id',
+  `name` varchar(90) CHARACTER SET utf8 NOT NULL,
+  `description` varchar(1000) CHARACTER SET utf8 NOT NULL,
+  `price` float UNSIGNED NOT NULL DEFAULT '0',
+  `contentlist` varchar(3000) CHARACTER SET utf8 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -41,21 +39,20 @@ CREATE TABLE `reservation_addons` (
 --
 
 --
--- Indexes for table `reservation_addons`
+-- Indexes for table `resource_food_conf`
 --
-ALTER TABLE `reservation_addons`
-  ADD PRIMARY KEY (`series_id`);
+ALTER TABLE `resource_food_conf`
+  ADD PRIMARY KEY (`foodconf_id`);
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- Constraints for table `reservation_addons`
+-- AUTO_INCREMENT for table `resource_food_conf`
 --
-ALTER TABLE `reservation_addons`
-  ADD CONSTRAINT `series_id` FOREIGN KEY (`series_id`) REFERENCES `reservation_series` (`series_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
+ALTER TABLE `resource_food_conf`
+  MODIFY `foodconf_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id';
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

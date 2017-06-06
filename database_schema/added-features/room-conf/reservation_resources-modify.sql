@@ -6,3 +6,4 @@
 --
 
 ALTER TABLE `reservation_resources` ADD `target_id` SMALLINT(5) UNSIGNED NULL DEFAULT NULL AFTER `resource_level_id`;
+ALTER TABLE `reservation_resources` ADD `foodtarget_id` SMALLINT(5) UNSIGNED NULL DEFAULT NULL AFTER `target_id`;
