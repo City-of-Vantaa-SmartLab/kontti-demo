@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2017 at 12:06 PM
+-- Generation Time: Jun 08, 2017 at 11:03 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -33,7 +33,9 @@ CREATE TABLE `reservation_addons` (
   `PublicStatus` tinyint(1) NOT NULL DEFAULT '0',
   `RoomForOtherPresenter` tinyint(1) NOT NULL DEFAULT '0',
   `foodtarget_id` smallint(5) UNSIGNED DEFAULT NULL,
-  `foodcount` int(10) UNSIGNED NOT NULL DEFAULT '0'
+  `foodcount` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `FoodSplitFirst` tinyint(3) UNSIGNED DEFAULT '0',
+  `FoodSplitSecond` tinyint(3) UNSIGNED DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

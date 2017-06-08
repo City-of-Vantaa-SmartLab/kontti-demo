@@ -16,6 +16,9 @@ d9d9d6	//Footer gray
     font-family: GTWalsheimBold;
     src: url(fonts/GT-Walsheim-Bold.woff);
 }
+div.noPadLeft{
+	padding-left: 0px;
+}
 img.logo {
     width: 211px;
     height: 51px;
@@ -323,7 +326,7 @@ div.resourceConfReservationShowcase{
 	display: inline-block;
 }
 div.selectedResourceConf{
-	vertical-align: text-top;
+	vertical-align: top;
 }
 div.selectedResourceConfImage{
 	text-align: right;
@@ -343,6 +346,9 @@ div.ResourceConfDashboardDefault{
 a.furnilistTip{
 	cursor: default;
 	color: #000000;
+}
+a.btn-default {
+    color: #000000;
 }
 .furnilistTip + .tooltip > .tooltip-inner { 
 	text-align: left;
@@ -543,6 +549,7 @@ select.resourceContainerRight{
 Used in:
 Web/reservation.php
 */
+	min-width: 169px;
 	max-width: 200px;
 }
 
@@ -701,7 +708,10 @@ span.resourceConfLinkListConf{
 	height: 10px;
 	white-space:nowrap;
 }
-
+hr.pricetag{    
+	margin-top: 5px;
+	border-top: 4px solid #eee;
+}
 
 #reservation-box label {
     min-width: 100px;

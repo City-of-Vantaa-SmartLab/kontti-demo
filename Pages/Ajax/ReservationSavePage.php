@@ -178,7 +178,7 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 		{		
 			$ResourceArrangementAR=$_POST['additionalResources'];
 			if(isset($_POST['ResourceFoodArrangementCountSelect'])){
-				$tempCount=$_POST['ResourceFoodArrangementCountSelect'];
+				$tempCount=regexnums($_POST['ResourceFoodArrangementCountSelect']);
 				foreach($ResourceArrangementAR as $resource){
 					if($tempCount[$resource]>35){
 						$tempCount[$resource]=35;
@@ -196,9 +196,15 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 			$ResourceArrangement=$_POST['ResourceArrangement'];
 			$ResourceFoodArrangement=$_POST['ResourceFoodArrangement'];
 			$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
+			$FoodHalfFirst=0;
+			$FoodHalfSecond=0;
 			if(isset($ResourceArrangementAR)){
-				foreach($ResourceArrangementAR as $resource){
-					setAllTemp($resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']),regexnums($ResourceArrangement[$resource]),regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$compname,$personid,$billingaddress,$reference);
+				foreach($ResourceArrangementAR as $resource){						
+					if(isset($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).''])||isset($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).''])){
+						$FoodHalfFirst=regexnums($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).'']);
+						$FoodHalfSecond=regexnums($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).'']);
+					}
+					setAllTemp($resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']),regexnums($ResourceArrangement[$resource]),regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$FoodHalfFirst,$FoodHalfSecond,$compname,$personid,$billingaddress,$reference);
 				}
 			}
 			
@@ -214,9 +220,10 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 				$this->Set('Resources', $reservation->AllResources());
 				$this->Set('Instances', $reservation->Instances());
 				$this->Set('Timezone', ServiceLocator::GetServer()->GetUserSession()->Timezone);
-				
-				// MODIFIED CODE STARTS HERE
 				$food=0;
+				// MODIFIED CODE STARTS HERE
+				$userSession2 = ServiceLocator::GetServer()->GetUserSession();	
+				
 				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined'
 					if(isset($_POST['ResourceArrangement'])&&isset($_POST['beginDate'])&&isset($_POST['beginPeriod'])){
 						$ResourceArrangement=$_POST['ResourceArrangement'];
@@ -228,13 +235,14 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 						echo "Tilaratkaisuja ei tallennettu! Virhe: Puuttuva muuttuja.";
 					}
 					if(isset($_POST['ResourceFoodArrangementCountSelect'])&&isset($_POST['ResourceFoodArrangement'])&&isset($_POST['beginDate'])&&isset($_POST['beginPeriod'])){
-						$food=1;
+
 						$ResourceFoodArrangement=$_POST['ResourceFoodArrangement'];
 						$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
 						$ResourceArrangementAR=$_POST['additionalResources'];
 						foreach($ResourceArrangementAR as $resource){
 							if($ResourceFoodArrangement[$resource]!=0&&$ResourceFoodArrangementCountSelect[$resource]>0&&$ResourceFoodArrangementCountSelect[$resource]<36){
-								insertFoodConfToReservationWithDate($ResourceFoodArrangement[$resource],$ResourceFoodArrangementCountSelect[$resource],$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
+								$food=1;
+								insertFoodConfToReservationWithDate($ResourceFoodArrangement[$resource],$ResourceFoodArrangementCountSelect[$resource],$FoodHalfFirst,$FoodHalfSecond,$resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 								$ResourceFoodArrangementtemp=$ResourceFoodArrangement[$resource];
 								$ResourceFoodArrangementCountSelectTemp=$ResourceFoodArrangementCountSelect[$resource];
 								
@@ -263,7 +271,7 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 								$foodInfo=getFoodArrangementInfo($resource);
 									$seriesid=MatchDateAndResource($resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']));
 								}
-								mailToCatering(1,$foodInfo,$ResourceFoodArrangementCountSelectTemp,$userSession2->UserId,$dayCountlist,$restime,$seriesid);
+								mailToCatering(1,$foodInfo,$ResourceFoodArrangementCountSelectTemp,$FoodHalfFirst,$FoodHalfSecond,$userSession2->UserId,$dayCountlist,$restime,$seriesid);
 							}
 						}else{
 						}

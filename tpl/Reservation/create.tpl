@@ -133,13 +133,13 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										{if isset($Food['contentlist'])}
 											{$foodtemp="<ul>"}
 											{foreach from=$contentlist item=content}
-												{$foodtemp="`$temp`<li>`$content`</li>"}
+												{$foodtemp="`$foodtemp`<li>`$content`</li>"}
 											{/foreach}
-											{$temp="`$foodtemp`</ul>"}
-											{$temp = preg_replace( "/\r|\n/", "", $foodtemp )}{*removes linebreaks so javascript understands it*}
+											{$foodtemp="`$foodtemp`</ul>"}
+											{$foodtemp = preg_replace( "/\r|\n/", "", $foodtemp )}{*removes linebreaks so javascript understands it*}
 										{/if}
 
-										test[{$Food['foodconf_id']}] = "{$temp}";
+										test[{$Food['foodconf_id']}] = "{$foodtemp}";
 										prices[{$Food['foodconf_id']}] = "{$Food['price']}";
 									{/foreach}
 									calcTotalPrice();
@@ -361,7 +361,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							</div>
 						</div>
 					{if !$HideRecurrence}
-						<div class="col-xs-12">
+						<div class="col-xs-12 noPadLeft">
 							{if isset($HideRepeat)}
 								{translate key='RecurrenceDisabledBugPt1'} <a href="{$Path}{Pages::SCHEDULE}?sd={formatdate date=$StartDate key=system}" target="_blank">{translate key='RecurrenceDisabledBugLink'}</a> {translate key='RecurrenceDisabledBugPt2'}
 								<div class="hidden">
@@ -1021,6 +1021,37 @@ for(var i = 0; i < cbs.length; i++) {
 									{/if}
 								{/if}
 							{/if}
+							
+	{foreach from=$ResourceFoodConfs item=Conf}
+		$('#ReservationTotalPrice').on('click', '#foodhalffirst{$Conf['foodconf_id']}', function() {		
+			var value = $(this).val();
+			var FoodCount = parseInt(document.getElementById("ResourceFoodArrangementCountSelect[{$resource->GetId()}]").value);
+			
+			if(FoodCount<1){
+				FoodCount = 1;
+			}else if(FoodCount>35){
+				FoodCount = 35;
+			}
+			var lowerFoodcount = FoodCount-value;
+			document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-1").innerHTML = " x"+value;
+			document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-2").innerHTML = " x"+lowerFoodcount;
+			document.getElementById("foodhalfsecond{$Conf['foodconf_id']}").value = lowerFoodcount;
+		});				
+		$('#ReservationTotalPrice').on('click', '#foodhalfsecond{$Conf['foodconf_id']}', function() {
+			var value = $(this).val();
+			var FoodCount = parseInt(document.getElementById("ResourceFoodArrangementCountSelect[{$resource->GetId()}]").value);
+			
+			if(FoodCount<1){
+				FoodCount = 1;
+			}else if(FoodCount>35){
+				FoodCount = 35;
+			}
+			var higherFoodcount = FoodCount-value;
+			document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-1").innerHTML = " x"+higherFoodcount;
+			document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-2").innerHTML = " x"+value;
+			document.getElementById("foodhalffirst{$Conf['foodconf_id']}").value = higherFoodcount;
+		});
+	{/foreach}
 	function calcTotalPrice(){
 		
 		var e = document.getElementById("ResourceArrangement[{$resource->GetId()}]");
@@ -1050,7 +1081,7 @@ for(var i = 0; i < cbs.length; i++) {
 		var FoodCount; 
 		var string; 
 		var foodstring;
-		var fooddescstring;
+		var fooddescstring = [];
 		var confstring = "";
 		var weekendIncreaseString = "";
 		var ErrorText = "";
@@ -1143,8 +1174,9 @@ for(var i = 0; i < cbs.length; i++) {
 			FoodCount = 0;
 			FoodId = 0;
 			foodprices[0] = 0;
+			fooddescstring[0] = 0;
 		}
-		if(FoodCount<0){
+		if(FoodCount<1){
 			ErrorText = "1 {translate key="IsMinAllowed"}<br/>";
 			FoodCount = 1;
 		}else if(FoodCount>35){
@@ -1160,16 +1192,43 @@ for(var i = 0; i < cbs.length; i++) {
 		{/foreach}
 		//generated with a php foreach loop from smarty variables
 		{foreach from=$ResourceFoodConfs item=Conf}
+			var temporaryFoodString="";
 			foodnames[{$Conf['foodconf_id']}] = "{$Conf['name']}";
-			fooddescs[{$Conf['foodconf_id']}] = "{preg_replace('/\s\s+/', ' ', $Conf['description'])}"; {*removing newlines*}
-			fooddescstring="<ul><li>"+fooddescs[FoodId]+"</li></ul>";
+			{$contentlist = "\n"|explode:$Conf['contentlist']}
+			temporaryFoodString="<ul>";
+			{$previousfood=""}
+			{foreach from=$contentlist item=content}
+				{$content = preg_replace( "/\r|\n/", "", $content )}{*removes linebreaks*}
+				{if strcmp($content,'tai')!==0}
+					temporaryFoodString=temporaryFoodString+"<li>{$content}";
+					{$previousnextfood=""}
+					{foreach from=$contentlist item=nextcontent}
+						
+						{$nextcontent = preg_replace( "/\r|\n/", "", $nextcontent )}{*removes linebreaks*}						
+						{if strcmp($nextcontent,'tai')==0&&strcmp($content,$previousnextfood)==0}
+							temporaryFoodString=temporaryFoodString+"<div class='inline' id='foodhalfcounter-{$Conf['foodconf_id']}-1'> x{if isset($PublicStatus['FoodSplitFirst'])}{$PublicStatus['FoodSplitFirst']}{else}"+FoodCount+"{/if}</div>";
+							temporaryFoodString=temporaryFoodString+"<input type='range' id='foodhalffirst{$Conf['foodconf_id']}' name='foodhalffirst{$Conf['foodconf_id']}' max='"+FoodCount+"' min='0' value={if isset($PublicStatus['FoodSplitFirst'])}{$PublicStatus['FoodSplitFirst']}{else}"+FoodCount+"{/if}>";
+						{/if}
+						{$previousnextfood=$nextcontent}
+					{/foreach}
+					{if strcmp($previousfood,'tai')==0}
+							temporaryFoodString=temporaryFoodString+"<div class='inline' id='foodhalfcounter-{$Conf['foodconf_id']}-2'> x{if isset($PublicStatus['FoodSplitSecond'])}{$PublicStatus['FoodSplitSecond']}{else}0{/if}</div>";
+							temporaryFoodString=temporaryFoodString+"<input type='range' id='foodhalfsecond{$Conf['foodconf_id']}' name='foodhalfsecond{$Conf['foodconf_id']}' max='"+FoodCount+"' min='0' value={if isset($PublicStatus['FoodSplitSecond'])}{$PublicStatus['FoodSplitSecond']}{else}0{/if}>";
+					{/if}
+					temporaryFoodString=temporaryFoodString+"</li>";
+				{else}
+				{/if}
+				{$previousfood=$content}
+			{/foreach}
+			fooddescstring[{$Conf['foodconf_id']}]=temporaryFoodString+"</ul>";
+			{$foodtemp = preg_replace( "/\r|\n/", "", $foodtemp )}{*removes linebreaks so javascript understands it*}
 			foodprices[{$Conf['foodconf_id']}] = parseFloat("{$Conf['price']}");
 		{/foreach}
 		total=foodprices[FoodId]*FoodCount;
 		if(foodnames[FoodId] == null){
 			foodstring = "";
 		}else{
-			foodstring="<label>"+FoodCount+"x "+foodnames[FoodId]+"</label> "+total.toFixed(2)+" €<br/>"+fooddescstring+"<br/>";
+			foodstring="<label>"+FoodCount+"x "+foodnames[FoodId]+"</label> "+total.toFixed(2)+" €<br/>"+fooddescstring[FoodId]+"<br/>";
 			var temp=total*0.14;
 			total=total+temp; //adding price of food
 			foodstring=foodstring+"<label>14% alv</label> "+temp.toFixed(2)+" €<br/>";

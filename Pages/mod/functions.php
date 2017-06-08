@@ -99,7 +99,7 @@ function regexRemoveSecs($time){	//leaves 00:00 from any input with :
 	$output=$time[0].".".$time[1];
 	return $output;
 }
-function mailToCatering($status,$foodInfo,$count,$id,$dayCounter,$restime,$seriesid){
+function mailToCatering($status,$foodInfo,$count,$FoodSplitFirst,$FoodSplitSecond,$id,$dayCounter,$restime,$seriesid){
 	$daylist="";
 	$statustext="";
 	$userinfo=getAllUserAddonInfo($id);
@@ -123,13 +123,40 @@ function mailToCatering($status,$foodInfo,$count,$id,$dayCounter,$restime,$serie
 			$daylist=$daylist.", ";
 		}
 	}
-	$to      = "matti.luhtala@vantaa.fi";
-	$subject = "Muuntamo - ".$seriesid." - Ateriatilaus";
+	$foodListArray=explode("\n",$foodInfo['contentlist']);
+	$foodListString="";
+	foreach($foodListArray as $content){
+		$done=0;
+		$content = preg_replace( "/\r|\n/", "", $content );//removing any possible newline \n
+		if(strcmp($content,"tai")!=0){
+			$foodListString=$foodListString.$content;
+			$foodInnerPrevious="";
+			foreach($foodListArray as $nextcontent){
+				$nextcontent = preg_replace( "/\r|\n/", "", $nextcontent);//removing any possible newline \n
+				if(strcmp($nextcontent,"tai")==0&&strcmp($content,$foodInnerPrevious)==0){
+					$foodListString=$foodListString." x".$FoodSplitFirst."kpl<br/>";
+					$done=1;
+				}
+				$foodInnerPrevious=$nextcontent;
+			}
+			if(strcmp($foodOuterPrevious,"tai")==0&&$done==0){
+					$foodListString=$foodListString." x".$FoodSplitSecond."kpl<br/>";
+					$done=1;
+			}
+			if($done==0){
+					$foodListString=$foodListString." x".$count."kpl<br/>";
+			}
+		}
+		$foodOuterPrevious=$content;
+	}
+	$to      = "meow@localhost";
+	$subject = "Muuntamo - ID".$seriesid." - Ateriatilaus";
 	if($status!=3){
 		$message = $statustext."\n
 					<h3>Tilauksen tiedot</h3>\n
 					Varauksen numero: ".$seriesid."<br/><br/>\n
 					Menun nimi: ".$foodInfo['name']."<br/><br/>\n
+					Menun sisältö: <br/>".$foodListString."<br/><br/>\n
 					Hinta: ".$foodInfo['price']." €/kpl<br/><br/>\n
 					Määrä: ".$count." kpl<br/><br/>\n
 					Päivät: ".$daylist."<br/><br/>\n
@@ -147,8 +174,6 @@ function mailToCatering($status,$foodInfo,$count,$id,$dayCounter,$restime,$serie
 		"Content-Type: text/html; charset=UTF-8";
 
 	mail($to, $subject, $message, $headers);
-	$to      = "tapio.torronen@metropolia.fi";
-	mail($to, $subject, $message, $headers);
 }
 function mailToCateringDeleted($seriesid,$id){
 	//mail sent when reservation has it's menu selection removed
@@ -159,7 +184,7 @@ function mailToCateringDeleted($seriesid,$id){
 	$personid=$userinfo['personid'];
 	$billingaddress=$userinfo['billingaddress'];
 	$reference=$userinfo['reference'];
-	$to      = "matti.luhtala@vantaa.fi";
+	$to      = "meow@localhost";
 	$subject = "Muuntamo - ID".$seriesid." - Poistettu ateriatilaus";
 	$message = "Varauksesta poistettu ateriavalinta\n
 				<h3>Tilauksen tiedot</h3>\n
@@ -175,8 +200,6 @@ function mailToCateringDeleted($seriesid,$id){
 		"X-Mailer: PHP/" . phpversion() . "\r\n" .
 		"Content-Type: text/html; charset=UTF-8";
 
-	mail($to, $subject, $message, $headers);
-	$to      = "tapio.torronen@metropolia.fi";
 	mail($to, $subject, $message, $headers);
 }
 /**

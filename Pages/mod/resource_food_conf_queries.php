@@ -147,7 +147,7 @@ function getAllResourceFoodArrangements(){
 	}
 	return $result;
 }
-function insertFoodConfToReservationWithDate($resourcefoodconf_id,$count,$resource_id,$StartDate){
+function insertFoodConfToReservationWithDate($resourcefoodconf_id,$count,$FoodHalfFirst,$FoodHalfSecond,$resource_id,$StartDate){
 		//new reservation, series id retrieved with start date/resource_id
 	if(isset($count)&&isset($resourcefoodconf_id)&&isset($resource_id)){
 		//tarkista onko kyseinen resourcefoodconf_id ($resourcefoodconf_id) ja resource_id ($resource_id) pareina
@@ -155,7 +155,7 @@ function insertFoodConfToReservationWithDate($resourcefoodconf_id,$count,$resour
 		if(isset($list)){	//jos resourcefoodconf_id ja resource_id matchaa, jatka
 			$series_id=matchDateAndResource($resource_id,$StartDate);
 			if(isset($series_id)){
-				updateReservationFoodConf($count,$resourcefoodconf_id,$series_id);
+				updateReservationFoodConf($count,$resourcefoodconf_id,$FoodHalfFirst,$FoodHalfSecond,$series_id);
 				$value=1;
 			}else{
 				echo "Ateria: Jotain meni pieleen! Virhe: \$series_id:tä ei saatu haettua.";
@@ -167,7 +167,7 @@ function insertFoodConfToReservationWithDate($resourcefoodconf_id,$count,$resour
 		echo "Ateria: Muuttuja puuttuu! \$resource_id:".$resource_id.", \reservation info:".$resource_id.":".$StartDate."<br>";
 	}
 }
-function updateFoodConfToReservationWithSeriesId($resourcefoodconf_id,$count,$resource_id,$reservation_instance_id){ 
+function updateFoodConfToReservationWithSeriesId($resourcefoodconf_id,$count,$FoodHalfFirst,$FoodHalfSecond,$resource_id,$reservation_instance_id){ 
 	//used when changing an existing reservation
 	$value=0;	//
 	if(isset($resource_id)&&isset($reservation_instance_id)){
@@ -176,7 +176,7 @@ function updateFoodConfToReservationWithSeriesId($resourcefoodconf_id,$count,$re
 		if(isset($list)||$resourcefoodconf_id==NULL){	//jos resourcefoodconf_id ja resource_id matchaa, jatka
 			$series_id=getSeriesIdWResIID($reservation_instance_id);
 			if(isset($series_id)){
-				updateReservationFoodConf($count,$resourcefoodconf_id,$series_id);
+				updateReservationFoodConf($count,$resourcefoodconf_id,$FoodHalfFirst,$FoodHalfSecond,$series_id);
 				$value=1;
 			}else{
 				echo "Jotain meni pieleen! Virhe: \$series_id:tä ei saatu haettua.";
@@ -190,7 +190,7 @@ function updateFoodConfToReservationWithSeriesId($resourcefoodconf_id,$count,$re
 	return $value;
 }
 
-function updateReservationFoodConf($count,$foodconf_id,$series_id){
+function updateReservationFoodConf($count,$foodconf_id,$FoodHalfFirst,$FoodHalfSecond,$series_id){
 	$count=regexnums($count);
 	if($foodconf_id!=NULL){$foodconf_id=regexnums($foodconf_id);}else{$foodconf_id=NULL;}
 	$series_id=regexnums($series_id);
@@ -201,19 +201,19 @@ function updateReservationFoodConf($count,$foodconf_id,$series_id){
 		if($foodconf_id==NULL){ 
 			//the query will not use a variable with null for some reason
 			//checking if foodconf is null
-			$list=pdoExecute("UPDATE `reservation_addons`  SET `foodcount` = ".regexnums($count).", `foodtarget_id` = NULL WHERE series_id = ".regexnums($series_id)."");
+			$list=pdoExecute("UPDATE `reservation_addons`  SET `foodcount` = ".regexnums($count).", `foodtarget_id` = NULL,`FoodSplitFirst` = ".$FoodHalfFirst.",`FoodSplitSecond` = ".$FoodHalfSecond." WHERE series_id = ".regexnums($series_id)."");
 		}else{
-			$list=pdoExecute("UPDATE `reservation_addons`  SET `foodcount` = ".regexnums($count).", `foodtarget_id` = ".$foodconf_id." WHERE series_id = ".regexnums($series_id)."");
+			$list=pdoExecute("UPDATE `reservation_addons`  SET `foodcount` = ".regexnums($count).", `foodtarget_id` = ".$foodconf_id.",`FoodSplitFirst` = ".$FoodHalfFirst.",`FoodSplitSecond` = ".$FoodHalfSecond." WHERE series_id = ".regexnums($series_id)."");
 		}
 	}else{							//creating a new entry in db
-		InsertReservationFoodConf($count,$foodconf_id,$series_id);
+		InsertReservationFoodConf($count,$foodconf_id,$FoodHalfFirst,$FoodHalfSecond,$series_id);
 	}
 }
-function InsertReservationFoodConf($count,$foodconf_id,$series_id){
+function InsertReservationFoodConf($count,$foodconf_id,$FoodHalfFirst,$FoodHalfSecond,$series_id){
 	$count=regexnums($count);
 	$foodconf_id=regexnums($foodconf_id);
 	$series_id=regexnums($series_id);
-	$list=pdoExecute("INSERT INTO reservation_addons (foodcount,foodtarget_id,series_id) VALUES (".$count.",".$foodconf_id.",".$series_id.")");
+	$list=pdoExecute("INSERT INTO reservation_addons (foodcount,foodtarget_id,FoodSplitFirst,FoodSplitSecond,series_id) VALUES (".$count.",".$foodconf_id.",".$FoodHalfFirst.",".$FoodHalfSecond.",".$series_id.")");
 }
 
 

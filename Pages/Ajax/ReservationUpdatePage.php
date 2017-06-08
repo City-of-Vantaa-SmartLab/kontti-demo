@@ -66,7 +66,7 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 		{
 			$ResourceArrangementAR=$_POST['additionalResources'];
 			if(isset($_POST['ResourceFoodArrangementCountSelect'])){
-				$tempCount=$_POST['ResourceFoodArrangementCountSelect'];
+				$tempCount=regexnums($_POST['ResourceFoodArrangementCountSelect']);
 				foreach($ResourceArrangementAR as $resource){
 					if($tempCount[$resource]>35){
 						$tempCount[$resource]=35;
@@ -84,9 +84,15 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 			$ResourceArrangement=$_POST['ResourceArrangement'];
 			$ResourceFoodArrangement=$_POST['ResourceFoodArrangement'];
 			$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
+			$FoodHalfFirst=0;
+			$FoodHalfSecond=0;
 			if(isset($ResourceArrangementAR)){
 				foreach($ResourceArrangementAR as $resource){
-					setAllTemp($resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']),regexnums($ResourceArrangement[$resource]),regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$compname,$personid,$billingaddress,$reference);
+					if(isset($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).''])||isset($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).''])){
+						$FoodHalfFirst=regexnums($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).'']);
+						$FoodHalfSecond=regexnums($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).'']);
+					}
+					setAllTemp($resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']),regexnums($ResourceArrangement[$resource]),regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$FoodHalfFirst,$FoodHalfSecond,$compname,$personid,$billingaddress,$reference);
 				}
 			}
 			$this->EnforceCSRFCheck();
@@ -121,13 +127,13 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 							$food=1;
 							$ResourceFoodArrangementTemp=$ResourceFoodArrangement[$resource];
 							$ResourceFoodArrangementCountSelectTemp=$ResourceFoodArrangementCountSelect[$resource];
-							updateFoodConfToReservationWithSeriesId(regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),regexnums($resource),regexnums($_POST['reservationId']));
+							updateFoodConfToReservationWithSeriesId(regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$FoodHalfFirst,$FoodHalfSecond,regexnums($resource),regexnums($_POST['reservationId']));
 						}else{
 							//check if there used to be something set
 							$resAddon=getPublicStatus($seriesid);
 							if(isset($resAddon['foodtarget_id'])){
 								mailToCateringDeleted($seriesid,$userSession2->UserId);
-								updateFoodConfToReservationWithSeriesId(NULL,0,regexnums($resource),regexnums($_POST['reservationId']));
+								updateFoodConfToReservationWithSeriesId(NULL,0,0,0,regexnums($resource),regexnums($_POST['reservationId']));
 							}
 						}
 						
@@ -171,7 +177,7 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 							$restime=timeFromDatabase($restime[0],$restime[1]);
 							$restime=date('H.i', strtotime($restime));
 							$foodInfo=getFoodArrangementInfo($ResourceFoodArrangementTemp);
-							mailToCatering(2,$foodInfo,$ResourceFoodArrangementCountSelectTemp,$userSession2->UserId,$dayCountlist,$restime,$seriesid);
+							mailToCatering(2,$foodInfo,$ResourceFoodArrangementCountSelectTemp,$FoodHalfFirst,$FoodHalfSecond,$userSession2->UserId,$dayCountlist,$restime,$seriesid);
 						}
 					}else{
 					}

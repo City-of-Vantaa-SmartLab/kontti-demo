@@ -13,8 +13,8 @@ function getAllTemp($resource_id,$StartDate){
 	return $row;
 }
 
-function setAllTemp($resource_id,$StartDate,$ResourceArrangement,$ResourceFoodConf,$ResourceFoodConfCountSelect,$compname,$personid,$billingaddress,$reference){
-		$list=pdoExecute("INSERT INTO reservation_temporary (resource_id,start_date,ResourceConf,ResourceFoodConf,ResourceFoodCount,compname,personid,billingaddress,reference) VALUES (".$resource_id.",'".$StartDate."',".$ResourceArrangement.",".$ResourceFoodConf.",".$ResourceFoodConfCountSelect.",'".$compname."','".$personid."','".$billingaddress."','".$reference."')");
+function setAllTemp($resource_id,$StartDate,$ResourceArrangement,$ResourceFoodConf,$ResourceFoodConfCountSelect,$FoodHalfFirst,$FoodHalfSecond,$compname,$personid,$billingaddress,$reference){
+		$list=pdoExecute("INSERT INTO reservation_temporary (resource_id,start_date,ResourceConf,ResourceFoodConf,ResourceFoodCount,FoodSplitFirst,FoodSplitSecond,compname,personid,billingaddress,reference) VALUES (".$resource_id.",'".$StartDate."',".$ResourceArrangement.",".$ResourceFoodConf.",".$ResourceFoodConfCountSelect.",".$FoodHalfFirst.",".$FoodHalfSecond.",'".$compname."','".$personid."','".$billingaddress."','".$reference."')");
 }
 function delAllTemp($resource_id,$StartDate){
 		$row=getAllTemp($resource_id,$StartDate);
