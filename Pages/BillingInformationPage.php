@@ -37,6 +37,7 @@ class BillingInformationPage extends Page
 		$this->Set('personid',$billinginfo['personid']);
 		$this->Set('billingaddress',$billinginfo['billingaddress']);
 		$this->Set('reference',$billinginfo['reference']);
+		$this->Set('additionalInfo',$billinginfo['additionalinfo']);
 		$this->Display('MyAccount/BillingInformation.tpl');
 	}
 

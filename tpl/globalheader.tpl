@@ -140,7 +140,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	{cssfile src="scripts/css/jquery-ui-timepicker-addon.css"}
 	{cssfile src="booked.css?v=1"}
-	{cssfile src="muuntamo.css?v=20"}
+	{cssfile src="muuntamo.css?v=24"}
 	{if $cssFiles neq ''}
 		{assign var='CssFileList' value=','|explode:$cssFiles}
 		{foreach from=$CssFileList item=cssFile}
@@ -183,7 +183,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<ul class="dropdown-menu">
 							<li><a href="{$Path}{Pages::PROFILE}">{translate key="Profile"}</a></li>
 							<li><a href="{$Path}billing-information.php">{translate key="BillingInfo"}</a></li>
-							{*<li><a href="{$Path}{Pages::PASSWORD}">{translate key="ChangePassword"}</a></li>*}
+							<li><a href="{$Path}{Pages::PASSWORD}">{translate key="ChangePassword"}</a></li>
 							<li>
 								<a href="{$Path}{Pages::NOTIFICATION_PREFERENCES}">{translate key="NotificationPreferences"}</a>
 							</li>
@@ -196,7 +196,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{translate key="Schedule"} <b
 									class="caret"></b></a>
 						<ul class="dropdown-menu">
-								<li><a href="{$Path}{Pages::SCHEDULE}?sd=2017-6-5">{translate key="Bookings"}</a></li>
+								<li><a href="{$Path}{Pages::SCHEDULE}">{translate key="Bookings"}</a></li>
 							{if $CanViewAdmin}
 								<li><a href="{$Path}{Pages::MY_CALENDAR}">{translate key="MyCalendar"}</a></li>
 								<li><a href="{$Path}{Pages::CALENDAR}">{translate key="ResourceCalendar"}</a></li>

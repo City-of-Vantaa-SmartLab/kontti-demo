@@ -51,7 +51,8 @@ class UpdateBillingInformationPage extends ActionPage
 				$personid=regexUserInfoText($_POST['personid']);
 				$billingaddress=regexUserInfoText($_POST['billingaddress']);
 				$reference=regexUserInfoText($_POST['reference']);
-				addUserAddonInfo($userSession->UserId,$compname,$personid,$billingaddress,$reference);
+				$additionalInfo=regexUserInfoText($_POST['additionalinfo']);
+				addUserAddonInfo($userSession->UserId,$compname,$personid,$billingaddress,$reference,$additionalInfo);
 				
 			}else{
 			}

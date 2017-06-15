@@ -53,7 +53,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 									</div>
 								</div>
 								<div class="ResourceConfDashboardDefaultButton">
-									<a class="btn btn-success linkbutton" href="./schedule.php?sd=2017-6-5&roomconf={$Conf['conf_id']}">{translate key="Create"}{if $Conf['price'] != "0"} {$Conf['price']}€{/if}</a>
+									<a class="btn btn-success linkbutton" href="./schedule.php?roomconf={$Conf['conf_id']}">{translate key="Create"}{if $Conf['price'] != "0"} {$Conf['price']}€{/if}</a>
 								</div>
 							</div>
 							<div class="ResourceConfDashboardDefaultRight col-sm-3 col-xs-3">										
@@ -74,7 +74,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										{/foreach}
 										{$furnilist = "`$furnilist`</ul>"}
 									{/if}
-								<a href="{if strcmp($Conf['name'],"Semmajee")==0}#{$Conf['name']}{else}./schedule.php?sd=2017-6-5&roomconf={$Conf['conf_id']}{/if}" class="furnilistTip"><b>{$Conf['name']}</b></a><div class="infodot inline pull-right"><a title="<div class='furnilistTipInner'>{translate key='Furni'}<div class='furnilistTipInnerText'>{$furnilist}</div></div>" data-html="true" rel="tooltip{$Conf['conf_id']}" href="{if strcmp($Conf['name'],"Semmajee")==0}#{$Conf['name']}{else}./schedule.php?sd=2017-6-5&roomconf={$Conf['conf_id']}{/if}" class="furnilistTip" name="{$Conf['name']}"><i class="fa fa-info-circle pull-right" aria-hidden="true"></i></div></a><br/>
+								<a href="{if strcmp($Conf['name'],"Semmajee")==0}#{$Conf['name']}{else}./schedule.php?roomconf={$Conf['conf_id']}{/if}" class="furnilistTip"><b>{$Conf['name']}</b></a><div class="infodot inline pull-right"><a title="<div class='furnilistTipInner'>{translate key='Furni'}<div class='furnilistTipInnerText'>{$furnilist}</div></div>" data-html="true" rel="tooltip{$Conf['conf_id']}" href="{if strcmp($Conf['name'],"Semmajee")==0}#{$Conf['name']}{else}./schedule.php?roomconf={$Conf['conf_id']}{/if}" class="furnilistTip" name="{$Conf['name']}"><i class="fa fa-info-circle pull-right" aria-hidden="true"></i></div></a><br/>
 								{$Conf['description']}
 							</div>
 							
@@ -100,7 +100,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								{if strcmp($Conf['name'],"Semmajee")==0}
 									<div style="padding-left:75px;padding-right:75px"><div style="border-style: solid; border-color:#6BC24A;border-width:1px;"><div style="padding: 6px 12px;padding-bottom: 6px;font-size: 14px;color:black;">{translate key="ComingSoon"}</div></div></div>
 								{else}
-									<a class="btn btn-success linkbutton" href="./schedule.php?sd=2017-6-5&roomconf={$Conf['conf_id']}">{translate key="Create"}{if $Conf['price'] != "0"} {$Conf['price']}€{/if}</a>
+									<a class="btn btn-success linkbutton" href="./schedule.php?roomconf={$Conf['conf_id']}">{translate key="Create"}{if $Conf['price'] != "0"} {$Conf['price']}€{/if}</a>
 								{/if}
 								<hr class="ResourceConfFrontBottom"></hr>
 							</div>
@@ -115,7 +115,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				{*
 					<div class="ResourceConfInner">
 						<div class="ResourceConfFrontBottom">
-							<a class="btn btn-default" href="./schedule.php?sd=2017-6-5">Tee varaus</a>
+							<a class="btn btn-default" href="./schedule.php">Tee varaus</a>
 						</div>
 					</div>
 				*}

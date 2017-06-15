@@ -116,7 +116,7 @@ Tapahtuman kuvaus: {$Description|nl2br}
 	Menutilauksen lopullinen hinta: {$FoodTotal} €<br/>
 	{if !empty($WeekendExtra)}Viikonlopun kuljetuslisät: {$WeekendExtra} €<br/>{/if}
 	{$counterRepeatdates=1}
-	{if count($RepeatDates)==0)}
+	{if count($RepeatDates)==0}
 		{$counterRepeatdates=1}
 	{else}
 		{$counterRepeatdates=count($RepeatDates)}

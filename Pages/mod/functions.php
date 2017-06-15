@@ -70,13 +70,17 @@ function regexSingleNumber($numb){
 function regexUserInfoText($textstring){
 	//allows numbers, letters, . and -
 	//to add more allowed characters, just add them before ]
-    return preg_replace("/[^a-zA-Z0-9.-äåöüÄÅÖÜ ]/","",$textstring);
+    return preg_replace("/[^a-zA-Z0-9.-äåöüÄÅÖÜ,':€@!?()* \-]/","",$textstring);
 }
 
 function DateIsReal($date){
 	$date=regexDateIsReal($date);
 	list($y, $m, $d) = explode("-", $date);
-	return checkdate($m, $d, $y);
+	if(isset($y)&&isset($m)&&isset($d)){
+		return checkdate($m, $d, $y);
+	}else{
+		return FALSE;
+	}
 }
 function regexDateIsReal($time){
     return preg_replace("/[^0-9-]/","",$time); //poistaa annetusta $time muut kuin numerot ja - merkit ja palauttaa tuloksen
@@ -103,10 +107,17 @@ function mailToCatering($status,$foodInfo,$count,$FoodSplitFirst,$FoodSplitSecon
 	$daylist="";
 	$statustext="";
 	$userinfo=getAllUserAddonInfo($id);
+	$usernormalinfo=getUserNormalInfo($id);
 	$compname=$userinfo['compname'];
 	$personid=$userinfo['personid'];
 	$billingaddress=$userinfo['billingaddress'];
 	$reference=$userinfo['reference'];
+	$additionalInfo=$userinfo['additionalinfo'];
+	
+	$userFullName = $usernormalinfo['fname']." ".$usernormalinfo['lname'];
+	$userPhone = $usernormalinfo['phone'];
+	$userEmail = $usernormalinfo['email'];
+	
 	if($status==1){
 		$statustext="Uusi varaus";
 	}elseif($status==2){
@@ -163,10 +174,17 @@ function mailToCatering($status,$foodInfo,$count,$FoodSplitFirst,$FoodSplitSecon
 					Kellonaika: ".$restime."<br/><br/>\n
 					<hr>
 					<h3>Laskutustiedot</h3>
-					Yrityksen nimi /Yksityishenkilön nimi: ".$compname."<br/><br/>\n
-					Y-tunnus / henkilötunnus: ".$personid."<br/><br/>\n
-					Laskutusosoite: ".$billingaddress."<br/><br/>\n
-					Viitteenne tietoon kustannuspaikkanumero: ".$reference."<br/><br/>\n";
+					Tilaajan tai yrityksen nimi: ".$compname."<br/><br/>\n
+					Henkilötunnus tai Y-tunnus: ".$personid."<br/><br/>\n
+					Laskutusosoite (verkkolaskutustiedot tai paperilaskutustiedot): ".$billingaddress."<br/><br/>\n
+					Viite tai kustannuspaikkanumero: ".$reference."<br/><br/>\n
+					Tilauksen lisätiedot: ".$additionalInfo."<br/><br/>\n
+					<hr>
+					<h3>Tilauksen luoneen käyttäjän muut tiedot</h3>
+					Nimi: ".$userFullName."<br/><br/>\n
+					Puhelin: ".$userPhone."<br/><br/>\n
+					Sähköposti: ".$userEmail."
+					";
 	}
 	$headers = "From: muuntamo@smartlabvantaa.fi" . "\r\n" .
 		"Reply-To: muuntamo@smartlabvantaa.fi" . "\r\n" .
@@ -191,10 +209,10 @@ function mailToCateringDeleted($seriesid,$id){
 				Varauksen numero: ".$seriesid."<br/><br/>\n
 				<hr>
 				<h3>Laskutustiedot</h3>
-				Yrityksen nimi /Yksityishenkilön nimi: ".$compname."<br/><br/>\n
-				Y-tunnus / henkilötunnus: ".$personid."<br/><br/>\n
-				Laskutusosoite: ".$billingaddress."<br/><br/>\n
-				Viitteenne tietoon kustannuspaikkanumero: ".$reference."<br/><br/>\n";
+				Tilaajan tai yrityksen nimi: ".$compname."<br/><br/>\n
+				Henkilötunnus tai Y-tunnus: ".$personid."<br/><br/>\n
+				Laskutusosoite (verkkolaskutustiedot tai paperilaskutustiedot): ".$billingaddress."<br/><br/>\n
+				Viite tai kustannuspaikkanumero: ".$reference."<br/><br/>\n";
 	$headers = "From: muuntamo@smartlabvantaa.fi" . "\r\n" .
 		"Reply-To: muuntamo@smartlabvantaa.fi" . "\r\n" .
 		"X-Mailer: PHP/" . phpversion() . "\r\n" .

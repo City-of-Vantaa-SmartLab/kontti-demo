@@ -81,6 +81,7 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 			$personid=regexUserInfoText($_POST['personid']);
 			$billingaddress=regexUserInfoText($_POST['billingaddress']);
 			$reference=regexUserInfoText($_POST['reference']);
+			$additionalInfo=regexUserInfoText($_POST['additionalinfo']);
 			$ResourceArrangement=$_POST['ResourceArrangement'];
 			$ResourceFoodArrangement=$_POST['ResourceFoodArrangement'];
 			$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
@@ -91,8 +92,10 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 					if(isset($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).''])||isset($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).''])){
 						$FoodHalfFirst=regexnums($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).'']);
 						$FoodHalfSecond=regexnums($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).'']);
+						if($FoodHalfFirst==NULL){$FoodHalfFirst=0;}
+						if($FoodHalfSecond==NULL){$FoodHalfSecond=0;}
 					}
-					setAllTemp($resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']),regexnums($ResourceArrangement[$resource]),regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$FoodHalfFirst,$FoodHalfSecond,$compname,$personid,$billingaddress,$reference);
+					setAllTemp($resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']),regexnums($ResourceArrangement[$resource]),regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$FoodHalfFirst,$FoodHalfSecond,$compname,$personid,$billingaddress,$reference,$additionalInfo);
 				}
 			}
 			$this->EnforceCSRFCheck();
@@ -167,7 +170,8 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 						$personid=regexUserInfoText($_POST['personid']);
 						$billingaddress=regexUserInfoText($_POST['billingaddress']);
 						$reference=regexUserInfoText($_POST['reference']);
-						addUserAddonInfo($userSession2->UserId,$compname,$personid,$billingaddress,$reference);
+						$additionalInfo=regexUserInfoText($_POST['additionalinfo']);
+						addUserAddonInfo($userSession2->UserId,$compname,$personid,$billingaddress,$reference,$additionalInfo);
 						$daycountlist="";
 						if($food==1){
 							foreach($reservation->Instances() as $tempInstance){

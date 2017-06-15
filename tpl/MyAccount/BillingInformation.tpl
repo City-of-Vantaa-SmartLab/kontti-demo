@@ -18,7 +18,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 {include file='globalheader.tpl' Validator=true}
 <div class="page-profile">
-	<div id="profile-box" class="col-xs-12 col-sm-8 col-sm-offset-2">
+	<div id="profile-box" class="default-box col-xs-12 col-sm-8 col-sm-offset-2">
 
 		<form method="post" action="billinginformation/update_billinginformation.php">
 
@@ -27,7 +27,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<div class="col-xs-12 col-sm-6">
 					<div class="form-group">
 						<label>{translate key="compname"}</label><br/>
-							<input id="compname" name="compname" type="text" value="{$compname}">
+							<input class="form-control" id="compname" name="compname" type="text" value="{$compname}">
 					</div>
 				</div>
 			</div>
@@ -35,7 +35,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<div class="col-xs-12 col-sm-6">
 					<div class="form-group">
 						<label>{translate key="personid"}</label><br/>
-							<input id="personid" name="personid" type="text" value="{$personid}">
+							<input class="form-control" id="personid" name="personid" type="text" value="{$personid}">
 					</div>
 				</div>
 			</div>
@@ -43,7 +43,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<div class="col-xs-12 col-sm-6">
 					<div class="form-group">
 						<label>{translate key="billingaddress"}</label><br/>
-							<input id="billingaddress" name="billingaddress" type="text" value="{$billingaddress}">
+							<input class="form-control" id="billingaddress" name="billingaddress" type="text" value="{$billingaddress}">
 					</div>
 				</div>
 			</div>
@@ -51,11 +51,12 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<div class="col-xs-12 col-sm-6">
 					<div class="form-group">
 						<label>{translate key="reference"}</label><br/>
-							<input id="reference" name="reference" type="text" value="{$reference}">
+							<input class="form-control" id="reference" name="reference" type="text" value="{$reference}">
 					</div>
 				</div>
 			</div>
 			<div>
+				<input type="hidden" name="additionalinfo" value="{$additionalInfo}">
 				<input type="submit" value="{translate key="Save"}">
 			</div>
 		</form>

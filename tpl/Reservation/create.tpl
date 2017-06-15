@@ -26,12 +26,12 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 			<span class="resourceDetails">
 				<div class="resourceContainerLeft">
 					<span><input id="CheckRes" type="hidden" name="{FormKeys::ADDITIONAL_RESOURCES}[]" value="{$resource->Id}"{if $checked==1} checked{/if}></span>
-					<span data-resourceId="{$resource->GetId()}">{translate key="ResourcesDescription"}:{*{$resource->Name}*}</span>
+					<span data-resourceId="{$resource->GetId()}"><label>{translate key="ResourcesDescription"}:</label>{*{$resource->Name}*}</span>
 				</div>
 				<div class="resourceContainerRight" style="color:Black}">
 					<span>
 						
-						<select id="ResourceArrangement[{$resource->GetId()}]" name="ResourceArrangement[{$resource->GetId()}]" class="resourceContainerRight">
+						<select id="ResourceArrangement[{$resource->GetId()}]" name="ResourceArrangement[{$resource->GetId()}]" class="form-control input-sm resourceContainerRight">
 							{foreach from=$availableResourcesArrangements item=temp}{*Each resource configuration*}
 											{$Arrangementsplit = ":"|explode:$temp}{*[0] is id, [1] is name*}
 											{if isset($smarty.get.roomconf)} {*If the get roomconf has been set*}
@@ -76,7 +76,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 									document.getElementById("selectedResourceConfFurni").innerHTML = ""+test[value]+"";
 									document.getElementById("selectedResourceConfMaxCap").innerHTML = MaxCapString;
 									document.getElementById("selectedResourceConfName").innerHTML = "{translate key="ResourceConfiguration"}: "+text+"";
-									calcTotalPrice();
+									calcTotalPrice(0,"");
 							});
 							
 						</script>
@@ -89,15 +89,16 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				</div>
 			</span>
 		</div><br/>
+		{capture name="foodSelect"}
 		<div class="ResourceFoodConfSelection">
 		
 				<div class="resourceContainerLeft">
-					<span>{translate key="ResourcesFood"}:</span>
+					<span><label>{translate key="ResourcesFood"}:</label></p></span>
 				</div>
 				<div class="resourceContainerRight" style="color:Black}">
 					<span>
 						{$foodcheckerId=$PublicStatus['foodtarget_id']}
-						<select id="ResourceFoodArrangement[{$resource->GetId()}]" name="ResourceFoodArrangement[{$resource->GetId()}]" class="resourceContainerRight">
+						<select id="ResourceFoodArrangement[{$resource->GetId()}]" name="ResourceFoodArrangement[{$resource->GetId()}]" class="form-control input-sm inline-block resourceContainerRight">
 							<option value="0"{if $checkerId == 0} selected="selected"{/if}>Ei tarjoilua</option>
 							{foreach from=$availableResourcesFoodArrangements item=Foodtemp}{*Each resource configuration*}
 											{$FoodArrangementsplit = ":"|explode:$Foodtemp}{*[0] is id, [1] is name, [2] is description, [3] is price*}
@@ -105,15 +106,15 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							{/foreach}
 						</select>
 						<div id="ResourceFoodArrangementCount"{if $PublicStatus==0} class="hidden"{/if}>
-							<input type="text" id='ResourceFoodArrangementCountSelect[{$resource->GetId()}]' name='ResourceFoodArrangementCountSelect[{$resource->GetId()}]' value="{if $PublicStatus==0}1{else}{$PublicStatus['foodcount']}{/if}">
+							{*<input type="text" id='ResourceFoodArrangementCountSelect[{$resource->GetId()}]' name='ResourceFoodArrangementCountSelect[{$resource->GetId()}]' value="{if $PublicStatus==0}1{else}{$PublicStatus['foodcount']}{/if}">*}
 						</div>
 						<script>
 						
-							document
+							{*document
 								.getElementById('ResourceFoodArrangementCountSelect[{$resource->GetId()}]')
 								.addEventListener('change', function () {	
-									calcTotalPrice();
-							});
+									calcTotalPrice(0,"");
+							});*}
 							document
 								.getElementById('ResourceFoodArrangement[{$resource->GetId()}]')
 								.addEventListener('change', function () {
@@ -142,7 +143,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										test[{$Food['foodconf_id']}] = "{$foodtemp}";
 										prices[{$Food['foodconf_id']}] = "{$Food['price']}";
 									{/foreach}
-									calcTotalPrice();
+									calcTotalPrice(0,"");
 							});
 							
 						</script>
@@ -154,6 +155,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 													   data-autorelease="{$resource->GetAutoReleaseMinutes()}"></i>{/if}
 				</div>
 		</div>
+		{/capture}
 	{/if}
 {/function}
 
@@ -183,7 +185,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<div class="col-xs-12 inline-block">
 					{assign var="detailsCol" value="col-xs-12"}
 					{assign var="participantCol" value="col-xs-12"}
-					<div id="reservationDetails" class="col-md-3 inline-block">{*$detailsCol*}
+					<div id="reservationDetails" class="col-md-5 inline-block">{*$detailsCol*}
 						{if $ShowParticipation && $AllowParticipation && $ShowReservationDetails}
 							{assign var="detailsCol" value="col-xs-12 col-sm-6"}
 							{assign var="participantCol" value="col-xs-12 col-sm-6"}
@@ -375,29 +377,34 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							
 						</div>
 					{/if}
-						
-						<div class="col-xs-12">
+						{$smarty.capture.foodSelect}
+						<div class="col-xs-12 noPadLeft">
 							<div class="reservationPublicDatesBox">
 								<div class="reservationPublicDatesBoxInner">
 									<div id="ReservationTotalPrice">
+										<div class='row col-xs-12 reservationPriceError' id="ReservationPriceError">
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-xs-12">
+						<div class="col-xs-12 noPadLeft">
 							<div class="reservationPublicDatesBox">
 								<div class="reservationPublicDatesBoxInner">
-									<div id="ReservationBillingInfo">
-										<label>{translate key="compname"}</label><br/><input id="compname" name="compname" type="text" value="{$UserBillingInfo['compname']}"><br/>
-										<label>{translate key="personid"}</label><br/><input id="personid" name="personid" type="text" value="{$UserBillingInfo['personid']}"><br/>
-										<label>{translate key="billingaddress"}</label><br/><input id="billingaddress" name="billingaddress" type="text" value="{$UserBillingInfo['billingaddress']}"><br/>
-										<label>{translate key="reference"}</label><br/><input id="reference" name="reference" type="text" value="{$UserBillingInfo['reference']}"><br/>
+									<div id="ReservationBillingInfo" class=" form-group">
+										<label>{translate key="compname"}</label><br/><input class="form-control billinginfo" id="compname" name="compname" type="text" value="{$UserBillingInfo['compname']}"><br/>
+										<label>{translate key="personid"}</label><br/><input class="form-control billinginfo" id="personid" name="personid" type="text" value="{$UserBillingInfo['personid']}"><br/>
+										<label>{translate key="billingaddress"}</label><br/><input class="form-control billinginfo" id="billingaddress" name="billingaddress" type="text" value="{$UserBillingInfo['billingaddress']}"><br/>
+										<label>{translate key="reference"}</label><br/><input class="form-control billinginfo" id="reference" name="reference" type="text" value="{$UserBillingInfo['reference']}"><br/>
+										<label>{translate key="additionalInfo"}</label><br/><input class="form-control billinginfo" id="additionalinfo" name="additionalinfo" type="text" value="{$UserBillingInfo['additionalinfo']}"><br/>
 									</div>
+									<div id='MenuOrderInfo' class='MenuOrderInfo'>{translate key="MenuOrderInfo"}</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-5 inline-block selectedResourceConf">
+					
+					<div class="col-md-3 inline-block selectedResourceConf">
 								<div class="selectedResourceConfImage" id="selectedResourceConfImage">
 									<img class='ResourceConfBig' src="../uploads/arrangements/{if isset($smarty.get.roomconf)}{$smarty.get.roomconf}{else}1{/if}.png" alt="Tilaratkaisun kuva">
 								</div>
@@ -853,42 +860,42 @@ for(var i = 0; i < cbs.length; i++) {
 			});
             //console.log(this.value);
             //console.log(testi);
-			console.log($);
+			//console.log($);
 			return false;
 		}
     });
 }
 </script>*}
 <script>
-	calcTotalPrice();
+	calcTotalPrice(1,"");
 	{for $i=0 to 6}
 		document
 		.getElementById('repeatDay{$i}')
 		.addEventListener('change', function () {
-			console.log("Day changed {$i}");
-			calcTotalPrice();
+			//console.log("Day changed {$i}");
+			calcTotalPrice(0,"");
 		});
 	{/for}
 							document
 								.getElementById('repeatOptions')
 								.addEventListener('change', function () {
-									calcTotalPrice();
+									calcTotalPrice(0,"");
 								});
 							document
 								.getElementById('repeatInterval')
 								.addEventListener('change', function () {
-									calcTotalPrice();
+									calcTotalPrice(0,"");
 								});
 							document
 								.getElementById('EndRepeat')
 								.addEventListener('onpropertychange', function () {
-									calcTotalPrice();
+									calcTotalPrice(0,"");
 								});
 							 $("#EndRepeat").on("click", function(){
-									calcTotalPrice();
+									calcTotalPrice(0,"");
 							});
 							 $("#formattedEndRepeat").on("click", function(){
-									calcTotalPrice();
+									calcTotalPrice(0,"");
 							});
 							document
 								.getElementById('IsPublicEvent')
@@ -901,14 +908,14 @@ for(var i = 0; i < cbs.length; i++) {
 								.addEventListener('change', function () {
 									createTimegenerator(1);
 									createTimegenerator(2);
-									calcTotalPrice();
+									calcTotalPrice(0,"");
 								});
 							document
 								.getElementById('EndPeriod')
 								.addEventListener('change', function () {
 									createTimegenerator(1);
 									createTimegenerator(2);
-									calcTotalPrice();
+									calcTotalPrice(0,"");
 								});
 								
 							String.prototype.replaceAt=function(index, replacement) { //source: http://stackoverflow.com/questions/1431094/how-do-i-replace-a-character-at-a-particular-index-in-javascript
@@ -954,7 +961,7 @@ for(var i = 0; i < cbs.length; i++) {
 											}else if(type==2){
 												PublicTimeStartString=PublicTimeStartString+" selected";
 											}
-											console.log(element);
+											//console.log(element);
 											element=element.replaceAt(2,".") //changing the : to a .
 											PublicTimeStartString=PublicTimeStartString+">"+element.slice(0, -3)+"</option>";
 										});
@@ -1022,37 +1029,91 @@ for(var i = 0; i < cbs.length; i++) {
 								{/if}
 							{/if}
 							
-	{foreach from=$ResourceFoodConfs item=Conf}
-		$('#ReservationTotalPrice').on('click', '#foodhalffirst{$Conf['foodconf_id']}', function() {		
-			var value = $(this).val();
-			var FoodCount = parseInt(document.getElementById("ResourceFoodArrangementCountSelect[{$resource->GetId()}]").value);
-			
-			if(FoodCount<1){
+							//from this point onward there are alot of commented out code because
+							//of the changed specifications required for the system.
+		//listeners for menu's splitting selectors
+		$('#ReservationTotalPrice').on('change', '#foodhalffirst', function() {		
+			var value = parseInt($(this).val());
+			var FoodCount = parseInt(35);//document.getElementById("ResourceFoodArrangementCountSelect[{$resource->GetId()}]").value);
+			var lowerFoodCount=0;
+			var myElemTwo = document.getElementById('foodhalfsecond');
+			var errorTextFromOutside="";
+			if (myElemTwo !== null){
+				lowerFoodCount=parseInt(document.getElementById("foodhalfsecond").value);
+			}
+			/*if(FoodCount<1){
 				FoodCount = 1;
 			}else if(FoodCount>35){
 				FoodCount = 35;
+			}*/
+			if((value+lowerFoodCount)>35){
+				value=FoodCount-lowerFoodCount;
+				errorTextFromOutside = "<font color='red'>{translate key="IsMinMaxAllowed"}</font>";
+				//document.getElementById("ReservationPriceError").innerHTML = "<font color='red'>{translate key="IsMinMaxAllowed"}</font>";
 			}
-			var lowerFoodcount = FoodCount-value;
-			document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-1").innerHTML = " x"+value;
-			document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-2").innerHTML = " x"+lowerFoodcount;
-			document.getElementById("foodhalfsecond{$Conf['foodconf_id']}").value = lowerFoodcount;
-		});				
-		$('#ReservationTotalPrice').on('click', '#foodhalfsecond{$Conf['foodconf_id']}', function() {
-			var value = $(this).val();
-			var FoodCount = parseInt(document.getElementById("ResourceFoodArrangementCountSelect[{$resource->GetId()}]").value);
+			if(value<0){
+				value = 0;
+			}else if(value>35){
+				value = 35;
+			}
+			if(value==0&&lowerFoodCount==0){
+				if (myElemTwo !== null){
+					document.getElementById("foodhalffirst").value = 1;
+				}else{
+					value=1;
+				}
+				errorTextFromOutside = "<font color='red'>{translate key="IsMinMaxAllowed"}</font>";
+				//document.getElementById("ReservationPriceError").innerHTML = "<font color='red'>{translate key="IsMinMaxAllowed"}</font>";
+			}
+			//var lowerFoodcount = FoodCount-value;
+			//document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-1").innerHTML = " x"+value;
+			//document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-2").innerHTML = " x"+lowerFoodcount;
+			document.getElementById("foodhalffirst").value = value;
+			//document.getElementById("foodhalfsecond{$Conf['foodconf_id']}").value = lowerFoodcount;
 			
-			if(FoodCount<1){
+			calcTotalPrice(0,errorTextFromOutside);
+		});			
+		
+		$('#ReservationTotalPrice').on('change', '#foodhalfsecond', function() {
+			var value = parseInt($(this).val());
+			var FoodCount = parseInt(35);//document.getElementById("ResourceFoodArrangementCountSelect[{$resource->GetId()}]").value);
+			var higherFoodcount=parseInt(document.getElementById("foodhalffirst").value);
+			var myElemThree = document.getElementById('foodhalfsecond');
+			var errorTextFromOutside="";
+			/*if(FoodCount<1){
 				FoodCount = 1;
 			}else if(FoodCount>35){
 				FoodCount = 35;
+			}*/
+			if((value+higherFoodcount)>35){
+				value=FoodCount-higherFoodcount;
+				errorTextFromOutside = "<font color='red'>{translate key="IsMinMaxAllowed"}</font>";
+				//document.getElementById("ReservationPriceError").innerHTML = "<font color='red'>{translate key="IsMinMaxAllowed"}</font>";
 			}
-			var higherFoodcount = FoodCount-value;
-			document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-1").innerHTML = " x"+higherFoodcount;
-			document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-2").innerHTML = " x"+value;
-			document.getElementById("foodhalffirst{$Conf['foodconf_id']}").value = higherFoodcount;
+			if(value<0){
+				value = 0;
+			}else if(value>35){
+				value = 35;
+			}
+			if(value==0&&higherFoodcount==0){
+				if (myElemThree !== null){
+					document.getElementById("foodhalfsecond").value = 1;
+				}else{
+					value=1;
+				}
+				document.getElementById("foodhalfsecond").value = 1;
+				errorTextFromOutside = "<font color='red'>{translate key="IsMinMaxAllowed"}</font>";
+				//document.getElementById("ReservationPriceError").innerHTML = "<font color='red'>{translate key="IsMinMaxAllowed"}</font>";
+			}
+			//var higherFoodcount = FoodCount-value;
+			//document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-1").innerHTML = " x"+higherFoodcount;
+			//document.getElementById("foodhalfcounter-{$Conf['foodconf_id']}-2").innerHTML = " x"+value;
+			document.getElementById("foodhalfsecond").value = value;
+			//document.getElementById("foodhalffirst{$Conf['foodconf_id']}").value = higherFoodcount;
+			calcTotalPrice(0,errorTextFromOutside);
 		});
-	{/foreach}
-	function calcTotalPrice(){
+		
+	function calcTotalPrice(firsttime,errorTextFromOutside){
 		
 		var e = document.getElementById("ResourceArrangement[{$resource->GetId()}]");
 		var value = e.options[e.selectedIndex].value;
@@ -1078,7 +1139,8 @@ for(var i = 0; i < cbs.length; i++) {
 		var fooddescs = [];
 		var total=0;
 		var weekendIncrease=0;
-		var FoodCount; 
+		var FoodCount=35; 
+		var FoodCountTotal;
 		var string; 
 		var foodstring;
 		var fooddescstring = [];
@@ -1086,12 +1148,17 @@ for(var i = 0; i < cbs.length; i++) {
 		var weekendIncreaseString = "";
 		var ErrorText = "";
 		var repeatString = "";
+		var FoodSplitFirst;
+		var FoodSplitSecond;
+		// WeekendIncStr contains what is added for every weekend if a menu order has been set
+		// and the reservation contains a weekend
+		var WeekendIncStr = "<div class='priceItemContainer'><label>{translate key="weekendAdditionalCost"}</label><p class='priceItemContainer'> 10 €</p></div>";
 		var weeks=parseInt(moment(endRepeat).format('w'))-parseInt(moment(theDate).format('w'));
-		console.log("Endrp:"+parseInt(moment(endRepeat).format('w')));
+		/*console.log("Endrp:"+parseInt(moment(endRepeat).format('w')));
 		console.log("Start:"+parseInt(moment(theDate).format('w')));
 		console.log("weeks:"+weeks);
 		console.log("repeatOptions:"+repeatOptions);
-		console.log("repeatInterval:"+repeatInterval);
+		console.log("repeatInterval:"+repeatInterval);*/
 		if(repeatOptions.localeCompare("weekly")==0){
 			weeks=weeks+1;
 			if(weeks<1){
@@ -1115,7 +1182,7 @@ for(var i = 0; i < cbs.length; i++) {
 						repeatDays++;
 						if(FoodId!=0){
 							if(i==0||i==6){				
-								weekendIncreaseString = weekendIncreaseString+"<label>Viikonlopun kuljetuslisä</label> 10 €<br/>";
+								weekendIncreaseString = weekendIncreaseString+WeekendIncStr;
 								weekendIncrease=weekendIncrease+10;
 							}
 						}
@@ -1132,23 +1199,23 @@ for(var i = 0; i < cbs.length; i++) {
 				var weekStart=0;
 				var weekEnd=6;
 				if(b==0){
-					console.log("First week");
+					//console.log("First week");
 					weekStart=theDate.getDay();
 				}
 				if(b==weeks){
-					console.log("Last week");
+					//console.log("Last week");
 					weekEnd=endRepeat.getDay();
 				}
-				console.log("Weekstart:"+weekStart);
-				console.log("weekEnd:"+weekEnd);
+				/*console.log("Weekstart:"+weekStart);
+				console.log("weekEnd:"+weekEnd);*/
 				for(i=weekStart;i<=weekEnd;i++){
 					if((daysPassed-1)%repeatInterval==0||daysPassed==1||repeatInterval==1){
 						repeatDays++;
-						console.log("daysPassed:"+daysPassed);
-						console.log("repeatDays:"+repeatDays);
+						/*console.log("daysPassed:"+daysPassed);
+						console.log("repeatDays:"+repeatDays);*/
 						if(FoodId!=0){
 							if(i==0||i==6){				
-								weekendIncreaseString = weekendIncreaseString+"<label>Viikonlopun kuljetuslisä</label> 10 €<br/>";
+								weekendIncreaseString = weekendIncreaseString+WeekendIncStr;
 								weekendIncrease=weekendIncrease+10;
 							}
 						}
@@ -1159,23 +1226,24 @@ for(var i = 0; i < cbs.length; i++) {
 			dayCounter=repeatDays;
 		}
 		
-			console.log("dayCounter:"+dayCounter);
+			//console.log("dayCounter:"+dayCounter);
 	
 		if(FoodId!=0){ //get the selected food conf's ID
-			var e = document.getElementById("ResourceFoodArrangementCountSelect[{$resource->GetId()}]");
-			FoodCount = parseInt(document.getElementById("ResourceFoodArrangementCountSelect[{$resource->GetId()}]").value);
+			//var e = document.getElementById("ResourceFoodArrangementCountSelect[{$resource->GetId()}]");
+			FoodCount = parseInt(35);//document.getElementById("ResourceFoodArrangementCountSelect[{$resource->GetId()}]").value);
 			if(repeatOptions.localeCompare("none")==0){
 				if(theDate.getDay() == 6 || theDate.getDay() == 0){
-					weekendIncreaseString = "<label>Viikonlopun kuljetuslisä</label> 10 €<br/>";
+					weekendIncreaseString = WeekendIncStr;
 					weekendIncrease=10;
 				}
 			}
 		}else{	
-			FoodCount = 0;
+			FoodCount = 35;
 			FoodId = 0;
 			foodprices[0] = 0;
 			fooddescstring[0] = 0;
 		}
+		/*
 		if(FoodCount<1){
 			ErrorText = "1 {translate key="IsMinAllowed"}<br/>";
 			FoodCount = 1;
@@ -1184,7 +1252,7 @@ for(var i = 0; i < cbs.length; i++) {
 			FoodCount = 35;
 		}else{
 			ErrorText="";
-		}
+		}*/
 		//generated with a php foreach loop from smarty variables
 		{foreach from=$ResourceConfs item=Conf}
 			confnames[{$Conf['conf_id']}] = "{$Conf['name']}";
@@ -1193,59 +1261,136 @@ for(var i = 0; i < cbs.length; i++) {
 		//generated with a php foreach loop from smarty variables
 		{foreach from=$ResourceFoodConfs item=Conf}
 			var temporaryFoodString="";
+			var addedBR = "";
+			FoodCount=35;
 			foodnames[{$Conf['foodconf_id']}] = "{$Conf['name']}";
 			{$contentlist = "\n"|explode:$Conf['contentlist']}
-			temporaryFoodString="<ul>";
+			temporaryFoodString="";
 			{$previousfood=""}
-			{foreach from=$contentlist item=content}
+			{if count($contentlist)==1}
+				{$content=$contentlist[0]}
 				{$content = preg_replace( "/\r|\n/", "", $content )}{*removes linebreaks*}
-				{if strcmp($content,'tai')!==0}
-					temporaryFoodString=temporaryFoodString+"<li>{$content}";
-					{$previousnextfood=""}
-					{foreach from=$contentlist item=nextcontent}
-						
-						{$nextcontent = preg_replace( "/\r|\n/", "", $nextcontent )}{*removes linebreaks*}						
-						{if strcmp($nextcontent,'tai')==0&&strcmp($content,$previousnextfood)==0}
-							temporaryFoodString=temporaryFoodString+"<div class='inline' id='foodhalfcounter-{$Conf['foodconf_id']}-1'> x{if isset($PublicStatus['FoodSplitFirst'])}{$PublicStatus['FoodSplitFirst']}{else}"+FoodCount+"{/if}</div>";
-							temporaryFoodString=temporaryFoodString+"<input type='range' id='foodhalffirst{$Conf['foodconf_id']}' name='foodhalffirst{$Conf['foodconf_id']}' max='"+FoodCount+"' min='0' value={if isset($PublicStatus['FoodSplitFirst'])}{$PublicStatus['FoodSplitFirst']}{else}"+FoodCount+"{/if}>";
+				temporaryFoodString=temporaryFoodString+"<div class='priceItemContainer'>{$content}";
+				temporaryFoodString=temporaryFoodString+"";
+				var FirstSplit={if isset($PublicStatus['FoodSplitFirst'])}{$PublicStatus['FoodSplitFirst']}{else}1{/if};
+				
+				var myElem = document.getElementById('foodhalffirst');
+				if (myElem !== null){
+						FirstSplit=document.getElementById("foodhalffirst").value;
+				}
+				if(FirstSplit>FoodCount){ //Don't allow them to exceed FoodCount (35)
+					FirstSplit=FoodCount;
+				}
+				temporaryFoodString=temporaryFoodString+"<p class='priceItemContainer'><input class='form-control inline-block foodSplit' type='number' id='foodhalffirst' name='foodhalffirst{$Conf['foodconf_id']}' max='"+FoodCount+"' min='0' value="+FirstSplit+"> kpl</p></div>";
+				temporaryFoodString=temporaryFoodString+"<br/>";
+			{else}
+				{foreach from=$contentlist item=content}
+					var addedBR = "";
+					{$content = preg_replace( "/\r|\n/", "", $content )}{*removes linebreaks*}
+					{if strcmp($content,'tai')!==0}
+						temporaryFoodString=temporaryFoodString+"<div class='priceItemContainer'>{$content}";
+						{$previousnextfood=""}
+						{foreach from=$contentlist item=nextcontent}
+						/*
+							if(firsttime==0){
+								{if isset($PublicStatus['FoodSplitFirst'])}
+									FoodSplitFirst=parseInt({$PublicStatus['FoodSplitFirst']});
+								{/if}
+								{if isset($PublicStatus['FoodSplitSecond'])}
+									FoodSplitSecond=parseInt({$PublicStatus['FoodSplitSecond']});
+								{/if}
+							}*/
+							{$nextcontent = preg_replace( "/\r|\n/", "", $nextcontent )}{*removes linebreaks*}						
+							{if strcmp($nextcontent,'tai')==0&&strcmp($content,$previousnextfood)==0}
+								var FirstSplit={if isset($PublicStatus['FoodSplitFirst'])}{$PublicStatus['FoodSplitFirst']}{else}1{/if};
+			
+
+								var myElem = document.getElementById('foodhalffirst');
+								if (myElem !== null){
+									FirstSplit=document.getElementById("foodhalffirst").value;
+								}
+								if(FirstSplit>FoodCount){
+									FirstSplit=FoodCount;
+								}
+									var zerocheck=0;
+									{if isset($PublicStatus['FoodSplitFirst'])}
+										zerocheck=parseInt(zerocheck)+parseInt({$PublicStatus['FoodSplitFirst']});
+									{/if}
+									{if isset($PublicStatus['FoodSplitSecond'])}
+										zerocheck=parseInt(zerocheck)+parseInt({$PublicStatus['FoodSplitSecond']});
+									{/if}
+									
+									var myElem = document.getElementById('foodhalfsecond');
+									if (myElem !== null){
+										zerocheck=zerocheck+document.getElementById("foodhalfsecond").value;
+									}
+									if(parseInt(FirstSplit)==0&&zerocheck==0){
+										FirstSplit=1;
+									}
+								temporaryFoodString=temporaryFoodString+" ";
+								temporaryFoodString=temporaryFoodString+"<p class='priceItemContainer'><input class='form-control inline-block foodSplit' type='number' id='foodhalffirst' name='foodhalffirst{$Conf['foodconf_id']}' max='"+FoodCount+"' min='0' value="+FirstSplit+"> kpl</p>";
+								addedBR="<br/>";
+							{/if}
+							{$previousnextfood=$nextcontent}
+						{/foreach}
+						{if strcmp($previousfood,'tai')==0}
+								var SecondSplit=0;
+								if(firsttime==1){
+									SecondSplit={if isset($PublicStatus['FoodSplitSecond'])}{$PublicStatus['FoodSplitSecond']}{else}0{/if};
+								}
+								if(SecondSplit>FoodCount){
+									SecondSplit=FoodCount;
+								}
+								var myElemTwo = document.getElementById('foodhalfsecond');
+								if (myElemTwo !== null){
+									SecondSplit=document.getElementById("foodhalfsecond").value;
+								}
+								temporaryFoodString=temporaryFoodString+"";
+								temporaryFoodString=temporaryFoodString+"<p class='priceItemContainer'><input class='form-control inline-block foodSplit' type='number' id='foodhalfsecond' name='foodhalfsecond{$Conf['foodconf_id']}' max='"+FoodCount+"' min='0' value="+SecondSplit+"> kpl</p>";
 						{/if}
-						{$previousnextfood=$nextcontent}
-					{/foreach}
-					{if strcmp($previousfood,'tai')==0}
-							temporaryFoodString=temporaryFoodString+"<div class='inline' id='foodhalfcounter-{$Conf['foodconf_id']}-2'> x{if isset($PublicStatus['FoodSplitSecond'])}{$PublicStatus['FoodSplitSecond']}{else}0{/if}</div>";
-							temporaryFoodString=temporaryFoodString+"<input type='range' id='foodhalfsecond{$Conf['foodconf_id']}' name='foodhalfsecond{$Conf['foodconf_id']}' max='"+FoodCount+"' min='0' value={if isset($PublicStatus['FoodSplitSecond'])}{$PublicStatus['FoodSplitSecond']}{else}0{/if}>";
+					{else}
 					{/if}
-					temporaryFoodString=temporaryFoodString+"</li>";
-				{else}
-				{/if}
-				{$previousfood=$content}
-			{/foreach}
-			fooddescstring[{$Conf['foodconf_id']}]=temporaryFoodString+"</ul>";
+					temporaryFoodString=temporaryFoodString+"</div>"+addedBR;
+					{$previousfood=$content}
+				{/foreach}
+				
+					FoodCountTotal=parseInt(SecondSplit)+parseInt(FirstSplit);
+			{/if}
+			fooddescstring[{$Conf['foodconf_id']}]=temporaryFoodString+errorTextFromOutside;
 			{$foodtemp = preg_replace( "/\r|\n/", "", $foodtemp )}{*removes linebreaks so javascript understands it*}
 			foodprices[{$Conf['foodconf_id']}] = parseFloat("{$Conf['price']}");
 		{/foreach}
-		total=foodprices[FoodId]*FoodCount;
+		
+		
+		var myElem = document.getElementById('foodhalffirst');
+		if (myElem !== null){
+			FirstSplit=document.getElementById("foodhalffirst").value;
+		}
+		FoodCountTotal=parseInt(SecondSplit)+parseInt(FirstSplit);
+		total=foodprices[FoodId]*FoodCountTotal;
 		if(foodnames[FoodId] == null){
 			foodstring = "";
 		}else{
-			foodstring="<label>"+FoodCount+"x "+foodnames[FoodId]+"</label> "+total.toFixed(2)+" €<br/>"+fooddescstring[FoodId]+"<br/>";
+			foodstring=fooddescstring[FoodId]+"<br/><div class='priceItemContainer'><label><input class='form-control inline-block' type=hidden name='ResourceFoodArrangementCountSelect[{$resource->GetId()}]' value='"+FoodCountTotal+"'>"+FoodCountTotal+"x "+foodnames[FoodId]+" - "+foodprices[FoodId]+" €/{translate key='peopleShort'}</label><p class='priceItemContainer'>"+total.toFixed(2)+" €</p></div>";
 			var temp=total*0.14;
 			total=total+temp; //adding price of food
-			foodstring=foodstring+"<label>14% alv</label> "+temp.toFixed(2)+" €<br/>";
+			foodstring=foodstring+"<div class='priceItemContainer'><label class='priceItemContainer'>14% alv</label><p class='priceItemContainer'> "+temp.toFixed(2)+" €</p></div>";
 		}
-		confstring="<label>"+confnames[value]+"</label> "+prices[value].toFixed(2)+" €<br/>";
+		confstring="<br/><div class='priceItemContainer'><label>{translate key="ResourceConfiguration"}:</label>"+confnames[value]+"<p class='priceItemContainer'>"+prices[value].toFixed(2)+" €</p></div>";
 		total=total+prices[value]; //adding price of roomconf
 		if(dayCounter>1){
-			repeatString="<label>Päiväkerroin</label> "+dayCounter+"<br/>";
+			repeatString="<div class='priceItemContainer'><label>Päiväkerroin</label><p class='priceItemContainer'>"+dayCounter+"</p></div>";
 		}
 		total=total*dayCounter;		//multiplying by days
 		total=total+weekendIncrease; //adding weekend increases
 		if(total>0){
 			document.getElementById("ReservationBillingInfo").classList.remove('hidden');
+			document.getElementById("MenuOrderInfo").classList.remove('hidden');
 		}else{
 			document.getElementById("ReservationBillingInfo").classList.add('hidden');
+			document.getElementById("MenuOrderInfo").classList.add('hidden');
 		}
-		document.getElementById("ReservationTotalPrice").innerHTML = ErrorText+foodstring+weekendIncreaseString+confstring+repeatString+"<br/><hr class='pricetag'><label>{translate key="Price"}:</label> "+total.toFixed(2)+" €<input type='hidden' name='dayCounter' value='"+dayCounter+"'/>";
+		document.getElementById("ReservationTotalPrice").innerHTML = ErrorText+"<div id='ErrorTextPricing'></div>"+foodstring+weekendIncreaseString+confstring+repeatString+"<br/><hr class='pricetag'><div class='priceItemContainer'><p class='priceItemContainer'>{translate key="Total"} "+total.toFixed(2)+" €</p></div><input type='hidden' name='dayCounter' value='"+dayCounter+"'/>";
 	}
 	
 							var e = document.getElementById("ResourceArrangement[{$resource->GetId()}]");

@@ -100,12 +100,12 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 					</div>
 				{/if}
 				<div id="login-footer" class="col-xs-12">
-					{if $ShowForgotPasswordPrompt}
+					{*if $ShowForgotPasswordPrompt}
 						<div id="forgot-password" class="col-xs-12 col-sm-6">
 							<a href="{$ForgotPasswordUrl}" {$ForgotPasswordUrlNew} class="btn btn-link pull-left-sm"><span><i
 											class="glyphicon glyphicon-question-sign"></i></span> {translate key='ForgotMyPassword'}</a>
 						</div>
-					{/if}
+					{/if*}
 					<div id="change-language" class="col-xs-12 col-sm-6 languagebox">
 						<button type="button" class="btn btn-link languagebox" data-toggle="collapse"
 								data-target="#change-language-options"><span><i class="glyphicon glyphicon-globe"></i></span>

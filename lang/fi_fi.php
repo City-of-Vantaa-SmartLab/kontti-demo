@@ -76,18 +76,23 @@ class fi_fi extends en_us
 		$strings['November'] = 'Marraskuu';
 		$strings['December'] = 'Joulukuu';
 
+		$strings['MenuOrderInfo'] = 'Saat tilauksesi yhteenvedon sähköpostiisi tilavarauksen vahvistuksen yhteydessä. Huom! Tämä ei ole vielä tarjoilujen tilausvahvistus. Vantti / Lounasravintola’57  vahvistaa tilauksesi  sähköpostilla yhden vuorokauden kuluessa. Lasku lähetetään antamaasi osoitteeseen jälkikäteen.';
+		$strings['weekendAdditionalCost'] = 'Viikonlopun kuljetuslisä';
+		$strings['additionalInfo'] = 'Tilauksen lisätiedot (tarvittaessa)';
+		$strings['AtleastOtherMenu'] = 'Menutilauksissa vähintään toista valintaa pitää olla yksi.';
 		$strings['Save'] = 'Tallenna';
 		$strings['EditBillingInformation'] = 'Muokkaa Laskutustietoja';
 		$strings['BillingInfo'] = 'Laskutustiedot';
-		$strings['compname'] = 'Yrityksen nimi /Yksityishenkilön nimi';
-		$strings['personid'] = 'Y-tunnus / henkilötunnus';
+		$strings['compname'] = 'Tilaajan tai yrityksen nimi';
+		$strings['personid'] = 'Henkilötunnus tai Y-tunnus';
 		$strings['billingaddress'] = 'Laskutusosoite (verkkolaskutustiedot tai paperilaskutustiedot)';
-		$strings['reference'] = 'Viitteenne tietoon kustannuspaikkanumero';
+		$strings['reference'] = 'Viite tai kustannuspaikkanumero';
+		$strings['IsMinMaxAllowed'] = 'Huomioithan, että tarjoilujen yhteenlasketun määrän tulee olla vähintään 1 ja enintään 35 kappaletta.';
 		$strings['IsMinAllowed'] = 'on minimi sallittu määrä tarjoilua.';
 		$strings['IsMaxAllowed'] = 'on maksimi sallittu määrä tarjoilua.';
 		$strings['Or'] = 'tai';
 		$strings['ImageFile'] = 'Kuvatiedosto';
-		$strings['ResourcesFood'] = 'Menutilaus';
+		$strings['ResourcesFood'] = 'Valitse tarjoilut';
 		$strings['CharactersLeft'] = 'Merkkiä jäljellä';
 		$strings['RoomForOtherPresenterLegend'] = 'Yhteisvaraus mahdollinen';
 		$strings['RoomForOtherPresenterContact'] = 'ole minuun yhteydessä';
