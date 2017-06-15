@@ -60,7 +60,8 @@ function defineFoodArrangements($resource_id){
 	$resource_id=regexnums($resource_id);
 	$list=pdoExecute("SELECT * FROM `resource_food_conf` WHERE foodconf_id IN(SELECT foodconf_id FROM `resource_food_conf_target` WHERE resource_id=".$resource_id.")");
 	while($row=$list->fetch(PDO::FETCH_ASSOC)){
-		$contents[]=$row['foodconf_id'].":".$row['name'].":".$row['description'].":".$row['price'];
+		//... $contents[]=$row['foodconf_id']."".$row['name'].":".$row['description'].":".$row['price'];
+		$contents[]=$row;
 	}
 	return $contents;
 }

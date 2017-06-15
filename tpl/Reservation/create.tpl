@@ -101,8 +101,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<select id="ResourceFoodArrangement[{$resource->GetId()}]" name="ResourceFoodArrangement[{$resource->GetId()}]" class="form-control input-sm inline-block resourceContainerRight">
 							<option value="0"{if $checkerId == 0} selected="selected"{/if}>Ei tarjoilua</option>
 							{foreach from=$availableResourcesFoodArrangements item=Foodtemp}{*Each resource configuration*}
-											{$FoodArrangementsplit = ":"|explode:$Foodtemp}{*[0] is id, [1] is name, [2] is description, [3] is price*}
-											<option value="{$FoodArrangementsplit[0]}"{if $foodcheckerId == $FoodArrangementsplit[0]} selected="selected"{/if}>{$FoodArrangementsplit[1]} {$FoodArrangementsplit[3]}€/{translate key='peopleShort'}</option>
+											{*$FoodArrangementsplit = ":"|explode:$Foodtemp*}{*[0] is id, [1] is name, [2] is description, [3] is price*}
+											<option value="{$Foodtemp['foodconf_id']}"{if $foodcheckerId == $Foodtemp['foodconf_id']} selected="selected"{/if}>{$Foodtemp['name']} {$Foodtemp['price']}€/{translate key='peopleShort'}</option>
 							{/foreach}
 						</select>
 						<div id="ResourceFoodArrangementCount"{if $PublicStatus==0} class="hidden"{/if}>
