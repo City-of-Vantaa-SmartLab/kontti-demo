@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2017 at 01:48 PM
+-- Generation Time: Jun 15, 2017 at 06:42 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -31,7 +31,8 @@ CREATE TABLE `users_addon` (
   `compname` varchar(500) NOT NULL,
   `personid` varchar(500) NOT NULL,
   `billingaddress` varchar(500) NOT NULL,
-  `reference` varchar(500) NOT NULL
+  `reference` varchar(500) NOT NULL,
+  `additionalinfo` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

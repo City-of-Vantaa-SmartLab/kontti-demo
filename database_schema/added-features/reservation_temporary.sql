@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2017 at 12:04 PM
+-- Generation Time: Jun 15, 2017 at 06:43 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -33,10 +33,13 @@ CREATE TABLE `reservation_temporary` (
   `ResourceConf` smallint(5) NOT NULL,
   `ResourceFoodConf` smallint(5) DEFAULT NULL,
   `ResourceFoodCount` int(10) UNSIGNED DEFAULT '0',
+  `FoodSplitFirst` tinyint(3) UNSIGNED DEFAULT '0',
+  `FoodSplitSecond` tinyint(3) UNSIGNED DEFAULT '0',
   `compname` varchar(500) DEFAULT NULL,
   `personid` varchar(500) DEFAULT NULL,
   `billingaddress` varchar(500) DEFAULT NULL,
-  `reference` varchar(500) DEFAULT NULL
+  `reference` varchar(500) DEFAULT NULL,
+  `additionalinfo` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
