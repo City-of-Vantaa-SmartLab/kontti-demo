@@ -161,7 +161,7 @@ function mailToCatering($status,$foodInfo,$count,$FoodSplitFirst,$FoodSplitSecon
 		$foodOuterPrevious=$content;
 	}
 	$to      = "meow@localhost";
-	$subject = "Muuntamo - ID".$seriesid." - Ateriatilaus";
+	$subject = "Muuntamo-ID".$seriesid." - Ateriatilaus";
 	if($status!=3){
 		$message = $statustext."\n
 					<h3>Tilauksen tiedot</h3>\n
@@ -198,12 +198,18 @@ function mailToCateringDeleted($seriesid,$id){
 	$daylist="";
 	$statustext="";
 	$userinfo=getAllUserAddonInfo($id);
+	$usernormalinfo=getUserNormalInfo($id);
 	$compname=$userinfo['compname'];
 	$personid=$userinfo['personid'];
 	$billingaddress=$userinfo['billingaddress'];
+	
+	$userFullName = $usernormalinfo['fname']." ".$usernormalinfo['lname'];
+	$userPhone = $usernormalinfo['phone'];
+	$userEmail = $usernormalinfo['email'];
+	
 	$reference=$userinfo['reference'];
 	$to      = "meow@localhost";
-	$subject = "Muuntamo - ID".$seriesid." - Poistettu ateriatilaus";
+	$subject = "Muuntamo-ID".$seriesid." - Poistettu ateriatilaus";
 	$message = "Varauksesta poistettu ateriavalinta\n
 				<h3>Tilauksen tiedot</h3>\n
 				Varauksen numero: ".$seriesid."<br/><br/>\n
@@ -212,7 +218,13 @@ function mailToCateringDeleted($seriesid,$id){
 				Tilaajan tai yrityksen nimi: ".$compname."<br/><br/>\n
 				Henkilötunnus tai Y-tunnus: ".$personid."<br/><br/>\n
 				Laskutusosoite (verkkolaskutustiedot tai paperilaskutustiedot): ".$billingaddress."<br/><br/>\n
-				Viite tai kustannuspaikkanumero: ".$reference."<br/><br/>\n";
+				Viite tai kustannuspaikkanumero: ".$reference."<br/><br/>\n
+				<hr>
+				<h3>Tilauksen luoneen käyttäjän muut tiedot</h3>
+				Nimi: ".$userFullName."<br/><br/>\n
+				Puhelin: ".$userPhone."<br/><br/>\n
+				Sähköposti: ".$userEmail."
+					";
 	$headers = "From: muuntamo@smartlabvantaa.fi" . "\r\n" .
 		"Reply-To: muuntamo@smartlabvantaa.fi" . "\r\n" .
 		"X-Mailer: PHP/" . phpversion() . "\r\n" .

@@ -200,7 +200,13 @@ class ReservationSavePage extends SecurePage implements IReservationSavePage
 			$FoodHalfFirst=0;
 			$FoodHalfSecond=0;
 			if(isset($ResourceArrangementAR)){
-				foreach($ResourceArrangementAR as $resource){						
+				foreach($ResourceArrangementAR as $resource){	
+					if(isset($_POST['ResourceFoodArrangementCountSelect'])){
+						$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
+					}else{
+						$ResourceFoodArrangementCountSelect[$resource]=0;
+					}
+											
 					if(isset($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).''])||isset($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).''])){
 						$FoodHalfFirst=regexnums($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).'']);
 						$FoodHalfSecond=regexnums($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).'']);

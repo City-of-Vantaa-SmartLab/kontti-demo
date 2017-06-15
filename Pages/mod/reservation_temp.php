@@ -15,7 +15,8 @@ function getAllTemp($resource_id,$StartDate){
 
 function setAllTemp($resource_id,$StartDate,$ResourceArrangement,$ResourceFoodConf,$ResourceFoodConfCountSelect,$FoodHalfFirst,$FoodHalfSecond,$compname,$personid,$billingaddress,$reference,$additionalInfo){
 		$list=pdoExecute("INSERT INTO reservation_temporary (resource_id,start_date,ResourceConf,ResourceFoodConf,ResourceFoodCount,FoodSplitFirst,FoodSplitSecond,compname,personid,billingaddress,reference,additionalinfo) VALUES (".$resource_id.",'".$StartDate."',".$ResourceArrangement.",".$ResourceFoodConf.",".$ResourceFoodConfCountSelect.",".$FoodHalfFirst.",".$FoodHalfSecond.",'".$compname."','".$personid."','".$billingaddress."','".$reference."','".$additionalInfo."')");
-}
+		//echo $resource_id.",".$StartDate.",".$ResourceArrangement.",".$ResourceFoodConf.",".$ResourceFoodConfCountSelect.",".$FoodHalfFirst.",".$FoodHalfSecond.",".$compname.",".$personid.",".$billingaddress.",".$reference.",".$additionalInfo;
+	}
 function delAllTemp($resource_id,$StartDate){
 		$row=getAllTemp($resource_id,$StartDate);
 		$list=pdoExecute("DELETE FROM `reservation_temporary` WHERE id = ".$row['id']." LIMIT 1");

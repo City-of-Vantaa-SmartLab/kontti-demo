@@ -129,16 +129,16 @@ Tapahtuman kuvaus: {$Description|nl2br}
 <h3>Muut tiedot</h3>
 Varausnumero: {$ReferenceNumber}<br/><br/>
 {if !empty($Tempdata['compname'])}
-<b>Yrityksen nimi /Yksityishenkilön nimi:</b> {$Tempdata['compname']}<br/>
+<b>{translate key="compname"}:</b> {$Tempdata['compname']}<br/>
 {/if}
 {if !empty($Tempdata['personid'])}
-	<b>Y-tunnus / henkilötunnus:</b> {$Tempdata['personid']}<br/>
+	<b>{translate key="personid"}:</b> {$Tempdata['personid']}<br/>
 {/if}
 {if !empty($Tempdata['billingaddress'])}
-	<b>Laskutusosoite (verkkolaskutustiedot tai paperilaskutustiedot):</b> {$Tempdata['billingaddress']}<br/>
+	<b>{translate key="billingaddress"}:</b> {$Tempdata['billingaddress']}<br/>
 {/if}
 {if !empty($Tempdata['reference'])}
-	<b>Viitteenne tietoon kustannuspaikkanumero:</b> {$Tempdata['reference']}<br/>
+	<b>{translate key="reference"}:</b> {$Tempdata['reference']}<br/>
 {/if}
 <br/>
 <br/>

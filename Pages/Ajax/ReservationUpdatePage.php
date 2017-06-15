@@ -83,12 +83,25 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 			$reference=regexUserInfoText($_POST['reference']);
 			$additionalInfo=regexUserInfoText($_POST['additionalinfo']);
 			$ResourceArrangement=$_POST['ResourceArrangement'];
-			$ResourceFoodArrangement=$_POST['ResourceFoodArrangement'];
-			$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
+			if(isset($_POST['ResourceFoodArrangement'])){
+				$ResourceFoodArrangement=$_POST['ResourceFoodArrangement'];
+			}else{
+				$ResourceFoodArrangement=0;
+			}
+			if(isset($_POST['ResourceFoodArrangementCountSelect'])){
+				$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
+			}
 			$FoodHalfFirst=0;
 			$FoodHalfSecond=0;
 			if(isset($ResourceArrangementAR)){
 				foreach($ResourceArrangementAR as $resource){
+					if(isset($_POST['ResourceFoodArrangementCountSelect'])){
+						$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
+					}else{
+						$ResourceFoodArrangementCountSelect[$resource]=0;
+					}
+						
+					
 					if(isset($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).''])||isset($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).''])){
 						$FoodHalfFirst=regexnums($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).'']);
 						$FoodHalfSecond=regexnums($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).'']);
