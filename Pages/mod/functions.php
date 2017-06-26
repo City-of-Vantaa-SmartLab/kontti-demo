@@ -160,7 +160,7 @@ function mailToCatering($status,$foodInfo,$count,$FoodSplitFirst,$FoodSplitSecon
 		}
 		$foodOuterPrevious=$content;
 	}
-	$to      = "meow@localhost";
+	$to      = "henkilostoravintola.57@vantti.fi";
 	$subject = "Muuntamo-ID".$seriesid." - Ateriatilaus";
 	if($status!=3){
 		$message = $statustext."\n
@@ -192,6 +192,8 @@ function mailToCatering($status,$foodInfo,$count,$FoodSplitFirst,$FoodSplitSecon
 		"Content-Type: text/html; charset=UTF-8";
 
 	mail($to, $subject, $message, $headers);
+	$to      = "vantti.talousasiat@vantti.fi";
+	mail($to, $subject, $message, $headers);
 }
 function mailToCateringDeleted($seriesid,$id){
 	//mail sent when reservation has it's menu selection removed
@@ -208,7 +210,7 @@ function mailToCateringDeleted($seriesid,$id){
 	$userEmail = $usernormalinfo['email'];
 	
 	$reference=$userinfo['reference'];
-	$to      = "meow@localhost";
+	$to      = "henkilostoravintola.57@vantti.fi";
 	$subject = "Muuntamo-ID".$seriesid." - Poistettu ateriatilaus";
 	$message = "Varauksesta poistettu ateriavalinta\n
 				<h3>Tilauksen tiedot</h3>\n
@@ -231,6 +233,27 @@ function mailToCateringDeleted($seriesid,$id){
 		"Content-Type: text/html; charset=UTF-8";
 
 	mail($to, $subject, $message, $headers);
+	$to      = "vantti.talousasiat@vantti.fi";
+	mail($to, $subject, $message, $headers);
+}
+function countNonWeekends($curdate,$selectedDate){
+	$weekDays=0;
+	$curdate=date('Y-m-d', strtotime($curdate. ' + 1 days'));
+	if(!isset($curdate)){
+		$curdate2 = new DateTime(date("Y-m-d"));
+	}else{
+		$curdate2 = new DateTime($curdate);
+	}
+	$selectedDate2 = new DateTime($selectedDate);
+	$diff = $selectedDate2->diff($curdate2)->format("%a");
+	for($i=0;$diff>$i;$i=$i+1){
+			if(date('w', strtotime($curdate))!=0&&date('w', strtotime($curdate))!=6){
+				$weekDays=$weekDays+1;
+			}else{
+			}
+			$curdate=date('Y-m-d', strtotime($curdate. ' + 1 days'));
+	}
+	return $weekDays;
 }
 /**
 function createThumb($address, $conf_id){	//thumbnail creator
