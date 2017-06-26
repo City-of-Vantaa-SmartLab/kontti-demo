@@ -879,8 +879,6 @@ for(var i = 0; i < cbs.length; i++) {
 		var curDate = new Date("{date("Y-m-d")}");
 		var inputString = "";
 		var weekendCount=countNonWeekends(curDate, selectedDate);
-		console.log(weekendCount<5);
-		console.log(weekendCount>5);
 		if(weekendCount<5){
 			//set menu selection to disabled and no menu/menu selected before the date
 			document.getElementById("ResourceFoodArrangement[{$resource->GetId()}]").disabled = true;
@@ -1021,7 +1019,17 @@ for(var i = 0; i < cbs.length; i++) {
 											if(PreSetTime.localeCompare(element)==0){
 												PublicTimeStartString=PublicTimeStartString+" selected";
 											}else if(type==2){
-												PublicTimeStartString=PublicTimeStartString+" selected";
+												{if isset($PublicStatus)}
+													{if strcmp({$PublicStatus['PublicEndTime']},"00:00:00")==0}
+														PublicTimeStartString=PublicTimeStartString+" selected";
+													{else}
+														if("{$PublicStatus['PublicEndTime']}".localeCompare(element)==0){
+															PublicTimeStartString=PublicTimeStartString+" selected";
+														}
+													{/if}
+												{else}
+													PublicTimeStartString=PublicTimeStartString+" selected";
+												{/if}
 											}
 											//console.log(element);
 											element=element.replaceAt(2,".") //changing the : to a .
