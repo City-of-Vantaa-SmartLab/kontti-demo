@@ -92,7 +92,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		{capture name="foodSelect"}
 		<div class="ResourceFoodConfSelection">
 		
-					<hr class='pricetag'/>
 				<div class="resourceContainerLeft">
 					<span><label>{translate key="ResourcesFood"}:</label></p></span>
 				</div>
@@ -156,8 +155,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 													   data-autorelease="{$resource->GetAutoReleaseMinutes()}"></i>{/if}
 				</div>
 		</div>
-		<div class="col-xs-12 noPadLeft ResourceFoodArrangementWarning"><br/>{translate key="ResourceFoodArrangementWarning"}, <a href="mailto:henkilostoravintola.57@vantti.fi?Subject=Muuntamo{if isset($SeriesId)}-ID{$SeriesId}{/if}">henkilostoravintola.57@vantti.fi</a>.<br/><br/><br/></div>
-		<div id='hiddenResourceFoodArrangementPlaceholder'></div>
 		{/capture}
 	{/if}
 {/function}
@@ -395,11 +392,11 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							<div class="reservationPublicDatesBox">
 								<div class="reservationPublicDatesBoxInner">
 									<div id="ReservationBillingInfo" class=" form-group">
-										<label>{translate key="compname"}</label><br/><input class="form-control billinginfo" id="compname" name="compname" maxlength="500" type="text" value="{$UserBillingInfo['compname']}"><br/>
-										<label>{translate key="personid"}</label><br/><input class="form-control billinginfo" id="personid" name="personid" maxlength="500" type="text" value="{$UserBillingInfo['personid']}"><br/>
-										<label>{translate key="billingaddress"}</label><br/><textarea class="form-control billinginfo" id="billingaddress" name="billingaddress" maxlength="500" type="text" value="{$UserBillingInfo['billingaddress']}">{$UserBillingInfo['billingaddress']}</textarea><br/>
-										<label>{translate key="reference"}</label><br/><input class="form-control billinginfo" id="reference" name="reference" maxlength="500" type="text" value="{$UserBillingInfo['reference']}"><br/>
-										<label>{translate key="additionalInfo"}</label><br/><textarea class="form-control billinginfo" id="additionalinfo" name="additionalinfo" maxlength="500" type="text" value="{$UserBillingInfo['additionalinfo']}">{$UserBillingInfo['additionalinfo']}</textarea><br/>
+										<label>{translate key="compname"}</label><br/><input class="form-control billinginfo" id="compname" name="compname" type="text" value="{$UserBillingInfo['compname']}"><br/>
+										<label>{translate key="personid"}</label><br/><input class="form-control billinginfo" id="personid" name="personid" type="text" value="{$UserBillingInfo['personid']}"><br/>
+										<label>{translate key="billingaddress"}</label><br/><input class="form-control billinginfo" id="billingaddress" name="billingaddress" type="text" value="{$UserBillingInfo['billingaddress']}"><br/>
+										<label>{translate key="reference"}</label><br/><input class="form-control billinginfo" id="reference" name="reference" type="text" value="{$UserBillingInfo['reference']}"><br/>
+										<label>{translate key="additionalInfo"}</label><br/><input class="form-control billinginfo" id="additionalinfo" name="additionalinfo" type="text" value="{$UserBillingInfo['additionalinfo']}"><br/>
 									</div>
 									<div id='MenuOrderInfo' class='MenuOrderInfo'>{translate key="MenuOrderInfo"}</div>
 								</div>
@@ -870,65 +867,6 @@ for(var i = 0; i < cbs.length; i++) {
 }
 </script>*}
 <script>
-	$('#formattedBeginDate').change(function () {
-		calcTotalPrice(0,"");
-		produceDateError();
-	});
-	function produceDateError(){
-		var selectedDate = new Date(document.getElementById("formattedBeginDate").value);
-		var curDate = new Date("{date("Y-m-d")}");
-		var inputString = "";
-		var weekendCount=countNonWeekends(curDate, selectedDate);
-		console.log(weekendCount<5);
-		console.log(weekendCount>5);
-		if(weekendCount<5){
-			//set menu selection to disabled and no menu/menu selected before the date
-			document.getElementById("ResourceFoodArrangement[{$resource->GetId()}]").disabled = true;
-			document.getElementById("ResourceFoodArrangement[{$resource->GetId()}]").value = {if isset($PublicStatus['foodtarget_id'])}{$PublicStatus['foodtarget_id']}{else}0{/if};
-			inputString=inputString+"<input type='hidden' name='ResourceFoodArrangement[{$resource->GetId()}]' value='{if isset($PublicStatus['foodtarget_id'])}{$PublicStatus['foodtarget_id']}{else}0{/if}'>";
-			var myElemTwo = document.getElementById('foodhalfsecond');
-			if (myElemTwo !== null){
-				inputString=inputString+"<input type='hidden' name='"+myElemTwo.getAttribute("name")+"' value='{if isset($PublicStatus['FoodSplitSecond'])}{$PublicStatus['FoodSplitSecond']}{else}0{/if}'>";
-				document.getElementById("foodhalfsecond").disabled = true;
-			}
-			var myElemTwo = document.getElementById('foodhalffirst');
-			if (myElemTwo !== null){
-				inputString=inputString+"<input type='hidden' name='"+myElemTwo.getAttribute("name")+"' value='{if isset($PublicStatus['FoodSplitFirst'])}{$PublicStatus['FoodSplitFirst']}{else}0{/if}'>";
-				document.getElementById("foodhalffirst").disabled = true;
-			}
-			//document.getElementById("ResourceFoodArrangementWarning").innerHTML = warning;
-		}else{
-			document.getElementById("ResourceFoodArrangement[{$resource->GetId()}]").disabled = false;
-			var myElemTwo = document.getElementById('foodhalfsecond');
-			if (myElemTwo !== null){
-				document.getElementById("foodhalfsecond").disabled = false;
-			}
-			var myElemTwo = document.getElementById('foodhalffirst');
-			if (myElemTwo !== null){
-				document.getElementById("foodhalffirst").disabled = false;
-			}
-			document.getElementById("hiddenResourceFoodArrangementPlaceholder").innerHTML = inputString;
-		}
-		document.getElementById("hiddenResourceFoodArrangementPlaceholder").innerHTML = inputString;
-	}
-	function countNonWeekends(curDate,selectedDate){
-		var weekDays=0;
-		curDate.setDate(curDate.getDate()+1);
-		var daydiffr=daydiff(curDate, selectedDate);
-		for(var i=0;daydiffr>i;i++){
-			if(parseInt(curDate.getDay())!=0&&parseInt(curDate.getDay())!=6){
-				weekDays=weekDays+1;
-			}
-			curDate.setDate(curDate.getDate()+1);
-		}
-		return weekDays;
-	}
-	
-	function daydiff(first, second) {
-		//source for daydiff() https://stackoverflow.com/questions/542938/how-do-i-get-the-number-of-days-between-two-dates-in-javascript
-		return Math.round((second-first)/(1000*60*60*24));
-	}
-	
 	calcTotalPrice(1,"");
 	{for $i=0 to 6}
 		document
@@ -1353,15 +1291,15 @@ for(var i = 0; i < cbs.length; i++) {
 						temporaryFoodString=temporaryFoodString+"<div class='priceItemContainer'>{$content}";
 						{$previousnextfood=""}
 						{foreach from=$contentlist item=nextcontent}
-						
-							if(firsttime==1){
+						/*
+							if(firsttime==0){
 								{if isset($PublicStatus['FoodSplitFirst'])}
 									FoodSplitFirst=parseInt({$PublicStatus['FoodSplitFirst']});
 								{/if}
 								{if isset($PublicStatus['FoodSplitSecond'])}
 									FoodSplitSecond=parseInt({$PublicStatus['FoodSplitSecond']});
 								{/if}
-							}
+							}*/
 							{$nextcontent = preg_replace( "/\r|\n/", "", $nextcontent )}{*removes linebreaks*}						
 							{if strcmp($nextcontent,'tai')==0&&strcmp($content,$previousnextfood)==0}
 								var FirstSplit={if isset($PublicStatus['FoodSplitFirst'])}{$PublicStatus['FoodSplitFirst']}{else}1{/if};
@@ -1475,8 +1413,6 @@ for(var i = 0; i < cbs.length; i++) {
 									document.getElementById("selectedResourceConfImage").innerHTML = "<img class='ResourceConfBig' src='../uploads/arrangements/"+value+".png' alt='"+text+"'>";
 									document.getElementById("selectedResourceConfFurni").innerHTML = ""+test[value]+"";
 									document.getElementById("selectedResourceConfName").innerHTML = "{translate key="ResourceConfiguration"}: "+text+"";
-
-	produceDateError();
 </script>
 <div id="testingthings"></div>
 {include file='globalfooter.tpl'}

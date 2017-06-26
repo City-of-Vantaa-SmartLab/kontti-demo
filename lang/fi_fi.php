@@ -76,7 +76,6 @@ class fi_fi extends en_us
 		$strings['November'] = 'Marraskuu';
 		$strings['December'] = 'Joulukuu';
 
-		$strings['ResourceFoodArrangementWarning'] = 'Huom! Tarjoilut tulee tilata vähintään 5 arkipäivää ennen suunniteltua tapahtumaa. Tilauksiin liittyvissä kysymyksissä ole yhteydessä Lounasravintola’57';
 		$strings['MenuOrderInfo'] = 'Saat tilauksesi yhteenvedon sähköpostiisi tilavarauksen vahvistuksen yhteydessä. Huom! Tämä ei ole vielä tarjoilujen tilausvahvistus. Vantti / Lounasravintola’57  vahvistaa tilauksesi  sähköpostilla yhden vuorokauden kuluessa. Lasku lähetetään antamaasi osoitteeseen jälkikäteen.';
 		$strings['weekendAdditionalCost'] = 'Viikonlopun kuljetuslisä';
 		$strings['additionalInfo'] = 'Tilauksen lisätiedot (tarvittaessa)';

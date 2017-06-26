@@ -139,19 +139,17 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 						}else{
 							setArrangementWResIID(regexnums($ResourceArrangement[$resource]),regexnums($resource),regexnums($_POST['reservationId'])); //viimeisenä, jos muut jumittuvat
 						}
-						if(countNonWeekends("",$_POST['beginDate'])>4){
-							if(isset($_POST['ResourceFoodArrangementCountSelect'])&&isset($_POST['ResourceFoodArrangement'])&&$ResourceFoodArrangement[$resource]!=0){
-								$food=1;
-								$ResourceFoodArrangementTemp=$ResourceFoodArrangement[$resource];
-								$ResourceFoodArrangementCountSelectTemp=$ResourceFoodArrangementCountSelect[$resource];
-								updateFoodConfToReservationWithSeriesId(regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$FoodHalfFirst,$FoodHalfSecond,regexnums($resource),regexnums($_POST['reservationId']));
-							}else{
-								//check if there used to be something set
-								$resAddon=getPublicStatus($seriesid);
-								if(isset($resAddon['foodtarget_id'])){
-									mailToCateringDeleted($seriesid,$userSession2->UserId);
-									updateFoodConfToReservationWithSeriesId(NULL,0,0,0,regexnums($resource),regexnums($_POST['reservationId']));
-								}
+						if(isset($_POST['ResourceFoodArrangementCountSelect'])&&isset($_POST['ResourceFoodArrangement'])&&$ResourceFoodArrangement[$resource]!=0){
+							$food=1;
+							$ResourceFoodArrangementTemp=$ResourceFoodArrangement[$resource];
+							$ResourceFoodArrangementCountSelectTemp=$ResourceFoodArrangementCountSelect[$resource];
+							updateFoodConfToReservationWithSeriesId(regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$FoodHalfFirst,$FoodHalfSecond,regexnums($resource),regexnums($_POST['reservationId']));
+						}else{
+							//check if there used to be something set
+							$resAddon=getPublicStatus($seriesid);
+							if(isset($resAddon['foodtarget_id'])){
+								mailToCateringDeleted($seriesid,$userSession2->UserId);
+								updateFoodConfToReservationWithSeriesId(NULL,0,0,0,regexnums($resource),regexnums($_POST['reservationId']));
 							}
 						}
 						
