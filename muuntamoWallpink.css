@@ -1,0 +1,104 @@
+﻿body{
+	background-color: #f5d3e6;
+}
+div.eventContainer{
+	margin-left: 100px;
+	padding-top: 300px;
+}
+h3.eventContainer{
+	margin-bottom: 0px;
+	color: #000000;
+}
+div.eventBox{
+	max-width:700px;
+}
+div.guiContainer{
+	width: 100%;
+	padding-bottom: 50px;
+}
+hr.eventBox{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 0;
+	border-top: 1px solid #000000;
+	max-width:100px;
+}
+
+a.btn{
+	display: inline-block;
+	padding: 6px 12px;
+	margin: 6px 12px;
+	min-width: 175px;
+	background-color: #6BC24A;
+	color: #FFFFFF;
+}
+a.left{
+	text-align: left;
+}
+a.center{
+	text-align: center;
+}
+a.right{
+	text-align: right;
+}
+a:focus.btn, a:hover.btn {
+    color: #FFFFFF;
+    text-decoration: underline;
+	background-color: #4A7829;
+}
+
+a.hideBtn{
+	display: inline-block;
+	padding: 6px 12px;
+	margin: 6px 12px;
+	min-width: 175px;
+	color: #FFFFFF;
+}
+a:focus.hideBtn, a:hover.hideBtn {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+h2.eventBox{
+	color: #000000;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+p.eventBox{
+	font-size: 20px;
+	white-space: pre-wrap;
+	color: #000000;
+	margin-top:0px;
+	margin-bottom:0px;
+}
+img.floatyimage{
+	margin-bottom:-50px;
+	max-height:500px;
+	max-width:500px;
+	float:right;
+}
+
+@font-face {
+    font-family: GTWalsheim;
+    src: url(fonts/GT-Walsheim-Regular.woff);
+}
+@font-face {
+    font-family: GTWalsheimBold;
+    src: url(fonts/GT-Walsheim-Bold.woff);
+}
+
+html, body, div, span, applet, object, iframe, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	font-family: GTWalsheim;
+}
+b, h1, h2{
+	font-family: GTWalsheimBold;
+}

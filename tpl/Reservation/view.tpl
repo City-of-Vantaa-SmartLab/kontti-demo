@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
+
 {include file='globalheader.tpl' TitleKey='ViewReservationHeading' Qtip=true}
 <div id="page-view-reservation">
 	<div id="reservation-box" class="readonly">
@@ -49,6 +50,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								{/if}
 							{/foreach}
 						</div>
+						{if !empty($Accessories)}
 						<div class="pull-right">
 							<label>{translate key='Accessories'}</label>
 							{foreach from=$Accessories item=accessory name=accessoryLoop}
@@ -60,6 +62,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								{/if}
 							{/foreach}
 						</div>
+						{/if}
 					</div>
 
 					<div class="col-xs-12">
@@ -99,7 +102,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<label>{translate key='RepeatPrompt'}</label> {translate key=$RepeatOptions[$RepeatType]['key']}
 						{if $IsRecurring}
 							<div class="repeat-details">
-								<label>{translate key='RepeatEveryPrompt'}</label> {$RepeatInterval} {$RepeatOptions[$RepeatType]['everyKey']}
+								<label>{translate key='RepeatEveryPrompt'}:</label> {$RepeatInterval} {translate key={$RepeatOptions[$RepeatType]['everyKey']}}
 								{if $RepeatMonthlyType neq ''}
 									({$RepeatMonthlyType})
 								{/if}
@@ -139,7 +142,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						</div>
 					{/if}
 				</div>
-
+				{*
 				{if $ShowParticipation}
 					<div class="{$participantCol}">
 						<div id="reservationParticipation">
@@ -229,8 +232,41 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							{/if}
 						</div>
 					</div>
-				{/if}
-
+				{/if}*}
+				<div class="col-xs-12 same-height">
+					<div class="col-xs-12">
+						<label>{translate key='SelectPublic'}:</label> {if $PublicStatus['SelectPublic']==1}{translate key='Yes'}{else}{translate key='No'}{/if}<br/>
+						{if $PublicStatus['SelectPublic']==1}
+						<label>{translate key='BeginTime2'}</label>{$PublicStatus['PublicStartTime']}<br/>
+						<label>{translate key='Endtime2'}</label>{$PublicStatus['PublicEndTime']}<br/>
+						{/if}
+						<label>{translate key='RoomForOtherPresenter'}:</label> {if $PublicStatus['RoomForOtherPresenter']==1}{translate key='Yes'}{else}{translate key='No'}{/if}
+					</div>
+				</div>
+			{if $CanViewResourceAdmin}
+				{$SelectetArrangement=getConfId(getArrangement($ResourceId,$SeriesId))}
+				<div class="col-xs-12 inline-block selectedResourceConf">
+					<div class="col-xs-12">
+						<div class="inline-block selectedResourceConf">
+							<div class="ResourceAndConfInfo">
+								<label>{translate key='ResourceConfiguration'}</label>
+								{$ResourceConfs[$SelectetArrangement]['name']}
+								{$FurnitureList=explode("\n",$ResourceConfs[$SelectetArrangement]['furniturelist'])}
+								<ul>
+								{foreach from=$FurnitureList item=Furni}
+									<li>{$Furni}</li>
+								{/foreach}
+								</ul>
+							</div>
+						</div>
+						<div class="selectedResourceConfImage inline-block" id="selectedResourceConfImage">
+							<img class='ResourceConfBig' src="../uploads/arrangements/{if isset($SelectetArrangement)}{$SelectetArrangement}{else}1{/if}.png" alt="Tilaratkaisun kuva">
+						</div>
+					</div>
+				</div>
+					
+			
+			{/if}
 				<div class="col-xs-12 same-height">
 					<div id="custom-attributes-placeholder" class="col-xs-12">
 					</div>

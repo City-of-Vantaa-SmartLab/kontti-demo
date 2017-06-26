@@ -28,7 +28,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<a class="btn btn-success linkbutton" href="{$Path}{Pages::LOGIN}">{translate key="LogIn"}</a>
 				{*<a class="btn btn-success linkbutton" href='#loginbox' role='button' data-toggle='collapse'>{translate key="LogIn"}</a>*}
 				<a class="btn btn-success linkbutton" href="{$Path}register.php">{translate key="Register"}</a>
-				<div id='loginbox' class='collapse'>
+				{*<div id='loginbox' class='collapse'>
 					<form role="form" name="login" id="login" class="form-horizontal" method="post"
 					  action="{$smarty.server.SCRIPT_NAME}">
 					<div id="login-box" class="col-xs-12 default-box straight-top">
@@ -120,7 +120,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 					</div>
 					</form>
 				</div>
-			
+				*}
 			
 			{/if}
 		</span>

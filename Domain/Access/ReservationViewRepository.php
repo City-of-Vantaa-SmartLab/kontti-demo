@@ -32,6 +32,7 @@ require_once(ROOT_DIR . 'Domain/ReservationAttachmentView.php');
 require_once(ROOT_DIR . 'Domain/AccessoryReservation.php');
 require_once(ROOT_DIR . 'Domain/ReservationItemView.php');
 require_once(ROOT_DIR . 'Domain/ReservationAccessoryView.php');
+require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 
 interface IReservationViewRepository
 {

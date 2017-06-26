@@ -28,9 +28,9 @@ class RecurrenceControl extends Control
 		$this->Set('RepeatOptions', array (
 						'none' => array('key' => 'DoesNotRepeat', 'everyKey' => ''),
 						'daily' => array('key' => 'Daily', 'everyKey' => 'days'),
-						'weekly' => array('key' => 'Weekly', 'everyKey' => 'weeks'),
-						'monthly' => array('key' => 'Monthly', 'everyKey' => 'months'),
-						'yearly' => array('key' => 'Yearly', 'everyKey' => 'years'),
+						'weekly' => array('key' => 'Weekly', 'everyKey' => 'weeks')
+						/*'monthly' => array('key' => 'Monthly', 'everyKey' => 'months'),
+						'yearly' => array('key' => 'Yearly', 'everyKey' => 'years')*/
 								)
 		);
 		$this->Set('DayNames', array(

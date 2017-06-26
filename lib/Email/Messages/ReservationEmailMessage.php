@@ -20,6 +20,7 @@ require_once(ROOT_DIR . 'Pages/Export/CalendarExportDisplay.php');
 require_once(ROOT_DIR . 'lib/Application/Schedule/namespace.php');
 require_once(ROOT_DIR . 'lib/Application/Reservation/namespace.php');
 require_once(ROOT_DIR . 'Domain/Access/namespace.php');
+require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 
 abstract class ReservationEmailMessage extends EmailMessage
 {
@@ -96,7 +97,57 @@ abstract class ReservationEmailMessage extends EmailMessage
 
 	protected function PopulateTemplate()
 	{
+		$weekendextra = 0; //delivery cost for weekends
 		$currentInstance = $this->reservationSeries->CurrentInstance();
+		$databaseTimeConv=$currentInstance->StartDate();
+		$databaseTimeConvTemp=explode(" ",$currentInstance->StartDate());
+		if(strcmp($databaseTimeConvTemp[2],"Europe/Helsinki")==0){
+			$databaseTimeConvTemp=convertTimeTo($databaseTimeConvTemp[0],$databaseTimeConvTemp[1]);
+			$databaseTimeConv=$databaseTimeConvTemp;
+		}
+		//Getting resource conf info, with series_id
+		$tempdata=getAllTemp($this->reservationSeries->Resource()->GetId(),$databaseTimeConv);
+		$this->Set('Tempdata', $tempdata);
+		$resourceFoodConfInfo=getFoodArrangementInfo($tempdata['ResourceFoodConf']);
+		$resourceConfInfo=getArrangementInfo($tempdata['ResourceConf']);
+		$this->Set('Conf', $resourceConfInfo);
+		$this->Set('FoodConf', $resourceFoodConfInfo);
+		$FoodConfList = explode("\n",$resourceFoodConfInfo['contentlist']);
+		$this->Set('FoodConfList',$FoodConfList);
+		$alv=round($resourceFoodConfInfo['price']*$tempdata['ResourceFoodCount']*0.14, 2);
+		$this->Set('Alv',$alv);
+		
+		$foodListArray=explode("\n",$resourceFoodConfInfo['contentlist']);
+		$foodListString="<ul>";
+		foreach($foodListArray as $content){
+			$done=0;
+			$content = preg_replace( "/\r|\n/", "", $content );//removing any possible newline \n
+			if(strcmp($content,"tai")!=0){
+				$foodListString=$foodListString."<li>".$content;
+				$foodInnerPrevious="";
+				foreach($foodListArray as $nextcontent){
+					$nextcontent = preg_replace( "/\r|\n/", "", $nextcontent);//removing any possible newline \n
+					if(strcmp($nextcontent,"tai")==0&&strcmp($content,$foodInnerPrevious)==0){
+						$foodListString=$foodListString." x".$tempdata['FoodSplitFirst']."kpl";
+						$done=1;
+					}
+					$foodInnerPrevious=$nextcontent;
+				}
+				if(strcmp($foodOuterPrevious,"tai")==0&&$done==0){
+						$foodListString=$foodListString." x".$tempdata['FoodSplitSecond']."kpl";
+						$done=1;
+				}
+				if($done==0){
+						$foodListString=$foodListString." x".$tempdata['ResourceFoodCount']."kpl";
+				}
+				$foodListString=$foodListString."</li>";
+			}
+			$foodOuterPrevious=$content;
+		}
+		$foodListString=$foodListString."</ul>";
+		
+		
+		$this->Set('FoodListString', $foodListString);
 		$this->Set('UserName', $this->reservationOwner->FullName());
 		$this->Set('StartDate', $currentInstance->StartDate()->ToTimezone($this->timezone));
 		$this->Set('EndDate', $currentInstance->EndDate()->ToTimezone($this->timezone));
@@ -114,9 +165,24 @@ abstract class ReservationEmailMessage extends EmailMessage
 		{
 			foreach ($this->reservationSeries->Instances() as $repeated)
 			{
+				$weekDay = date('w', strtotime($repeated->StartDate()->ToTimezone($this->timezone)));
+				if($weekDay == 0 || $weekDay == 6){
+					if($tempdata['ResourceFoodConf']!=NULL){
+						$weekendextra = $weekendextra+10;
+					}
+				}
 				$repeatDates[] = $repeated->StartDate()->ToTimezone($this->timezone);
 			}
+		}else{
+			$weekDay = date('w', strtotime($currentInstance->StartDate()->ToTimezone($this->timezone)));
+			if($weekDay == 0 || $weekDay == 6){
+				if($tempdata['ResourceFoodConf']!=NULL){
+					$weekendextra = $weekendextra+10;
+				}
+			}
 		}
+		$this->Set('WeekendExtra', $weekendextra);
+		$this->Set('FoodTotal', $resourceFoodConfInfo['price']*$tempdata['ResourceFoodCount']+$alv);
 		$this->Set('RepeatDates', $repeatDates);
 		$this->Set('RequiresApproval', $this->reservationSeries->RequiresApproval());
 		$this->Set('ReservationUrl', sprintf("%s?%s=%s", Pages::RESERVATION, QueryStringKeys::REFERENCE_NUMBER, $currentInstance->ReferenceNumber()));

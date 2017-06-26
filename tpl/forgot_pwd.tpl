@@ -18,7 +18,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 {include file='globalheader.tpl'}
 
-{if $Enabled}
+{*if $Enabled}
 
 	{if $ShowResetEmailSent}
 		<div class="alert alert-success">
@@ -48,6 +48,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 {setfocus key='EMAIL'}
 {else}
 <div class="error">Disabled</div>
-{/if}
+{/if*}
 
 {include file='globalfooter.tpl'}

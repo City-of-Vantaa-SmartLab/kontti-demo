@@ -422,6 +422,55 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								
 						</div>
 						<div class="col-xs-6">
+							<div class="resourceFoodConfLinkList">
+								<br/>
+								<h5 class="inline">{translate key='ResourceFoodConfigurations'}</h5><br>
+								<a class="update changeStatus"
+										   href="#{$resource->GetId()}-AddResourceFoodConf" role='button' data-toggle='collapse'><b>{translate key='AddResourceFoodConfiguration'}</b></a>
+								<div id='{$resource->GetId()}-AddResourceFoodConf' class='collapse'>	
+									<form id="resourceconfFormLink" role="form" method="POST" action="resourceFoodConf/add_resourcefoodconflink.php">
+										<div class="control-group form-group resourceFoodConfBoxAdd">
+											<input type='hidden' value='{$resource->GetId()}' name='resource_id'>
+											<div class='resourceConfLeftBoxAdd'>
+												{translate key='ResourceFoodConfiguration'}:
+											</div>
+											<div class='resourceConfRightBoxAdd'>
+												<select name='ResourceFoodConfId'>
+													{foreach from=getAllResourceFoodArrangements() item=temp}
+														<option value='{$temp['foodconf_id']}'>{$temp['foodconf_id']}. {$temp['name']}</option>
+													{/foreach}
+												</select>
+											</div><br/>
+											<div class='resourceConfBoxAddSend'>
+												<input type='submit' value='{translate key='Add'}'>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="resourceConfLinkList">
+								{foreach from=defineFoodArrangements($resource->GetId()) item=temp}
+									{$Arrangementsplit = ":"|explode:$temp}
+										<div class="resourceConfLinkListConf">
+											<span class="resourceFoodConfLinkListConf text-right">
+												<a href='#{$resource->GetId()}-foodarrangements-{$Arrangementsplit[0]}' role='button' data-toggle='collapse'>{$Arrangementsplit[1]}</a>
+												<form action="resourceFoodConf/remove_resourcefoodconflink.php" method="POST" width=20px>
+													<input type='hidden' value='{$resource->GetId()}' name='resource_id'>
+													<input type='hidden' value='{$Arrangementsplit[0]}' name='resourceconfId'>
+													<button type="submit" class="close resourceConfLinkListConf" aria-label="Close"> 
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</form>
+											</span>
+											<div id='{$resource->GetId()}-Foodarrangements-{$Arrangementsplit[0]}' class='collapse'>
+												<img src='../../uploads/foodarrangements/{$Arrangementsplit[0]}.png' alt='{$Arrangementsplit[1]}'>
+											</div>
+										</div>
+								{/foreach}
+							</div>
+								
+						</div>
+						<div class="col-xs-6">
 							{if $CreditsEnabled}
 								<h5 class="inline">{translate key='Credits'}</h5>
 								<a href="#" class="inline update changeCredits">
@@ -521,11 +570,11 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<h4 class="modal-title" id="imageModalLabel">{translate key=AddImage}</h4>
 					</div>
 					<div class="modal-body">
-						<label for="resourceImage" class="off-screen">Image file</label>
+						<label for="resourceImage" class="off-screen">{translate key='ImageFile'}</label>
 						<input id="resourceImage" type="file" class="text" size="60" {formname key=RESOURCE_IMAGE}
 							   accept="image/*;capture=camera"/>
 
-						<div class="note">.gif, .jpg, or .png</div>
+						<div class="note">.gif, .jpg, {translate key='Or'} .png</div>
 					</div>
 
 					<div class="modal-footer">

@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
 Kiitos varauksestasi!<br/><br/>
-Tarkista varauksesi tiedot ja muista päivittää tapahtumasi tiedot ennen kesäkuuta.<br/>
+Tarkista varauksesi tiedot.<br/>
 Toivottavasti tapahtumasi onnistuu!<br/>
 <br/>
 Varauksen tiedot:
@@ -98,9 +98,48 @@ Tapahtuman kuvaus: {$Description|nl2br}
 	Varaaja: {$CreatedBy}
 {/if}
 
+	<br/>
+	<br/>
+	<h3>Tilaratkaisu</h3>
+	Nimi: {$Conf['name']}<br/>
+	Kuvaus: {$Conf['description']}<br/>
+	Hinta: {$Conf['price']} €<br/><br/>
+	
+{if !empty($Tempdata['ResourceFoodConf'])}
+	<h3>Menutilaus</h3>
+	Nimi: {$FoodConf['name']}<br/>
+	Tuotelista: <br/>
+	{$FoodListString}
+	Hinta: {$FoodConf['price']} €<br/>
+	Määrä: {$Tempdata['ResourceFoodCount']} kpl<br/>
+	Alv 14%: {$Alv} €<br/>
+	Menutilauksen lopullinen hinta: {$FoodTotal} €<br/>
+	{if !empty($WeekendExtra)}Viikonlopun kuljetuslisät: {$WeekendExtra} €<br/>{/if}
+	{$counterRepeatdates=1}
+	{if count($RepeatDates)==0}
+		{$counterRepeatdates=1}
+	{else}
+		{$counterRepeatdates=count($RepeatDates)}
+	{/if}
+	Yhteensä: {$counterRepeatdates*$FoodTotal+$WeekendExtra} €<br/>
+	
+{/if}
 <br/>
-Varausnumero: {$ReferenceNumber}
-
+<br/>
+<h3>Muut tiedot</h3>
+Varausnumero: {$ReferenceNumber}<br/><br/>
+{if !empty($Tempdata['compname'])}
+<b>{translate key="compname"}:</b> {$Tempdata['compname']}<br/>
+{/if}
+{if !empty($Tempdata['personid'])}
+	<b>{translate key="personid"}:</b> {$Tempdata['personid']}<br/>
+{/if}
+{if !empty($Tempdata['billingaddress'])}
+	<b>{translate key="billingaddress"}:</b> {$Tempdata['billingaddress']}<br/>
+{/if}
+{if !empty($Tempdata['reference'])}
+	<b>{translate key="reference"}:</b> {$Tempdata['reference']}<br/>
+{/if}
 <br/>
 <br/>
 <a href="{$ScriptUrl}/{$ReservationUrl}">Näytä varaus</a> |

@@ -6,7 +6,7 @@
 			try {
 			global $dbh;
 			$dbh = new PDO("mysql:host=".$db_specs['db_host'].";
-					dbname=".$db_specs['db_database']."",
+					dbname=".$db_specs['db_database'].";charset=utf8",
 					$db_specs['db_user'],
 					$db_specs['db_passwd']);
 			}

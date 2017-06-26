@@ -140,7 +140,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	{cssfile src="scripts/css/jquery-ui-timepicker-addon.css"}
 	{cssfile src="booked.css?v=1"}
-	{cssfile src="muuntamo.css?v=18"}
+	{cssfile src="muuntamo.css?v=25"}
 	{if $cssFiles neq ''}
 		{assign var='CssFileList' value=','|explode:$cssFiles}
 		{foreach from=$CssFileList item=cssFile}
@@ -182,7 +182,8 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 									class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="{$Path}{Pages::PROFILE}">{translate key="Profile"}</a></li>
-							{*<li><a href="{$Path}{Pages::PASSWORD}">{translate key="ChangePassword"}</a></li>*}
+							<li><a href="{$Path}billing-information.php">{translate key="BillingInfo"}</a></li>
+							<li><a href="{$Path}{Pages::PASSWORD}">{translate key="ChangePassword"}</a></li>
 							<li>
 								<a href="{$Path}{Pages::NOTIFICATION_PREFERENCES}">{translate key="NotificationPreferences"}</a>
 							</li>
@@ -195,7 +196,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{translate key="Schedule"} <b
 									class="caret"></b></a>
 						<ul class="dropdown-menu">
-								<li><a href="{$Path}{Pages::SCHEDULE}?sd=2017-6-5">{translate key="Bookings"}</a></li>
+								<li><a href="{$Path}{Pages::SCHEDULE}">{translate key="Bookings"}</a></li>
 							{if $CanViewAdmin}
 								<li><a href="{$Path}{Pages::MY_CALENDAR}">{translate key="MyCalendar"}</a></li>
 								<li><a href="{$Path}{Pages::CALENDAR}">{translate key="ResourceCalendar"}</a></li>
@@ -218,6 +219,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								<li><a href="{$Path}admin/manage_resources.php">{translate key="ManageResources"}</a></li>
 								<li><a href="{$Path}admin/manage_accessories.php">{translate key="ManageAccessories"}</a></li>
 								<li><a href="{$Path}admin/manage_resource_confs.php">{translate key="ResourceConfigurations"}</a></li>
+								<li><a href="{$Path}admin/manage_resource_food_confs.php">{translate key="ResourceFoodConfigurations"}</a></li>
 								<li class="divider"></li>
 								<li><a href="{$Path}admin/manage_users.php">{translate key="ManageUsers"}</a></li>
 								<li><a href="{$Path}admin/manage_groups.php">{translate key="ManageGroups"}</a></li>

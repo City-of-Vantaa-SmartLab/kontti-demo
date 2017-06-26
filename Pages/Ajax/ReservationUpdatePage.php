@@ -64,18 +64,73 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 	{
 		try
 		{
+			$ResourceArrangementAR=$_POST['additionalResources'];
+			if(isset($_POST['ResourceFoodArrangementCountSelect'])){
+				$tempCount=regexnums($_POST['ResourceFoodArrangementCountSelect']);
+				foreach($ResourceArrangementAR as $resource){
+					if($tempCount[$resource]>35){
+						$tempCount[$resource]=35;
+					}elseif($tempCount[$resource]<0){
+						$tempCount[$resource]=0;
+					}
+				}
+				
+				$_POST['ResourceFoodArrangementCountSelect']=$tempCount;
+			}
+			$compname=regexUserInfoText($_POST['compname']);
+			$personid=regexUserInfoText($_POST['personid']);
+			$billingaddress=regexUserInfoText($_POST['billingaddress']);
+			$reference=regexUserInfoText($_POST['reference']);
+			$additionalInfo=regexUserInfoText($_POST['additionalinfo']);
+			$ResourceArrangement=$_POST['ResourceArrangement'];
+			if(isset($_POST['ResourceFoodArrangement'])){
+				$ResourceFoodArrangement=$_POST['ResourceFoodArrangement'];
+			}else{
+				$ResourceFoodArrangement=0;
+			}
+			if(isset($_POST['ResourceFoodArrangementCountSelect'])){
+				$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
+			}
+			$FoodHalfFirst=0;
+			$FoodHalfSecond=0;
+			if(isset($ResourceArrangementAR)){
+				foreach($ResourceArrangementAR as $resource){
+					if(isset($_POST['ResourceFoodArrangementCountSelect'])){
+						$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
+					}else{
+						$ResourceFoodArrangementCountSelect[$resource]=0;
+					}
+						
+					
+					if(isset($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).''])||isset($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).''])){
+						$FoodHalfFirst=regexnums($_POST['foodhalffirst'.regexnums($ResourceFoodArrangement[$resource]).'']);
+						$FoodHalfSecond=regexnums($_POST['foodhalfsecond'.regexnums($ResourceFoodArrangement[$resource]).'']);
+						if($FoodHalfFirst==NULL){$FoodHalfFirst=0;}
+						if($FoodHalfSecond==NULL){$FoodHalfSecond=0;}
+					}
+					setAllTemp($resource,timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']),regexnums($ResourceArrangement[$resource]),regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$FoodHalfFirst,$FoodHalfSecond,$compname,$personid,$billingaddress,$reference,$additionalInfo);
+				}
+			}
 			$this->EnforceCSRFCheck();
 			$reservation = $this->_presenter->BuildReservation();
 			$this->_presenter->HandleReservation($reservation);
-
+			$databaseTimeConv=timeForDatabase(regexDateIsReal($_POST['beginDate']),$_POST['beginPeriod']);
+			foreach($ResourceArrangementAR as $resource){
+				delAllTemp($resource,$databaseTimeConv);
+			}
 			if ($this->_reservationSavedSuccessfully)
 			{
 				$this->Set('Resources', $reservation->AllResources());
 				$this->Set('Instances', $reservation->Instances());
 				$this->Set('Timezone', ServiceLocator::GetServer()->GetUserSession()->Timezone);
-				if(isset($_POST['additionalResources'])){	//if multiple resources have been defined, this variable will be defined
+				$food=0;				
+				$userSession2 = ServiceLocator::GetServer()->GetUserSession();			
+				$seriesid=getSeriesIdWResIID(regexnums($_POST['reservationId']));
+				if(isset($_POST['additionalResources'])){	//if any resource has been defined, this variable will be defined
 					$ResourceArrangement=$_POST['ResourceArrangement'];
 					$ResourceArrangementAR=$_POST['additionalResources'];
+					$ResourceFoodArrangement=$_POST['ResourceFoodArrangement'];
+					$ResourceFoodArrangementCountSelect=$_POST['ResourceFoodArrangementCountSelect'];
 					//if(count($ResourceArrangementAR)==count($ResourceArrangement)){
 					//for($i=0;count($ResourceArrangementAR)>$i;$i=$i+1){	
 					foreach($ResourceArrangementAR as $resource){
@@ -84,26 +139,69 @@ class ReservationUpdatePage extends ReservationSavePage implements IReservationU
 						}else{
 							setArrangementWResIID(regexnums($ResourceArrangement[$resource]),regexnums($resource),regexnums($_POST['reservationId'])); //viimeisenä, jos muut jumittuvat
 						}
+						if(countNonWeekends("",$_POST['beginDate'])>4){
+							if(isset($_POST['ResourceFoodArrangementCountSelect'])&&isset($_POST['ResourceFoodArrangement'])&&$ResourceFoodArrangement[$resource]!=0){
+								$food=1;
+								$ResourceFoodArrangementTemp=$ResourceFoodArrangement[$resource];
+								$ResourceFoodArrangementCountSelectTemp=$ResourceFoodArrangementCountSelect[$resource];
+								updateFoodConfToReservationWithSeriesId(regexnums($ResourceFoodArrangement[$resource]),regexnums($ResourceFoodArrangementCountSelect[$resource]),$FoodHalfFirst,$FoodHalfSecond,regexnums($resource),regexnums($_POST['reservationId']));
+							}else{
+								//check if there used to be something set
+								$resAddon=getPublicStatus($seriesid);
+								if(isset($resAddon['foodtarget_id'])){
+									mailToCateringDeleted($seriesid,$userSession2->UserId);
+									updateFoodConfToReservationWithSeriesId(NULL,0,0,0,regexnums($resource),regexnums($_POST['reservationId']));
+								}
+							}
+						}
 						
 					}
 				}else{
 					echo "Missing something.";
 				}
-					if(isset($_POST['SelectPublicTime'])&&isset($_POST['SelectPublicEndTime'])){
-						$PublicTime=$_POST['SelectPublicTime'];
-						$PublicEndTime=$_POST['SelectPublicEndTime'];
+				if(isset($_POST['SelectPublicTime'])&&isset($_POST['SelectPublicEndTime'])){
+					$PublicTime=$_POST['SelectPublicTime'];
+					$PublicEndTime=$_POST['SelectPublicEndTime'];
+				}else{
+					$PublicTime="00:00:00";
+					$PublicEndTime="00:00:00";
+				}
+				if(isset($_POST['IsPublicEvent'])){
+					$publicStatus=1;
+				}else{
+					$publicStatus=0;
+				}
+				if(isset($_POST['RoomForOtherPresenter'])){
+					$RoomForOtherPresenter=1;
+				}else{
+					$RoomForOtherPresenter=0;
+				}
+				if(isset($PublicTime)&&isset($PublicEndTime)&&isset($publicStatus)&&isset($RoomForOtherPresenter)){
+					insertEventPublicWResIID($publicStatus,$PublicTime,$PublicEndTime,$RoomForOtherPresenter,regexnums($resource),regexnums($_POST['reservationId']));
+				}
+				if (isset($userSession2->UserId)){
+					if(isset($_POST['compname'])&&isset($_POST['personid'])&&isset($_POST['billingaddress'])&&isset($_POST['reference'])){
+						$compname=regexUserInfoText($_POST['compname']);
+						$personid=regexUserInfoText($_POST['personid']);
+						$billingaddress=regexUserInfoText($_POST['billingaddress']);
+						$reference=regexUserInfoText($_POST['reference']);
+						$additionalInfo=regexUserInfoText($_POST['additionalinfo']);
+						addUserAddonInfo($userSession2->UserId,$compname,$personid,$billingaddress,$reference,$additionalInfo);
+						$daycountlist="";
+						if($food==1){
+							foreach($reservation->Instances() as $tempInstance){
+								$dayCountlist[]=$tempInstance->StartDate(); //make an array of the dates
+							}
+							$restime=explode(" ",$dayCountlist[0]); //get the reservation start time
+							$restime=timeFromDatabase($restime[0],$restime[1]);
+							$restime=date('H.i', strtotime($restime));
+							$foodInfo=getFoodArrangementInfo($ResourceFoodArrangementTemp);
+							mailToCatering(2,$foodInfo,$ResourceFoodArrangementCountSelectTemp,$FoodHalfFirst,$FoodHalfSecond,$userSession2->UserId,$dayCountlist,$restime,$seriesid);
+						}
 					}else{
-						$PublicTime="00:00:00";
-						$PublicEndTime="00:00:00";
 					}
-					if(isset($_POST['IsPublicEvent'])){
-						$publicStatus=1;
-					}else{
-						$publicStatus=0;
-					}
-					insertEventPublicWResIID($publicStatus,$PublicTime,$PublicEndTime,regexnums($resource),regexnums($_POST['reservationId']));
-				
-				
+						
+				}
 				$this->Display('Ajax/reservation/update_successful.tpl');
 			}
 			else

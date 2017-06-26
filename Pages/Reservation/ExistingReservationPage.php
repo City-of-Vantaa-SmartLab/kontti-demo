@@ -18,7 +18,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 require_once(ROOT_DIR . 'Pages/Reservation/ReservationPage.php');
 interface IExistingReservationPage extends IReservationPage
 {
@@ -171,7 +170,6 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 	protected function GetTemplateName()
 	{
 		$readOnly = $this->GetQuerystring(QueryStringKeys::READ_ONLY) == 1;
-
 		if (!$readOnly && $this->IsApprovable && !$this->UpdatingBeforeApproving())
 		{
 			return 'Reservation/approve.tpl';
@@ -262,7 +260,8 @@ class ExistingReservationPage extends ReservationPage implements IExistingReserv
 
 	public function SetSeriesId($seriesId)
 	{
-		$this->Set('SeriesId', $seriesId);;
+		$this->Set('PublicStatus',getPublicStatus($seriesId));
+		$this->Set('SeriesId', $seriesId);
 	}
 
 	public function SetIsRecurring($isRecurring)

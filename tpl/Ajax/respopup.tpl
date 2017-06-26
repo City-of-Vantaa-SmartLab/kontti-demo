@@ -52,7 +52,14 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
         {if $startDate->DateEquals($endDate)}
             {assign var="key" value="res_popup_time"}
         {/if}
-		<div class="dates">{formatdate date=$startDate key=res_popup} - {formatdate date=$endDate key=res_popup}{*$key*}</div>
+		{$startDateTemp={formatdate date=$startDate key=res_popup}}
+		{$endDateTemp={formatdate date=$endDate key=res_popup}}
+		{$startDateSplit = " "|explode:$startDateTemp}
+		{$endDateSplit = " "|explode:$endDateTemp}
+		{if strcmp($startDateSplit[0],$endDateSplit[0])==0}	{*if the day is the same on end and star date*}
+			{$endDateTemp=$endDateSplit[1]}					{*change the end date to be only time (xx:xx)*}
+		{/if}
+		<div class="dates">{$startDateTemp} - {$endDateTemp}{*$key*}</div>
 	{/capture}
 	{$formatter->Add('dates', $smarty.capture.dates)}
 
@@ -109,7 +116,6 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	{/capture}
 	{$formatter->Add('description', $smarty.capture.description)}
-
 	{capture "attributes"}
 	{if !$hideDetails}
 		{if $attributes|count > 0}
@@ -130,6 +136,17 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	<!-- {$ReservationId} -->
 
 	{$formatter->Display()}
+	
+	{if $PublicStatus['RoomForOtherPresenter']==1}
+		<div>
+			<label>{translate key='RoomForOtherPresenter'}</label>, {translate key='RoomForOtherPresenterContact'} <a href="mailto:{$email}?Subject=Muuntamo-varauksen%20yhteistoiminta&Body=Tapahtuman%20nimi:%20{$title}">{$email}</a>!
+		</div>
+	{/if}
+	{if $PublicStatus['PublicStatus']==1}
+		<div><label>{translate key='SelectPublic'}</label><br/>
+		<label>{translate key='BeginTime2'}</label> {$PublicStatus['PublicStartTime']}<br/>
+		<label>{translate key='EndTime2'}</label> {$PublicStatus['PublicEndTime']}</div>
+	{/if}
 </div>
 {else}
 	{translate key='InsufficientPermissionsError'}

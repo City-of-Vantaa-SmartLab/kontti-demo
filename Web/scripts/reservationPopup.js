@@ -22,7 +22,7 @@ $.fn.attachReservationPopup = function (refNum, detailsUrl) {
 							api.set('content.text', status + ': ' + error)
 						});
 
-				return 'Loading...';
+				return 'Ladataan...';
 			}
 		},
 

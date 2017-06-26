@@ -16,7 +16,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-{debug}
 {* All of the slot display formatting *}
 
 {function name=displayGeneralReserved}
@@ -41,6 +40,10 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 
 {function name=displayReserved}
 	{call name=displayGeneralReserved Slot=$Slot Href=$Href SlotRef=$SlotRef OwnershipClass='' Draggable="{$CanViewAdmin}" ResourceId=$ResourceId}
+{/function}
+
+{function name=displayReservedWithOther}
+	{call name=displayGeneralReserved Slot=$Slot Href=$Href SlotRef=$SlotRef OwnershipClass='OtherPresenter' Draggable="{$CanViewAdmin}" ResourceId=$ResourceId}
 {/function}
 
 {function name=displayPastTime}
@@ -86,7 +89,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		{translate key=DefaultScheduleSet}
 	</div>
 
-				<div class="ScheduleInfo">
+				<div class="ScheduleInfo col-sm-12">
 					<div class="ScheduleInfoInner">
 				{*<span>{$ScheduleName}</span>*}<span class="ScheduleInfo"><h1>{translate key="Bookings"}</h1></span><br/>
 				
@@ -181,6 +184,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 				<div class="legend reservable">{translate key=Reservable}</div>
 				<div class="legend unreservable">{translate key=Unreservable}</div>
 				<div class="legend reserved">{translate key=Reserved}</div>
+				<div class="legend reserved OtherPresenter">{translate key=RoomForOtherPresenterLegend}</div>
 				{if $LoggedIn}
 				<div class="legend reserved mine">{translate key=MyReservation}</div>
 				{*<div class="legend reserved participating">{translate key=Participant}</div>*}

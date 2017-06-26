@@ -22,43 +22,72 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	<footer class="footer navbar">	
 		<div class="partnercontainer">
 			<div class="partnerlogo">
-				<img src="{$Path}partners/vantaa-logo.png" alt="Vantaa" class="partnerlogo">
+				<img src="{$Path}partners/vantaa.png" alt="Vantaa" class="partnerlogo">
 			</div>
 			<div class="partnerlogo">
-				<img src="{$Path}partners/SmartLab-logo-pieni.png" alt="Smartlab" class="partnerlogo">
+				<img src="{$Path}partners/smartlab.png" alt="Smartlab" class="partnerlogo">
 			</div>
 			<div class="partnerlogo">
-				<img src="{$Path}partners/Metropolia_Ammattikorkeakoulu_logo.png" alt="Metropolia AMK" class="partnerlogo">
+				<img src="{$Path}partners/metropolia.png" alt="Metropolia AMK" class="partnerlogo">
 			</div>
 		</div>
-		{*
+		
 		<div class="partnercontainer">
-			<div class="partnerlogo">
-				<img src="{$Path}partners/murmur.png" alt="MurMur" class="partnerlogo">
-			</div>
-			<div class="partnerlogo">
-				<img src="{$Path}partners/SmartLab-logo-pieni.png" alt="Smartlab" class="partnerlogo">
-			</div>
-			<div class="partnerlogo">
-				<img src="{$Path}partners/Metropolia_Ammattikorkeakoulu_logo.png" alt="Metropolia AMK" class="partnerlogo">
+			<div class="partnerlogoBig">
+				<img src="{$Path}partners/digitalist.png" alt="Digitalist" class="partnerlogoBig">
 			</div>
 		</div>
 		<div class="partnercontainer">
 			<div class="partnerlogo">
-				<img src="{$Path}partners/vantaa-logo.png" alt="Vantaa" class="partnerlogo">
+				<img src="{$Path}partners/ibm.png" alt="IBM" class="partnerlogo">
 			</div>
 			<div class="partnerlogo">
-				<img src="{$Path}partners/SmartLab-logo-pieni.png" alt="Smartlab" class="partnerlogo">
+				<img src="{$Path}partners/watson.png" alt="Watson" class="partnerlogo">
 			</div>
 			<div class="partnerlogo">
-				<img src="{$Path}partners/Metropolia_Ammattikorkeakoulu_logo.png" alt="Metropolia AMK" class="partnerlogo">
+				<img src="{$Path}partners/tikkuri.png" alt="Tikkuri" class="partnerlogo">
 			</div>
-		</div>*}
-		<div class="footercopyright">
-			<p class="footercopyright">&copy; 2017 <a href="http://smartlabvantaa.fi/">Smartlab</a>, <a href="https://github.com/City-of-Vantaa-SmartLab/kontti-demo">Muuntamo v0.2</a></p>
 		</div>
-		<div class="footercopyright">
-			<p class="footercopyright">&copy; 2017 <a href="http://www.twinkletoessoftware.com">Twinkle Toes Software</a>, <a href="http://www.bookedscheduler.com">Booked Scheduler v{$Version}</a></p>
+		<div class="partnercontainer">
+			<div class="partnerlogo">
+				<img src="{$Path}partners/genelec.png" alt="Genelec" class="partnerlogo">
+			</div>
+			<div class="partnerlogo">
+				<img src="{$Path}partners/tampereen-yliopisto.png" alt="Tampereen Yliopisto" class="partnerlogo">
+			</div>
+			<div class="partnerlogo">
+				<img src="{$Path}partners/murmur.png" alt="Murmur" class="partnerlogo">
+			</div>
+		</div>
+		<div class="partnercontainer">
+			<div class="partnerlogo">
+				<img src="{$Path}partners/barco.png" alt="Barco" class="partnerlogo">
+			</div>
+			<div class="partnerlogo">
+				<img src="{$Path}partners/lyreco.png" alt="Lyreco" class="partnerlogo">
+			</div>
+			<div class="partnerlogo">
+				<img src="{$Path}partners/clickshare.png" alt="Clickshare" class="partnerlogo">
+			</div>
+		</div>
+		<div class="partnercontainer">
+			<div class="partnerlogo">
+				<img src="{$Path}partners/art4u-fi.png" alt="Art4u.fi" class="partnerlogo">
+			</div>
+			<div class="partnerlogo">
+				<img src="{$Path}partners/lg.png" alt="LG" class="partnerlogo">
+			</div>
+			<div class="partnerlogo">
+				<img src="{$Path}partners/tkp-print.png" alt="TKP-print" class="partnerlogo">
+			</div>
+		</div>
+		<div class="footerCopyrightContainer">
+			<div class="footercopyright">
+				<p class="footercopyright">&copy; 2017 <a href="http://smartlabvantaa.fi/">Smartlab</a>, <a href="https://github.com/City-of-Vantaa-SmartLab/kontti-demo">Muuntamo v0.3</a></p>
+			</div>
+			<div class="footercopyright">
+				<p class="footercopyright">&copy; 2017 <a href="http://www.twinkletoessoftware.com">Twinkle Toes Software</a>, <a href="http://www.bookedscheduler.com">Booked Scheduler v{$Version}</a></p>
+			</div>
 		</div>
 	</footer>
 

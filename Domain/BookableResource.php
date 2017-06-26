@@ -18,6 +18,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+require_once(ROOT_DIR . 'Pages/mod/namespace.php');
 interface IResource extends IPermissibleResource
 {
 	/**

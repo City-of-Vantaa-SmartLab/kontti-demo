@@ -65,6 +65,9 @@ class ReservationDeletePage extends SecurePage implements IReservationDeletePage
 
 			if ($this->reservationSavedSuccessfully)
 			{
+				$userSession2 = ServiceLocator::GetServer()->GetUserSession();			
+				$seriesid=getSeriesIdWResIID(regexnums($_POST['reservationId']));
+				mailToCateringDeleted($seriesid,$userSession2->UserId);
 				$this->Display('Ajax/reservation/delete_successful.tpl');
 			}
 			else
