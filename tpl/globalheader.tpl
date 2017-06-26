@@ -140,7 +140,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 	{/if}
 	{cssfile src="scripts/css/jquery-ui-timepicker-addon.css"}
 	{cssfile src="booked.css?v=1"}
-	{cssfile src="muuntamo.css?v=24"}
+	{cssfile src="muuntamo.css?v=25"}
 	{if $cssFiles neq ''}
 		{assign var='CssFileList' value=','|explode:$cssFiles}
 		{foreach from=$CssFileList item=cssFile}

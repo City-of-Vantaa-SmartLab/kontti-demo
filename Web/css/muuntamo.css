@@ -377,6 +377,9 @@ a.furnilistTip{
 input.billinginfo{
 	width:400px;
 }
+textarea.billinginfo{
+	width:400px;
+}
 input.foodSplit{
 	width:50px;
 	max-height:20px;
