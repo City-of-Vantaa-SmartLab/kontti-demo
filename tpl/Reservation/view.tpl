@@ -16,7 +16,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 *}
-
 {include file='globalheader.tpl' TitleKey='ViewReservationHeading' Qtip=true}
 <div id="page-view-reservation">
 	<div id="reservation-box" class="readonly">
@@ -40,7 +39,12 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 							{translate key=Private}
 						{/if}
 					</div>
-
+					{if $CanViewResourceAdmin}
+					<div class="col-xs-12">
+						<label>{translate key='Phone'}</label>
+						{$ReservationUserDetails['phone']}
+					</div>
+					{/if}
 					<div class="col-xs-12">
 						<div class="pull-left">
 							<label>{translate key='Resources'}</label> {$ResourceName}
