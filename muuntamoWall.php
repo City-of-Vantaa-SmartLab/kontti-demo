@@ -2,13 +2,13 @@
 define('ROOT_DIR', './'); //Root dir of Muuntamo from this file
 require_once(ROOT_DIR.'Pages/mod/functions.php');
 date_default_timezone_set('Europe/Helsinki');
-$curParams = basename($_SERVER['REQUEST_URI']);
+$curParams = "";//basename($_SERVER['REQUEST_URI']);
 $color="pink";
 if(isset($_GET['startdate'])){
 	if(DateIsReal($_GET['startdate'])){
 		$setdateStart=regexDateIsReal($_GET['startdate']);
+		$curParams="startdate=".$setdateStart;
 	}
-	
 }
 if(isset($_GET['enddate'])){
 	if(DateIsReal($_GET['enddate'])){
@@ -31,7 +31,9 @@ function retrieveWeek($start_date,$end_date){
 	$end_date = timeForDatabase($end_date[0],$end_date[1]);
 	//combines three tables based on date, they're all linked by serires_id
 	$list=pdoExecute("SELECT start_date,end_date,reservation_series.*, reservation_addons.* FROM reservation_instances LEFT JOIN reservation_series ON reservation_instances.series_id=reservation_series.series_id LEFT JOIN reservation_addons ON reservation_instances.series_id=reservation_addons.series_id WHERE reservation_series.status_id=1 AND reservation_instances.start_date>'".$start_date."' AND reservation_instances.end_date<'".$end_date."' ORDER BY start_date"); 
+	$eventcount=0;
 	while($row=$list->fetch(PDO::FETCH_ASSOC)){
+		$eventcount=$eventcount+1;
 		//goes through all the events
 		$publictime="";
 		$reservationtime="";
@@ -66,7 +68,9 @@ function retrieveWeek($start_date,$end_date){
 	
 		$result=$result."\t<hr class='eventBox' align='left'/>\n</div>\n";
 	}
-	return $result;
+	$resultarray[0]=$result;
+	$resultarray[1]=$eventcount;
+	return $resultarray;
 }	
 //source for weekstart/weekend: https://stackoverflow.com/a/11905818/7785270
 
@@ -105,7 +109,8 @@ if($currentWeekDay==1){
 }else{
 	$selectedDateString="";
 }
-$thisWeek=retrieveWeek($week_start,$week_end);
+$resultArray=retrieveWeek($week_start,$week_end);
+$thisWeek=$resultArray[0];
 $temp=explode(" ",$week_start);
 $dateBefore=date('Y-m-d', strtotime($temp[0]. ' - 1 days'));
 $dateAfter=date('Y-m-d', strtotime($temp[0]. ' + 1 days'));
@@ -116,22 +121,24 @@ $displayDayToday2=date("d.m.");
 $displayDayToday=date('d.m.', strtotime($temp[0]));
 $selectedDateString=$selectedDateString." ".$displayDayToday;
 
+$guiDateSelect = "<div class='guiContainer'>";
 if(isset($nogui)){
-	$guiDateSelect="";
+	$guiDateSelect=$guiDateSelect."";
 }else{
-	$guiHideUrl=$curParams;
+	$guiHideUrl="";
 	if(!empty($_GET)){
+		$guiHideUrl="?".$curParams;
 		$guiHideUrl=$guiHideUrl."&";
 	}else{
-		$guiHideUrl="../".$guiHideUrl."/?";
+		$guiHideUrl="?";
 	}
 	$guiHideUrl=$guiHideUrl."nogui=1";
-	$guiDateSelect="<div class='guiContainer'><a class='btn center' href='?startdate=".$dateBefore."'><- Eilen ".$displayDateBefore."</a> 
+	$guiDateSelect=$guiDateSelect."<a class='btn center' href='?startdate=".$dateBefore."'><- ".$displayDateBefore."</a> 
 					<a class='btn center' href='?startdate=".date("Y-m-d")."'>Tänään ".$displayDayToday2."</a> 
-					<a class='btn center' href='?startdate=".$dateAfter."'>Huomenna ".$displayDateAfter." -></a>
-					<br/><a class='hideBtn left' href='".$guiHideUrl."'>Piilota käyttöliittymä</a></div>";
+					<a class='btn center' href='?startdate=".$dateAfter."'> ".$displayDateAfter." -></a>
+					<br/><a class='hideBtn left' href='".$guiHideUrl."'>Piilota käyttöliittymä</a>";
 }
-
+$guiDateSelect=$guiDateSelect."</div>";
 $stylesheet = "";
 
 if(strcmp($color,"blue")==0){
@@ -148,7 +155,9 @@ if(strcmp($color,"blue")==0){
 }
 
 $refreshermeta = "";
-if(isset($nogui)){$refreshermeta = "<meta http-equiv='refresh' content='3600'/>";}
+if(isset($nogui)){
+	$refreshermeta = "<meta http-equiv='refresh' content='3600'/>";
+}
 echo "<!DOCTYPE html>
 
 <html lang='fi' dir='ltr'>
