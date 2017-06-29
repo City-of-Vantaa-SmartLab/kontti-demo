@@ -244,7 +244,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 						<label>{translate key='BeginTime2'}</label>{$PublicStatus['PublicStartTime']}<br/>
 						<label>{translate key='Endtime2'}</label>{$PublicStatus['PublicEndTime']}<br/>
 						{/if}
-						<label>{translate key='RoomForOtherPresenter'}:</label> {if $PublicStatus['RoomForOtherPresenter']==1}{translate key='Yes'}{else}{translate key='No'}{/if}
+						<label>{translate key='RoomForOtherPresenter'}:</label> {if $PublicStatus['RoomForOtherPresenter']==1}{translate key='Yes'}, {translate key='RoomForOtherPresenterContact'} <a href="mailto:{$ReservationUserDetails['email']}?Subject=Muuntamo-varauksen%20yhteistoiminta&Body=Tapahtuman%20nimi:%20{$title}">{$ReservationUserDetails['email']}</a>!{else}{translate key='No'}{/if}
 					</div>
 				</div>
 			{if $CanViewResourceAdmin}
