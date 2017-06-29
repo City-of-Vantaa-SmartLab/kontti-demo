@@ -1,9 +1,10 @@
 ﻿<?php
 define('ROOT_DIR', './'); //Root dir of Muuntamo from this file
 require_once(ROOT_DIR.'Pages/mod/functions.php');
-date_default_timezone_set('Europe/Helsinki');
+require_once('muuntamoWallConfig.php');
+$confTexts = loadTexts();
+global $confTexts;
 $curParams = "";//basename($_SERVER['REQUEST_URI']);
-$color="pink";
 if(isset($_GET['startdate'])){
 	if(DateIsReal($_GET['startdate'])){
 		$setdateStart=regexDateIsReal($_GET['startdate']);
@@ -24,6 +25,7 @@ if(isset($_GET['nogui'])){
 function retrieveWeek($start_date,$end_date){
 	//returns events from the time between $start_date and $end_date
 	$thisWeek="";
+	global $confTexts;
 	$currentWeekDay = date('w', strtotime($start_date));
 	$start_date = explode(" ", $start_date);
 	$start_date = timeForDatabase($start_date[0],$start_date[1]);
@@ -61,7 +63,7 @@ function retrieveWeek($start_date,$end_date){
 				$publictime=$public_start_time_temp." - ".$public_end_time_temp;
 		}else{
 			$publictime=FALSE;
-			$row['description']="Tapahtuma on yksityinen";
+			$row['description']=$confTexts['EventIsPrivate'];
 		}
 		$result[] = eventGenerator($row,$reservationtime,$publictime);
 	}
@@ -97,16 +99,16 @@ function retrieveWeek($start_date,$end_date){
 	}else{
 		$freetimes[]="08:00 - 16:00";
 	}
-	if(isset($freetimes)&&$currentWeekDay!=6&&$currentWeekDay!=0){
+	if(isset($freetimes)&&$currentWeekDay!=6&&$currentWeekDay!=0){ //Creates the free time events
 		foreach($freetimes as $temp){
-			$row['title']="Muuntamo vapaassa käytössä";
-			$row['description']="Käy rohkeasti sisään tai nauti ulkopeleistä!";
+			$row['title']=$confTexts['OpenForPublicTitle'];
+			$row['description']=$confTexts['OpenForPublicDesc'];
 			$result[] = eventGenerator($row,$temp,"");
 		}
 	}
 	if($currentWeekDay==6||$currentWeekDay==0){
-			$row['title']="Muuntamo kiinni";
-			$row['description']="Ulkotilat ovat vapaasti käytettävissäsi, nähdään taas arkena!";
+			$row['title']=$confTexts['WeekendClosedTitle'];
+			$row['description']=$confTexts['WeekendClosedDesc'];
 			$result[] = eventGenerator($row,"","");
 	}
 	
@@ -154,19 +156,19 @@ if(isset($setdateStart)){ //if the get is received
 }
 $currentWeekDay = date('w', strtotime($week_start));
 if($currentWeekDay==1){
-	$selectedDateString="Maanantai";
+	$selectedDateString=$confTexts['Monday'];
 }elseif($currentWeekDay==2){
-	$selectedDateString="Tiistai";
+	$selectedDateString=$confTexts['Tuesday'];
 }elseif($currentWeekDay==3){
-	$selectedDateString="Keskiviikko";
+	$selectedDateString=$confTexts['Wednesday'];
 }elseif($currentWeekDay==4){
-	$selectedDateString="Torstai";
+	$selectedDateString=$confTexts['Thursday'];
 }elseif($currentWeekDay==5){
-	$selectedDateString="Perjantai";
+	$selectedDateString=$confTexts['Friday'];
 }elseif($currentWeekDay==6){
-	$selectedDateString="Lauantai";
+	$selectedDateString=$confTexts['Saturday'];
 }elseif($currentWeekDay==0){
-	$selectedDateString="Sunnuntai";
+	$selectedDateString=$confTexts['Sunday'];
 }else{
 	$selectedDateString="";
 }
@@ -206,9 +208,9 @@ if(isset($nogui)){
 	}
 	$guiHideUrl=$guiHideUrl."nogui=1";
 	$guiDateSelect=$guiDateSelect."<a class='btn center' href='?startdate=".$dateBefore."'><- ".$displayDateBefore."</a> 
-					<a class='btn center' href='?startdate=".date("Y-m-d")."'>Tänään ".$displayDayToday2."</a> 
+					<a class='btn center' href='?startdate=".date("Y-m-d")."'>".$confTexts['Today']." ".$displayDayToday2."</a> 
 					<a class='btn center' href='?startdate=".$dateAfter."'> ".$displayDateAfter." -></a>
-					<br/><a class='hideBtn left' href='".$guiHideUrl."'>Piilota käyttöliittymä</a>";
+					<br/><a class='hideBtn left' href='".$guiHideUrl."'>".$confTexts['HideGUI']."</a>";
 }
 $guiDateSelect=$guiDateSelect."</div>";
 $stylesheet = "";
@@ -235,7 +237,7 @@ echo "<!DOCTYPE html>
 <html lang='fi' dir='ltr'>
 		<head>";
 		echo $refreshermeta;
-		echo "<title>Muuntamo - Tapahtumalistaus</title>";
+		echo "<title>".$confTexts['AppTitle']."</title>";
 		echo $stylesheet;
 		echo "</head>
 <body>";
