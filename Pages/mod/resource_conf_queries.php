@@ -181,10 +181,10 @@ function getSeriesIdWResIID($reservation_instance_id){
 	$row=$list->fetch(PDO::FETCH_ASSOC);
 	$checkuser=pdoExecute("SELECT owner_id FROM `reservation_series` WHERE series_id = ".regexnums($row['series_id'])." LIMIT 1");
 	$rowcheckuser=$checkuser->fetch(PDO::FETCH_ASSOC);
-	if($userSession->UserId==$rowcheckuser['owner_id']){
-		//checking if user and series_id match in ownership, if no, set series_id as null
+	if($userSession->UserId==$rowcheckuser['owner_id']||$userSession->IsAdmin){
+		//checking if user and series_id match in ownership or if user is admin, if no, set series_id as null
 	}else{
-		echo "Jotain meni pieleen!";
+		//echo "Jotain meni pieleen!";
 		$row['series_id']=NULL;
 	}
 	return $row['series_id'];
