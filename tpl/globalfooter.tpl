@@ -83,7 +83,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		</div>
 		<div class="footerCopyrightContainer">
 			<div class="footercopyright">
-				<p class="footercopyright">&copy; 2017 <a href="http://smartlabvantaa.fi/">Smartlab</a>, <a href="https://github.com/City-of-Vantaa-SmartLab/kontti-demo">Muuntamo v0.3</a></p>
+				<p class="footercopyright">&copy; 2017 <a href="http://smartlabvantaa.fi/">Smartlab</a>, <a href="https://github.com/City-of-Vantaa-SmartLab/kontti-demo">Muuntamo v0.31</a></p>
 			</div>
 			<div class="footercopyright">
 				<p class="footercopyright">&copy; 2017 <a href="http://www.twinkletoessoftware.com">Twinkle Toes Software</a>, <a href="http://www.bookedscheduler.com">Booked Scheduler v{$Version}</a></p>

@@ -1,14 +1,15 @@
 ﻿<?php
 define('ROOT_DIR', './'); //Root dir of Muuntamo from this file
 require_once(ROOT_DIR.'Pages/mod/functions.php');
-date_default_timezone_set('Europe/Helsinki');
-$curParams = basename($_SERVER['REQUEST_URI']);
-$color="pink";
+require_once('muuntamoWallConfig.php');
+$confTexts = loadTexts();
+global $confTexts;
+$curParams = "";//basename($_SERVER['REQUEST_URI']);
 if(isset($_GET['startdate'])){
 	if(DateIsReal($_GET['startdate'])){
 		$setdateStart=regexDateIsReal($_GET['startdate']);
+		$curParams="startdate=".$setdateStart;
 	}
-	
 }
 if(isset($_GET['enddate'])){
 	if(DateIsReal($_GET['enddate'])){
@@ -23,51 +24,117 @@ if(isset($_GET['nogui'])){
 }
 function retrieveWeek($start_date,$end_date){
 	//returns events from the time between $start_date and $end_date
-	$result="";
 	$thisWeek="";
+	global $confTexts;
+	$currentWeekDay = date('w', strtotime($start_date));
 	$start_date = explode(" ", $start_date);
 	$start_date = timeForDatabase($start_date[0],$start_date[1]);
 	$end_date = explode(" ", $end_date);
 	$end_date = timeForDatabase($end_date[0],$end_date[1]);
 	//combines three tables based on date, they're all linked by serires_id
 	$list=pdoExecute("SELECT start_date,end_date,reservation_series.*, reservation_addons.* FROM reservation_instances LEFT JOIN reservation_series ON reservation_instances.series_id=reservation_series.series_id LEFT JOIN reservation_addons ON reservation_instances.series_id=reservation_addons.series_id WHERE reservation_series.status_id=1 AND reservation_instances.start_date>'".$start_date."' AND reservation_instances.end_date<'".$end_date."' ORDER BY start_date"); 
+	$eventcount=0;
 	while($row=$list->fetch(PDO::FETCH_ASSOC)){
+		$eventcount=$eventcount+1;
 		//goes through all the events
 		$publictime="";
 		$reservationtime="";
-		//I had trouble with Date objects, so I ended up treating dates as strings...
+		//I had trouble with Date objects (Timezone conversions), so I ended up treating dates as strings...
 		//Time from database is in UTC
 		//Shown time should be in Europe/Helsinki
 		$start_date_temp = explode(" ", $row['start_date']);//Format:YYYY-MM-DD HH:SS
 		$end_date_temp = explode(" ", $row['end_date']);
 		$row['start_date'] = timeFromDatabase($start_date_temp[0],$start_date_temp[1]);
 		$row['end_date'] = timeFromDatabase($end_date_temp[0],$end_date_temp[1]);
-		$end_date_temp = explode(" ", $row['end_date']);
-		$end_date_temp = explode(":", $end_date_temp[1]);
-		$end_date_temp = $end_date_temp[0].":".$end_date_temp[1];
-		$start_date_temp = explode(" ", $row['start_date']);
-		$start_time_temp = explode(":", $start_date_temp[1]);
-		$start_time_temp = $start_time_temp[0].":".$start_time_temp[1];
-		$reservationtime=$start_time_temp." - ".$end_date_temp."<br/>";
-		$result=$result."<div class='eventBox'>\n";
+		$timeStartTemp = date("H:i",strtotime($row['start_date']));
+		$timeEndTemp = date("H:i",strtotime($row['end_date']));
+		$reservedTimes[] = $timeStartTemp."-".$timeEndTemp;
+		$end_date_temp = $timeEndTemp;
+		$start_time_temp = $timeStartTemp;
+		$reservationtime=$start_time_temp." - ".$timeEndTemp;
 		
+				//echo $reservationtime."<br>";
 		if(isset($row['PublicStartTime'])&&isset($row['PublicEndTime'])&&$row['PublicStartTime']!="00:00:00"){
 				$public_start_time_temp = explode(":", $row['PublicStartTime']);
 				$public_start_time_temp = $public_start_time_temp[0].":".$public_start_time_temp[1];
 				$public_end_time_temp = explode(":", $row['PublicEndTime']);
 				$public_end_time_temp = $public_end_time_temp[0].":".$public_end_time_temp[1];
-				$reservationtime="";
-				$publictime=$publictime.$public_start_time_temp." - ".$public_end_time_temp."<br/>\n";
+				//$reservationtime=$public_start_time_temp." - ".$public_end_time_temp;
+				$publictime=$public_start_time_temp." - ".$public_end_time_temp;
 		}else{
-			$publictime="Tapahtuma on yksityinen";
-			$row['description']="";
+			$publictime=FALSE;
+			$row['description']=$confTexts['EventIsPrivate'];
 		}
-		$result=$result."\t<h2 class='eventBox'>".$row['title']."</h2><p class='eventBox'>".$reservationtime.$publictime.$row['description']."</p>\n";
-	
-		$result=$result."\t<hr class='eventBox' align='left'/>\n</div>\n";
+		$result[] = eventGenerator($row,$reservationtime,$publictime);
 	}
-	return $result;
+	//Creates events for evey available time slot
+	$previouslystopped=TRUE;
+	if(isset($reservedTimes)){
+		for($i=date("H:i",strtotime("08:00"));$i<=date("H:i",strtotime("16:00"));$i=date("H:i", strtotime("+30 minutes",strtotime($i)))){
+			$stopped=FALSE;
+			foreach($reservedTimes as $temp){
+				$temp=explode("-",$temp);
+				if($i>=date("H:i",strtotime($temp[0]))&&$i<=date("H:i",strtotime($temp[1]))){
+					$stopped=TRUE;
+				}
+			}
+			if(!$stopped){
+				$endfreetime=$i;
+				if($previouslystopped){
+					$startfreetime=$i;
+					$previouslystopped=false;
+				}
+			}else{
+				if(isset($startfreetime)&&$startfreetime!=$endfreetime){
+					if(!isset($freetimes)||!in_array($startfreetime." - ".$endfreetime,$freetimes)){
+						$freetimes[]=$startfreetime." - ".$endfreetime;
+					}
+				}
+				$previouslystopped=true;
+			}
+			if($i==date("H:i",strtotime("16:00"))&&!$stopped&&isset($startfreetime)){
+					$freetimes[]=$startfreetime." - ".$endfreetime;
+			}
+		}
+	}else{
+		$freetimes[]="08:00 - 16:00";
+	}
+	if(isset($freetimes)&&$currentWeekDay!=6&&$currentWeekDay!=0){ //Creates the free time events
+		foreach($freetimes as $temp){
+			$row['title']=$confTexts['OpenForPublicTitle'];
+			$row['description']=$confTexts['OpenForPublicDesc'];
+			$result[] = eventGenerator($row,$temp,"");
+		}
+	}
+	if($currentWeekDay==6||$currentWeekDay==0){
+			$row['title']=$confTexts['WeekendClosedTitle'];
+			$row['description']=$confTexts['WeekendClosedDesc'];
+			$result[] = eventGenerator($row,"","");
+	}
+	
+	$resultarray[0]=$result;		//array containing all of the events
+	$resultarray[1]=$eventcount;	//How many events there are
+	
+	return $resultarray;
 }	
+
+//should do events with objects
+	function eventGenerator($row,$reservationtime,$publictime){
+		//generates html for event
+		if(isset($reservationtime)){
+			$event[0]=explode(" - ",$reservationtime);
+		}
+		if($publictime){
+			$reservationtime="";
+		}
+		$event[1]="
+		<div class='eventBox'>\n
+			\t<h2 class='eventBox'>".$row['title']."</h2>
+		<p class='eventBox'>".$reservationtime.$publictime."<br/>".$row['description']."</p>\n
+		\t<hr class='eventBox' align='left'/>\n
+		</div>\n";
+		return $event;
+	}
 //source for weekstart/weekend: https://stackoverflow.com/a/11905818/7785270
 
 	$week_start="2017-06-05 00:00:00";//incase nothing gets set
@@ -89,23 +156,35 @@ if(isset($setdateStart)){ //if the get is received
 }
 $currentWeekDay = date('w', strtotime($week_start));
 if($currentWeekDay==1){
-	$selectedDateString="Maanantai";
+	$selectedDateString=$confTexts['Monday'];
 }elseif($currentWeekDay==2){
-	$selectedDateString="Tiistai";
+	$selectedDateString=$confTexts['Tuesday'];
 }elseif($currentWeekDay==3){
-	$selectedDateString="Keskiviikko";
+	$selectedDateString=$confTexts['Wednesday'];
 }elseif($currentWeekDay==4){
-	$selectedDateString="Torstai";
+	$selectedDateString=$confTexts['Thursday'];
 }elseif($currentWeekDay==5){
-	$selectedDateString="Perjantai";
+	$selectedDateString=$confTexts['Friday'];
 }elseif($currentWeekDay==6){
-	$selectedDateString="Lauantai";
+	$selectedDateString=$confTexts['Saturday'];
 }elseif($currentWeekDay==0){
-	$selectedDateString="Sunnuntai";
+	$selectedDateString=$confTexts['Sunday'];
 }else{
 	$selectedDateString="";
 }
-$thisWeek=retrieveWeek($week_start,$week_end);
+$resultArray=retrieveWeek($week_start,$week_end);
+$thisWeek="";
+
+function date_compare($a, $b)
+{
+    $t1 = strtotime($a[0][0]);
+    $t2 = strtotime($b[0][0]);
+    return $t1 - $t2;
+}    
+usort($resultArray[0], 'date_compare');
+foreach($resultArray[0] as $temp){
+	$thisWeek=$thisWeek.$temp[1];
+}
 $temp=explode(" ",$week_start);
 $dateBefore=date('Y-m-d', strtotime($temp[0]. ' - 1 days'));
 $dateAfter=date('Y-m-d', strtotime($temp[0]. ' + 1 days'));
@@ -116,22 +195,24 @@ $displayDayToday2=date("d.m.");
 $displayDayToday=date('d.m.', strtotime($temp[0]));
 $selectedDateString=$selectedDateString." ".$displayDayToday;
 
+$guiDateSelect = "<div class='guiContainer'>";
 if(isset($nogui)){
-	$guiDateSelect="";
+	$guiDateSelect=$guiDateSelect."";
 }else{
-	$guiHideUrl=$curParams;
+	$guiHideUrl="";
 	if(!empty($_GET)){
+		$guiHideUrl="?".$curParams;
 		$guiHideUrl=$guiHideUrl."&";
 	}else{
-		$guiHideUrl="../".$guiHideUrl."/?";
+		$guiHideUrl="?";
 	}
 	$guiHideUrl=$guiHideUrl."nogui=1";
-	$guiDateSelect="<div class='guiContainer'><a class='btn center' href='?startdate=".$dateBefore."'><- Eilen ".$displayDateBefore."</a> 
-					<a class='btn center' href='?startdate=".date("Y-m-d")."'>Tänään ".$displayDayToday2."</a> 
-					<a class='btn center' href='?startdate=".$dateAfter."'>Huomenna ".$displayDateAfter." -></a>
-					<br/><a class='hideBtn left' href='".$guiHideUrl."'>Piilota käyttöliittymä</a></div>";
+	$guiDateSelect=$guiDateSelect."<a class='btn center' href='?startdate=".$dateBefore."'><- ".$displayDateBefore."</a> 
+					<a class='btn center' href='?startdate=".date("Y-m-d")."'>".$confTexts['Today']." ".$displayDayToday2."</a> 
+					<a class='btn center' href='?startdate=".$dateAfter."'> ".$displayDateAfter." -></a>
+					<br/><a class='hideBtn left' href='".$guiHideUrl."'>".$confTexts['HideGUI']."</a>";
 }
-
+$guiDateSelect=$guiDateSelect."</div>";
 $stylesheet = "";
 
 if(strcmp($color,"blue")==0){
@@ -148,13 +229,15 @@ if(strcmp($color,"blue")==0){
 }
 
 $refreshermeta = "";
-if(isset($nogui)){$refreshermeta = "<meta http-equiv='refresh' content='3600'/>";}
+if(isset($nogui)){
+	$refreshermeta = "<meta http-equiv='refresh' content='3600'/>";
+}
 echo "<!DOCTYPE html>
 
 <html lang='fi' dir='ltr'>
 		<head>";
 		echo $refreshermeta;
-		echo "<title>Muuntamo - Tapahtumalistaus</title>";
+		echo "<title>".$confTexts['AppTitle']."</title>";
 		echo $stylesheet;
 		echo "</head>
 <body>";

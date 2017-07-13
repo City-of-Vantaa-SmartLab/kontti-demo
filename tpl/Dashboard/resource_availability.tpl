@@ -21,7 +21,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 		<div class="pull-left">{translate key="ResourceAvailability"}</div>
 		<div class="pull-right">
 			<a href="#" title="{translate key=ShowHide} {translate key="ResourceAvailability"}">
-				<i class="glyphicon"></i>
+				<i class="glyphicon grayed"></i>
 			</a>
 		</div>
 		<div class="clearfix"></div>

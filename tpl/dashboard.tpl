@@ -74,7 +74,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 										{/foreach}
 										{$furnilist = "`$furnilist`</ul>"}
 									{/if}
-								<a href="{if strcmp($Conf['name'],"Semmajee")==0}#{$Conf['name']}{else}./schedule.php?roomconf={$Conf['conf_id']}{/if}" class="furnilistTip"><b>{$Conf['name']}</b></a><div class="infodot inline pull-right"><a title="<div class='furnilistTipInner'>{translate key='Furni'}<div class='furnilistTipInnerText'>{$furnilist}</div></div>" data-html="true" rel="tooltip{$Conf['conf_id']}" href="{if strcmp($Conf['name'],"Semmajee")==0}#{$Conf['name']}{else}./schedule.php?roomconf={$Conf['conf_id']}{/if}" class="furnilistTip" name="{$Conf['name']}"><i class="fa fa-info-circle pull-right" aria-hidden="true"></i></div></a><br/>
+								<a href="./schedule.php?roomconf={$Conf['conf_id']}" class="furnilistTip"><b>{$Conf['name']}</b></a><div class="infodot inline pull-right"><a title="<div class='furnilistTipInner'>{translate key='Furni'}<div class='furnilistTipInnerText'>{$furnilist}</div></div>" data-html="true" rel="tooltip{$Conf['conf_id']}" href="./schedule.php?roomconf={$Conf['conf_id']}" class="furnilistTip" name="{$Conf['name']}"><i class="fa fa-info-circle pull-right" aria-hidden="true"></i></div></a><br/>
 								{$Conf['description']}
 							</div>
 							
@@ -97,11 +97,7 @@ along with Booked Scheduler.  If not, see <http://www.gnu.org/licenses/>.
 								</a>
 							</div>*}
 							<div class="ResourceConfFrontBottom">
-								{if strcmp($Conf['name'],"Semmajee")==0}
-									<div style="padding-left:75px;padding-right:75px"><div style="border-style: solid; border-color:#6BC24A;border-width:1px;"><div style="padding: 6px 12px;padding-bottom: 6px;font-size: 14px;color:black;">{translate key="ComingSoon"}</div></div></div>
-								{else}
-									<a class="btn btn-success linkbutton" href="./schedule.php?roomconf={$Conf['conf_id']}">{translate key="Create"}{if $Conf['price'] != "0"} {$Conf['price']}€{/if}</a>
-								{/if}
+								<a class="btn btn-success linkbutton" href="./schedule.php?roomconf={$Conf['conf_id']}">{translate key="Create"}{if $Conf['price'] != "0"} {$Conf['price']}€{/if}</a>
 								<hr class="ResourceConfFrontBottom"></hr>
 							</div>
 						</div>

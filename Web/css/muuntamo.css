@@ -374,6 +374,9 @@ a.furnilistTip{
 	cursor: default;
 	color: #000000;
 }
+*.grayed{
+	color: #736A81;
+}
 input.billinginfo{
 	width:400px;
 }
