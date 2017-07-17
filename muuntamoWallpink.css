@@ -24,7 +24,9 @@ hr.eventBox{
 	border-top: 1px solid #000000;
 	max-width:100px;
 }
-
+div.hidden{
+	display: none;
+}
 a.btn{
 	display: inline-block;
 	padding: 6px 12px;

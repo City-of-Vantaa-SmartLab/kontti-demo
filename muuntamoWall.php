@@ -123,6 +123,11 @@ function retrieveWeek($start_date,$end_date){
 //should do events with objects
 	function eventGenerator($row,$reservationtime,$publictime){
 		//generates html for event
+		$startdate="";
+		if(isset($row['start_date'])){
+			$startdate=explode(" ",$row['start_date']);
+			$startdate=$startdate[0];
+		}
 		$event[0][0]="";
 		$event[0][1]="";
 		$lineadd="";
@@ -138,6 +143,7 @@ function retrieveWeek($start_date,$end_date){
 		
 		$event[1]="
 		<div class='eventBox'>\n
+		<div class='hidden'><date>".$startdate."</date></div>
 			\t<h2 class='eventBox'>".$row['title']."</h2>
 		<p class='eventBox'>".$reservationtime."<br/><description>".$row['description']."</description></p>\n
 		\t<hr class='eventBox' align='left'/>\n
@@ -221,21 +227,25 @@ usort($resultArray[0], 'date_compare');
 foreach($resultArray[0] as $temp){
 	//going through each event
 	if(isset($nogui)&&$nogui==2){
-		//generating json by stripping contents from tags
-		$title=everything_in_tags($temp[1], "h2");
-		$pparse=everything_in_tags($temp[1], "p");
-		$jstart=everything_in_tags($pparse, "starttime");
-		$jend=everything_in_tags($pparse, "endtime");
-		$description=everything_in_tags($pparse, "description");
-		$data[] = array(
-			(object)array(
-				'Title' => $title,
-				'StartTime' => $jstart,
-				'EndTime' => $jend,
-				'Description' => $description,
-			),
-		);
-		$json = json_encode($data);
+		$date=everything_in_tags($temp[1], "date");
+		if($date!=""){
+			//generating json by stripping contents from tags
+			$title=everything_in_tags($temp[1], "h2");
+			$pparse=everything_in_tags($temp[1], "p");
+			$jstart=everything_in_tags($pparse, "starttime");
+			$jend=everything_in_tags($pparse, "endtime");
+			$description=everything_in_tags($pparse, "description");
+			$data[] = array(
+				(object)array(
+					'Date' => $date,
+					'Title' => $title,
+					'StartTime' => $jstart,
+					'EndTime' => $jend,
+					'Description' => $description,
+				),
+			);
+			$json = json_encode($data);
+		}
 	}else{
 		//adding event to a string that will be printed
 		$thisWeek=$thisWeek.$temp[1];
@@ -285,7 +295,7 @@ $stylesheet = "";
 if(strcmp($color,"blue")==0){
 	$stylesheet = "<link rel='stylesheet' type='text/css' href='muuntamoWall.css'/>";
 }else{
-	$stylesheet = "<link rel='stylesheet' type='text/css' href='muuntamoWallpink.css?v9'/>";
+	$stylesheet = "<link rel='stylesheet' type='text/css' href='muuntamoWallpink.css?v10'/>";
 }
 
 //selecting the logo based on the $color variable
