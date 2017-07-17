@@ -18,7 +18,7 @@ if(isset($_GET['enddate'])){
 }
 if(isset($_GET['nogui'])){
 	$nogui=regexSingleNumber($_GET['nogui']);
-	if($nogui!=1){
+	if($nogui!=1&&$nogui!=2){
 		$nogui=NULL;
 	}
 }
@@ -125,12 +125,15 @@ function retrieveWeek($start_date,$end_date){
 			$event[0]=explode(" - ",$reservationtime);
 		}
 		if($publictime){
-			$reservationtime="";
+			$reservationtime=$publictime;
 		}
+		$temptime=explode(" - ",$reservationtime);
+		$reservationtime="<starttime>".$temptime[0]."</starttime> - <endtime>".$temptime[1]."</endtime>";
+		
 		$event[1]="
 		<div class='eventBox'>\n
 			\t<h2 class='eventBox'>".$row['title']."</h2>
-		<p class='eventBox'>".$reservationtime.$publictime."<br/>".$row['description']."</p>\n
+		<p class='eventBox'>".$reservationtime."<br/><description>".$row['description']."</description></p>\n
 		\t<hr class='eventBox' align='left'/>\n
 		</div>\n";
 		return $event;
@@ -175,16 +178,37 @@ if($currentWeekDay==1){
 $resultArray=retrieveWeek($week_start,$week_end);
 $thisWeek="";
 
+//ordering the events based on date and lumping everything to the same string
+usort($resultArray[0], 'date_compare');
+foreach($resultArray[0] as $temp){
+	//going through each event
+	if(isset($nogui)&&$nogui==2){
+		//generating json
+		$title=everything_in_tags($temp[1], "h2");
+		$pparse=everything_in_tags($temp[1], "p");
+		$jstart=everything_in_tags($pparse, "starttime");
+		$jend=everything_in_tags($pparse, "endtime");
+		$description=everything_in_tags($pparse, "description");
+		$data[] = array(
+			(object)array(
+				'Title' => $title,
+				'StartTime' => $jstart,
+				'EndTime' => $jend,
+				'Description' => $description,
+			),
+		);
+		$json = json_encode($data);
+	}else{
+		$thisWeek=$thisWeek.$temp[1];
+	}
+}
 function date_compare($a, $b)
 {
     $t1 = strtotime($a[0][0]);
     $t2 = strtotime($b[0][0]);
     return $t1 - $t2;
-}    
-usort($resultArray[0], 'date_compare');
-foreach($resultArray[0] as $temp){
-	$thisWeek=$thisWeek.$temp[1];
-}
+} 
+
 $temp=explode(" ",$week_start);
 $dateBefore=date('Y-m-d', strtotime($temp[0]. ' - 1 days'));
 $dateAfter=date('Y-m-d', strtotime($temp[0]. ' + 1 days'));
@@ -213,8 +237,9 @@ if(isset($nogui)){
 					<br/><a class='hideBtn left' href='".$guiHideUrl."'>".$confTexts['HideGUI']."</a>";
 }
 $guiDateSelect=$guiDateSelect."</div>";
-$stylesheet = "";
 
+//css selection based on $color variable, not really used
+$stylesheet = "";
 if(strcmp($color,"blue")==0){
 	$stylesheet = "<link rel='stylesheet' type='text/css' href='muuntamoWall.css'/>";
 }else{
@@ -232,20 +257,33 @@ $refreshermeta = "";
 if(isset($nogui)){
 	$refreshermeta = "<meta http-equiv='refresh' content='3600'/>";
 }
-echo "<!DOCTYPE html>
+if(isset($nogui)&&$nogui==2){
+	echo $json;
+}else{
+	echo "<!DOCTYPE html>
 
-<html lang='fi' dir='ltr'>
-		<head>";
-		echo $refreshermeta;
-		echo "<title>".$confTexts['AppTitle']."</title>";
-		echo $stylesheet;
-		echo "</head>
-<body>";
-echo $guiDateSelect;
-echo $logoimg;
-echo "<div class='eventContainer'>";
-echo "<h3 class='eventContainer'>".$selectedDateString."</h3><br/>";
-echo $thisWeek;
-echo "</div>";
-echo "</body></html>";
+	<html lang='fi' dir='ltr'>
+			<head>";
+			echo $refreshermeta;
+			echo "<title>".$confTexts['AppTitle']."</title>";
+			echo $stylesheet;
+			echo "</head>
+	<body>";
+	echo $guiDateSelect;
+	echo $logoimg;
+	echo "<div class='eventContainer'>";
+	echo "<h3 class='eventContainer'>".$selectedDateString."</h3><br/>";
+	echo $thisWeek;
+	echo "</div>";
+	echo "</body></html>";
+}
+
+
+function everything_in_tags($string, $tagname)
+{
+	//source https://stackoverflow.com/questions/828870/php-regex-how-to-get-the-string-value-of-html-tag
+    $pattern = "#<\s*?$tagname\b[^>]*>(.*?)</$tagname\b[^>]*>#s";
+    preg_match($pattern, $string, $matches);
+    return $matches[1];
+}
 ?>
