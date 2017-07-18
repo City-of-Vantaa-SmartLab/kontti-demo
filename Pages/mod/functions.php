@@ -62,9 +62,10 @@ function convertTimeTo($date,$time){	//converts the time to database time using 
 	*/
 }
 function regexSingleNumber($numb){
-	$status=FALSE;
+	//checks if given string's length is 1
+	//replaces everything except numbers
 	if(strlen($numb)==1){
-		return preg_replace("/[^1]/","",$numb);
+		return preg_replace("/[^0123456789]/","",$numb);
 	}   
 }
 function regexUserInfoText($textstring){

@@ -18,7 +18,7 @@ if(isset($_GET['enddate'])){
 }
 if(isset($_GET['nogui'])){
 	$nogui=regexSingleNumber($_GET['nogui']);
-	if($nogui!=1){
+	if($nogui!=1&&$nogui!=2){
 		$nogui=NULL;
 	}
 }
@@ -40,6 +40,7 @@ function retrieveWeek($start_date,$end_date){
 		$publictime="";
 		$reservationtime="";
 		//I had trouble with Date objects (Timezone conversions), so I ended up treating dates as strings...
+		//I've replaced some of the strings as date
 		//Time from database is in UTC
 		//Shown time should be in Europe/Helsinki
 		$start_date_temp = explode(" ", $row['start_date']);//Format:YYYY-MM-DD HH:SS
@@ -53,7 +54,6 @@ function retrieveWeek($start_date,$end_date){
 		$start_time_temp = $timeStartTemp;
 		$reservationtime=$start_time_temp." - ".$timeEndTemp;
 		
-				//echo $reservationtime."<br>";
 		if(isset($row['PublicStartTime'])&&isset($row['PublicEndTime'])&&$row['PublicStartTime']!="00:00:00"){
 				$public_start_time_temp = explode(":", $row['PublicStartTime']);
 				$public_start_time_temp = $public_start_time_temp[0].":".$public_start_time_temp[1];
@@ -67,6 +67,7 @@ function retrieveWeek($start_date,$end_date){
 		}
 		$result[] = eventGenerator($row,$reservationtime,$publictime);
 	}
+	
 	//Creates events for evey available time slot
 	$previouslystopped=TRUE;
 	if(isset($reservedTimes)){
@@ -107,6 +108,7 @@ function retrieveWeek($start_date,$end_date){
 		}
 	}
 	if($currentWeekDay==6||$currentWeekDay==0){
+		//if it's weekend, generate an event that the establishment is closed
 			$row['title']=$confTexts['WeekendClosedTitle'];
 			$row['description']=$confTexts['WeekendClosedDesc'];
 			$result[] = eventGenerator($row,"","");
@@ -121,27 +123,68 @@ function retrieveWeek($start_date,$end_date){
 //should do events with objects
 	function eventGenerator($row,$reservationtime,$publictime){
 		//generates html for event
-		if(isset($reservationtime)){
-			$event[0]=explode(" - ",$reservationtime);
+		$startdate="";
+		if(isset($row['start_date'])){
+			$startdate=explode(" ",$row['start_date']);
+			$startdate=$startdate[0];
 		}
+		$event[0][0]="";
+		$event[0][1]="";
+		$lineadd="";
 		if($publictime){
-			$reservationtime="";
+			//if publictime is set, define $reservationtime as it
+			$reservationtime=$publictime;
 		}
+		if($reservationtime!= ''){
+			$event[0]=explode(" - ",$reservationtime);
+			$lineadd=" - ";
+		}
+		$reservationtime="<starttime>".$event[0][0]."</starttime>".$lineadd."<endtime>".$event[0][1]."</endtime>";
+		
 		$event[1]="
 		<div class='eventBox'>\n
+		<div class='hidden'><date>".$startdate."</date></div>
 			\t<h2 class='eventBox'>".$row['title']."</h2>
-		<p class='eventBox'>".$reservationtime.$publictime."<br/>".$row['description']."</p>\n
+		<p class='eventBox'>".$reservationtime."<br/><description>".$row['description']."</description></p>\n
 		\t<hr class='eventBox' align='left'/>\n
 		</div>\n";
 		return $event;
 	}
 //source for weekstart/weekend: https://stackoverflow.com/a/11905818/7785270
 
-	$week_start="2017-06-05 00:00:00";//incase nothing gets set
-	$week_end="2017-06-05 23:00:00";//incase nothing gets set
-if(isset($setdateStart)){ //if the get is received
-	$week_start=$setdateStart." 00:00:00";
-	$week_end=$setdateStart." 23:00:00";
+//incase nothing is set
+		$week_start=date("Y-m-d");// H:i:s
+		$week_start=$week_start." 00:00:00";
+		$week_end=date("Y-m-d");
+		$week_end=$week_end." 23:00:00";
+		
+if(isset($setdateStart)||isset($setdateEnd)){ //if the get startdate or enddate is received
+	if(isset($setdateStart)){
+		$week_start=$setdateStart." 00:00:00";
+	}else{
+		$setdateStart=date("Y-m-d");
+	}
+	if(isset($setdateEnd)){
+		$week_end=$setdateEnd." 23:00:00";
+	}else{
+		$setdateEnd=$setdateStart;
+		$week_end=$setdateEnd." 23:00:00";
+	}
+	
+	//checking if enddate is before startdate or too long period
+	$date1 = new DateTime($setdateStart);
+	$date2 = new DateTime($setdateEnd);
+
+	$diff = $date1->diff($date2)->format("%r%a");
+	if($diff<0||$diff>90){
+		if(isset($setdateStart)){
+			$week_end=$setdateStart;
+		}else{
+			$week_end=date("Y-m-d");
+		}
+		$week_end=$week_end." 23:00:00";
+	}
+	//$week_end=$setdateStart." 23:00:00";
 }else{
 	$week_start="2017-06-05 00:00:00"; //set this date to be the starting point
 	if( strtotime($week_start) > strtotime(date("Y-m-d H:i:s")) ) {
@@ -154,7 +197,11 @@ if(isset($setdateStart)){ //if the get is received
 		$week_end=$week_end." 23:00:00";
 	}
 }
+
 $currentWeekDay = date('w', strtotime($week_start));
+
+//defining a variable based on the date and giving it the name of the day
+//the names of the days are defined in the muuntamoWallConfig.php to allow for translations
 if($currentWeekDay==1){
 	$selectedDateString=$confTexts['Monday'];
 }elseif($currentWeekDay==2){
@@ -175,16 +222,43 @@ if($currentWeekDay==1){
 $resultArray=retrieveWeek($week_start,$week_end);
 $thisWeek="";
 
+//ordering the events based on date and lumping everything to the same string
+usort($resultArray[0], 'date_compare');
+foreach($resultArray[0] as $temp){
+	//going through each event
+	if(isset($nogui)&&$nogui==2){
+		$date=everything_in_tags($temp[1], "date");
+		if($date!=""){
+			//generating json by stripping contents from tags
+			$title=everything_in_tags($temp[1], "h2");
+			$pparse=everything_in_tags($temp[1], "p");
+			$jstart=everything_in_tags($pparse, "starttime");
+			$jend=everything_in_tags($pparse, "endtime");
+			$description=everything_in_tags($pparse, "description");
+			$data[] = array(
+				(object)array(
+					'Date' => $date,
+					'Title' => $title,
+					'StartTime' => $jstart,
+					'EndTime' => $jend,
+					'Description' => $description,
+				),
+			);
+			$json = json_encode($data);
+		}
+	}else{
+		//adding event to a string that will be printed
+		$thisWeek=$thisWeek.$temp[1];
+	}
+}
+
 function date_compare($a, $b)
 {
     $t1 = strtotime($a[0][0]);
     $t2 = strtotime($b[0][0]);
     return $t1 - $t2;
-}    
-usort($resultArray[0], 'date_compare');
-foreach($resultArray[0] as $temp){
-	$thisWeek=$thisWeek.$temp[1];
-}
+} 
+
 $temp=explode(" ",$week_start);
 $dateBefore=date('Y-m-d', strtotime($temp[0]. ' - 1 days'));
 $dateAfter=date('Y-m-d', strtotime($temp[0]. ' + 1 days'));
@@ -195,6 +269,8 @@ $displayDayToday2=date("d.m.");
 $displayDayToday=date('d.m.', strtotime($temp[0]));
 $selectedDateString=$selectedDateString." ".$displayDayToday;
 
+//gui container variables defined
+//edit this to edit the gui, or lack of
 $guiDateSelect = "<div class='guiContainer'>";
 if(isset($nogui)){
 	$guiDateSelect=$guiDateSelect."";
@@ -213,14 +289,16 @@ if(isset($nogui)){
 					<br/><a class='hideBtn left' href='".$guiHideUrl."'>".$confTexts['HideGUI']."</a>";
 }
 $guiDateSelect=$guiDateSelect."</div>";
-$stylesheet = "";
 
+//css selection based on $color variable
+$stylesheet = "";
 if(strcmp($color,"blue")==0){
 	$stylesheet = "<link rel='stylesheet' type='text/css' href='muuntamoWall.css'/>";
 }else{
-	$stylesheet = "<link rel='stylesheet' type='text/css' href='muuntamoWallpink.css?v9'/>";
+	$stylesheet = "<link rel='stylesheet' type='text/css' href='muuntamoWallpink.css?v10'/>";
 }
 
+//selecting the logo based on the $color variable
 $logoimg = "";
 if(strcmp($color,"blue")==0){
 	$logoimg = "<img class='floatyimage' src='muuntamo-logo.png'/>";
@@ -230,22 +308,40 @@ if(strcmp($color,"blue")==0){
 
 $refreshermeta = "";
 if(isset($nogui)){
+	//setting the meta variable to refresh every hour if $nogui is set
+	//this will only be used if website is printed
 	$refreshermeta = "<meta http-equiv='refresh' content='3600'/>";
 }
-echo "<!DOCTYPE html>
 
-<html lang='fi' dir='ltr'>
-		<head>";
-		echo $refreshermeta;
-		echo "<title>".$confTexts['AppTitle']."</title>";
-		echo $stylesheet;
-		echo "</head>
-<body>";
-echo $guiDateSelect;
-echo $logoimg;
-echo "<div class='eventContainer'>";
-echo "<h3 class='eventContainer'>".$selectedDateString."</h3><br/>";
-echo $thisWeek;
-echo "</div>";
-echo "</body></html>";
+if(isset($nogui)&&$nogui==2){
+	//print the json data
+	echo $json;
+}else{
+	//print the website
+	echo "<!DOCTYPE html>
+
+	<html lang='fi' dir='ltr'>
+			<head>";
+			echo $refreshermeta;
+			echo "<title>".$confTexts['AppTitle']."</title>";
+			echo $stylesheet;
+			echo "</head>
+	<body>";
+	echo $guiDateSelect;
+	echo $logoimg;
+	echo "<div class='eventContainer'>";
+	echo "<h3 class='eventContainer'>".$selectedDateString."</h3><br/>";
+	echo $thisWeek;
+	echo "</div>";
+	echo "</body></html>";
+}
+
+
+function everything_in_tags($string, $tagname)
+{
+	//source https://stackoverflow.com/questions/828870/php-regex-how-to-get-the-string-value-of-html-tag
+    $pattern = "#<\s*?$tagname\b[^>]*>(.*?)</$tagname\b[^>]*>#s";
+    preg_match($pattern, $string, $matches);
+    return $matches[1];
+}
 ?>
