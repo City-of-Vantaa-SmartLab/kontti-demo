@@ -1,5 +1,6 @@
 # kontti-demo
-Tilat palveluna, Muuntautuvat toimitilat - Kontti-demo
+Tilat palveluna, Muuntautuvat toimitilat - Kontti-demo.
+The wiki has a few pages explaining the added features.
 
 #### Installation:
 1. Download the project and place on your server's htdocs/www folder
