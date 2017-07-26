@@ -1,5 +1,5 @@
 # kontti-demo
-Tilat palveluna, Muuntautuvat toimitilat - Kontti-demo.
+Tilat palveluna, Muuntautuvat toimitilat - Kontti-demo.  
 The wiki has a few pages explaining the added features.
 
 #### Installation:
